@@ -13,6 +13,8 @@
 		69AC909C21CBA4A6005B74E3 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 69AC909A21CBA4A6005B74E3 /* LaunchScreen.storyboard */; };
 		69AC90A821CBCA92005B74E3 /* SearchViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 69AC90A721CBCA92005B74E3 /* SearchViewController.swift */; };
 		69AC90AA21CBCF11005B74E3 /* PhonesListTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 69AC90A921CBCF11005B74E3 /* PhonesListTableViewController.swift */; };
+		69AC90AC21CBDEA1005B74E3 /* Phone.swift in Sources */ = {isa = PBXBuildFile; fileRef = 69AC90AB21CBDEA1005B74E3 /* Phone.swift */; };
+		69AC90AE21CBE15A005B74E3 /* PhoneController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 69AC90AD21CBE15A005B74E3 /* PhoneController.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -24,6 +26,8 @@
 		69AC909D21CBA4A6005B74E3 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		69AC90A721CBCA92005B74E3 /* SearchViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchViewController.swift; sourceTree = "<group>"; };
 		69AC90A921CBCF11005B74E3 /* PhonesListTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhonesListTableViewController.swift; sourceTree = "<group>"; };
+		69AC90AB21CBDEA1005B74E3 /* Phone.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Phone.swift; sourceTree = "<group>"; };
+		69AC90AD21CBE15A005B74E3 /* PhoneController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhoneController.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -88,6 +92,7 @@
 		69AC90A521CBAB6E005B74E3 /* Model */ = {
 			isa = PBXGroup;
 			children = (
+				69AC90AB21CBDEA1005B74E3 /* Phone.swift */,
 			);
 			name = Model;
 			sourceTree = "<group>";
@@ -95,6 +100,7 @@
 		69AC90A621CBAB76005B74E3 /* Other controllers */ = {
 			isa = PBXGroup;
 			children = (
+				69AC90AD21CBE15A005B74E3 /* PhoneController.swift */,
 			);
 			path = "Other controllers";
 			sourceTree = "<group>";
@@ -170,9 +176,11 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				69AC90AC21CBDEA1005B74E3 /* Phone.swift in Sources */,
 				69AC90A821CBCA92005B74E3 /* SearchViewController.swift in Sources */,
 				69AC90AA21CBCF11005B74E3 /* PhonesListTableViewController.swift in Sources */,
 				69AC909221CBA4A4005B74E3 /* AppDelegate.swift in Sources */,
+				69AC90AE21CBE15A005B74E3 /* PhoneController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

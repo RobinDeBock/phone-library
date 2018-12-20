@@ -13,38 +13,65 @@ class PhonesListTableViewController: UITableViewController {
     var searchValue: String?
     var searchType:SearchType?
     
+    var phones:[Phone]=[]
     
     override func viewDidLoad() {
         super.viewDidLoad()
         
         print(searchValue!)
         print(searchType!)
+        
+        loadPhones()
 
         // Uncomment the following line to display an Edit button in the navigation bar for this view controller.
         // self.navigationItem.rightBarButtonItem = self.editButtonItem
     }
+    
+    func loadPhones(){
+        guard let searchValue = searchValue, let searchType = searchType else {return}
+        switch searchType {
+        case SearchType.SearchByBrand:
+                PhoneController.instance.fetchPhonesByBrand(searchValue){fetchedPhones in
+                if let fetchedPhones = fetchedPhones {
+                    print(fetchedPhones)
+                    self.phones = fetchedPhones
+                    self.tableView.reloadData()
+                }
+            }
+        case SearchType.SearchByModel:
+            PhoneController.instance.fetchPhonesByName(searchValue){fetchedPhones in
+                if let fetchedPhones = fetchedPhones {
+                    print(fetchedPhones)
+                    self.phones = fetchedPhones
+                    self.tableView.reloadData()
+                }
+            }
+        }
+    }
 
-    // MARK: - Table view data source
+    //Table view data source
 
     override func numberOfSections(in tableView: UITableView) -> Int {
-        // #warning Incomplete implementation, return the number of sections
-        return 0
+        return 1
     }
 
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        // #warning Incomplete implementation, return the number of rows
-        return 0
+        if section == 0 {
+            return phones.count
+        } else {
+            return 0
+        }
     }
 
-    /*
+    
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: "reuseIdentifier", for: indexPath)
-
-        // Configure the cell...
-
+        let cell = tableView.dequeueReusableCell(withIdentifier: "PhoneCell", for: indexPath)
+        //get the right phone
+        let phone = phones[indexPath.row]
+        cell.textLabel?.text = phone.Brand
         return cell
     }
-    */
+ 
 
     /*
     // Override to support conditional editing of the table view.
