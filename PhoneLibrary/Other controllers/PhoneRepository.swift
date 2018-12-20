@@ -7,17 +7,20 @@
 //
 
 import Foundation
-class PhoneController{
+class PhoneRepository{
     
-    static let instance = PhoneController();
+    static let instance = PhoneRepository();
+    
+    private let networkController:PhoneNetworkController
     
     private init(){
-        
+        networkController = PhoneNetworkController()
     }
     
-    func fetchPhonesByBrand(_:String, completion: @escaping ([Phone]?) -> Void){
-        let phones :[Phone] = Phone.loadSamplePhones()
-        completion(phones)
+    func fetchPhonesByBrand(_ brand:String, completion: @escaping ([Phone]?) -> Void){
+        networkController.fetchPhonesByBrand(brand) { (phones) in
+            completion(phones)
+        }
     }
     
     func fetchPhonesByName(_:String, completion: @escaping ([Phone]?) -> Void){

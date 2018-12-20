@@ -31,19 +31,23 @@ class PhonesListTableViewController: UITableViewController {
         guard let searchValue = searchValue, let searchType = searchType else {return}
         switch searchType {
         case SearchType.SearchByBrand:
-                PhoneController.instance.fetchPhonesByBrand(searchValue){fetchedPhones in
-                if let fetchedPhones = fetchedPhones {
-                    print(fetchedPhones)
-                    self.phones = fetchedPhones
-                    self.tableView.reloadData()
-                }
+                PhoneRepository.instance.fetchPhonesByBrand(searchValue){fetchedPhones in
+                    DispatchQueue.main.async {
+                        if let fetchedPhones = fetchedPhones {
+                            print(fetchedPhones)
+                            self.phones = fetchedPhones
+                            self.tableView.reloadData()
+                        }
+                    }
             }
         case SearchType.SearchByModel:
-            PhoneController.instance.fetchPhonesByName(searchValue){fetchedPhones in
-                if let fetchedPhones = fetchedPhones {
-                    print(fetchedPhones)
-                    self.phones = fetchedPhones
-                    self.tableView.reloadData()
+            PhoneRepository.instance.fetchPhonesByName(searchValue){fetchedPhones in
+                DispatchQueue.main.async {
+                    if let fetchedPhones = fetchedPhones {
+                        print(fetchedPhones)
+                        self.phones = fetchedPhones
+                        self.tableView.reloadData()
+                    }
                 }
             }
         }
@@ -68,7 +72,7 @@ class PhonesListTableViewController: UITableViewController {
         let cell = tableView.dequeueReusableCell(withIdentifier: "PhoneCell", for: indexPath)
         //get the right phone
         let phone = phones[indexPath.row]
-        cell.textLabel?.text = phone.Brand
+        cell.textLabel?.text = phone.description
         return cell
     }
  
