@@ -10,7 +10,7 @@
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <scenes>
-        <!--Search your phone-->
+        <!--Search for a device-->
         <scene sceneID="rSB-AY-pYX">
             <objects>
                 <viewController id="KcC-Ea-tGf" customClass="SearchViewController" customModule="PhoneLibrary" customModuleProvider="target" sceneMemberID="viewController">
@@ -25,8 +25,8 @@
                                     <action selector="searchByBrandButtonClicked:" destination="KcC-Ea-tGf" eventType="touchUpInside" id="dya-ei-6Nf"/>
                                 </connections>
                             </button>
-                            <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Brand name or model" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="VHf-II-xFz">
-                                <rect key="frame" x="87.5" y="280" width="200" height="30"/>
+                            <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Brand name or device name" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="VHf-II-xFz">
+                                <rect key="frame" x="87" y="280" width="201.5" height="30"/>
                                 <constraints>
                                     <constraint firstAttribute="width" relation="greaterThanOrEqual" constant="200" id="fYn-lh-UVV"/>
                                 </constraints>
@@ -35,8 +35,8 @@
                                 <textInputTraits key="textInputTraits"/>
                             </textField>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="9xF-92-qUF">
-                                <rect key="frame" x="130" y="351" width="115" height="30"/>
-                                <state key="normal" title="Search by model"/>
+                                <rect key="frame" x="132" y="351" width="111" height="30"/>
+                                <state key="normal" title="Search by name"/>
                                 <connections>
                                     <action selector="searchByModelButtonClicked:" destination="KcC-Ea-tGf" eventType="touchUpInside" id="dHB-Zq-Eqh"/>
                                 </connections>
@@ -55,29 +55,29 @@
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="Pwh-1M-e8A"/>
                     </view>
-                    <navigationItem key="navigationItem" title="Search your phone" id="dkL-oo-1BA">
+                    <navigationItem key="navigationItem" title="Search for a device" id="dkL-oo-1BA">
                         <barButtonItem key="backBarButtonItem" title="Search" id="xpQ-ZS-dem"/>
                     </navigationItem>
                     <connections>
                         <outlet property="searchValueTextField" destination="VHf-II-xFz" id="hCr-m9-9C1"/>
                         <segue destination="tBf-ff-kAQ" kind="show" identifier="SearchByBrand" id="wF6-Jh-KY3"/>
-                        <segue destination="tBf-ff-kAQ" kind="show" identifier="SearchByModel" id="0Te-Z0-dvC"/>
+                        <segue destination="tBf-ff-kAQ" kind="show" identifier="SearchByName" id="0Te-Z0-dvC"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="yf6-tS-0X5" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="1073" y="296"/>
         </scene>
-        <!--Phones List Table View Controller-->
+        <!--Devices List Table View Controller-->
         <scene sceneID="h7e-qg-K9I">
             <objects>
-                <tableViewController id="tBf-ff-kAQ" customClass="PhonesListTableViewController" customModule="PhoneLibrary" customModuleProvider="target" sceneMemberID="viewController">
+                <tableViewController id="tBf-ff-kAQ" customClass="DevicesListTableViewController" customModule="PhoneLibrary" customModuleProvider="target" sceneMemberID="viewController">
                     <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="grouped" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="18" sectionFooterHeight="18" id="L7Y-eO-1tt">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" cocoaTouchSystemColor="groupTableViewBackgroundColor"/>
                         <prototypes>
-                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="PhoneCell" id="hZH-Wh-Bng">
+                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="DeviceCell" id="hZH-Wh-Bng">
                                 <rect key="frame" x="0.0" y="55.5" width="375" height="44"/>
                                 <autoresizingMask key="autoresizingMask"/>
                                 <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="hZH-Wh-Bng" id="Ne6-yT-gdG">
@@ -91,26 +91,42 @@
                             <outlet property="delegate" destination="tBf-ff-kAQ" id="7to-yC-ebU"/>
                         </connections>
                     </tableView>
+                    <refreshControl key="refreshControl" opaque="NO" multipleTouchEnabled="YES" contentMode="center" insetsLayoutMarginsFromSafeArea="NO" enabled="NO" contentHorizontalAlignment="center" contentVerticalAlignment="center" id="lTX-1L-Fh5">
+                        <autoresizingMask key="autoresizingMask"/>
+                    </refreshControl>
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="0KM-7d-atQ" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="1837" y="297"/>
         </scene>
-        <!--View Controller-->
-        <scene sceneID="5KW-vS-XTf">
+        <!--Saved Devices List Table View Controller-->
+        <scene sceneID="xNP-7E-rFF">
             <objects>
-                <viewController id="eOH-Hw-sbp" sceneMemberID="viewController">
-                    <view key="view" contentMode="scaleToFill" id="TeN-64-lZO">
+                <tableViewController id="7eP-nc-s45" customClass="SavedDevicesListTableViewController" customModule="PhoneLibrary" customModuleProvider="target" sceneMemberID="viewController">
+                    <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" id="OkH-eg-wLF">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                        <viewLayoutGuide key="safeArea" id="OhQ-C2-mGz"/>
-                    </view>
-                    <navigationItem key="navigationItem" id="sGn-C0-JNb"/>
-                </viewController>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="154-XA-39d" userLabel="First Responder" sceneMemberID="firstResponder"/>
+                        <prototypes>
+                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="SavedDeviceCell" id="Gk3-5I-dm9">
+                                <rect key="frame" x="0.0" y="28" width="375" height="44"/>
+                                <autoresizingMask key="autoresizingMask"/>
+                                <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="Gk3-5I-dm9" id="ddm-fG-Saf">
+                                    <rect key="frame" x="0.0" y="0.0" width="375" height="43.5"/>
+                                    <autoresizingMask key="autoresizingMask"/>
+                                </tableViewCellContentView>
+                            </tableViewCell>
+                        </prototypes>
+                        <connections>
+                            <outlet property="dataSource" destination="7eP-nc-s45" id="BRt-gX-94I"/>
+                            <outlet property="delegate" destination="7eP-nc-s45" id="tRc-sZ-wwU"/>
+                        </connections>
+                    </tableView>
+                    <navigationItem key="navigationItem" id="zdP-3r-eTm"/>
+                </tableViewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="Q99-lf-K6f" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1060" y="-370.16491754122939"/>
+            <point key="canvasLocation" x="1073" y="-370"/>
         </scene>
         <!--Tab Bar Controller-->
         <scene sceneID="06p-fK-18Q">
@@ -130,10 +146,10 @@
             </objects>
             <point key="canvasLocation" x="-830" y="-38"/>
         </scene>
-        <!--Navigation Controller-->
+        <!--Favorites-->
         <scene sceneID="1XS-dl-AzQ">
             <objects>
-                <navigationController automaticallyAdjustsScrollViewInsets="NO" id="WcZ-Fz-CTh" sceneMemberID="viewController">
+                <navigationController title="Favorites" automaticallyAdjustsScrollViewInsets="NO" id="WcZ-Fz-CTh" sceneMemberID="viewController">
                     <tabBarItem key="tabBarItem" systemItem="favorites" id="2dK-Uw-8K3"/>
                     <toolbarItems/>
                     <navigationBar key="navigationBar" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" id="9dp-mW-TNH">
@@ -142,12 +158,12 @@
                     </navigationBar>
                     <nil name="viewControllers"/>
                     <connections>
-                        <segue destination="eOH-Hw-sbp" kind="relationship" relationship="rootViewController" id="VhW-8s-2cW"/>
+                        <segue destination="7eP-nc-s45" kind="relationship" relationship="rootViewController" id="7Jf-yj-e14"/>
                     </connections>
                 </navigationController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="tyQ-6N-Nf4" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="120.8" y="-370.16491754122939"/>
+            <point key="canvasLocation" x="121" y="-370"/>
         </scene>
         <!--Navigation Controller-->
         <scene sceneID="h6x-8e-fG2">

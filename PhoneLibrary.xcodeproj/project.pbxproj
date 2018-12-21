@@ -8,19 +8,24 @@
 
 /* Begin PBXBuildFile section */
 		6923A81121CC31A300038339 /* Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6923A81021CC31A300038339 /* Extensions.swift */; };
+		6923A81721CD51F000038339 /* DeviceRealmController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6923A81621CD51F000038339 /* DeviceRealmController.swift */; };
+		6923A81A21CD87D600038339 /* SavedDevicesListTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6923A81921CD87D600038339 /* SavedDevicesListTableViewController.swift */; };
 		69AC909221CBA4A4005B74E3 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 69AC909121CBA4A4005B74E3 /* AppDelegate.swift */; };
 		69AC909721CBA4A4005B74E3 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 69AC909521CBA4A4005B74E3 /* Main.storyboard */; };
 		69AC909921CBA4A6005B74E3 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 69AC909821CBA4A6005B74E3 /* Assets.xcassets */; };
 		69AC909C21CBA4A6005B74E3 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 69AC909A21CBA4A6005B74E3 /* LaunchScreen.storyboard */; };
 		69AC90A821CBCA92005B74E3 /* SearchViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 69AC90A721CBCA92005B74E3 /* SearchViewController.swift */; };
-		69AC90AA21CBCF11005B74E3 /* PhonesListTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 69AC90A921CBCF11005B74E3 /* PhonesListTableViewController.swift */; };
-		69AC90AC21CBDEA1005B74E3 /* Phone.swift in Sources */ = {isa = PBXBuildFile; fileRef = 69AC90AB21CBDEA1005B74E3 /* Phone.swift */; };
-		69AC90AE21CBE15A005B74E3 /* PhoneRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = 69AC90AD21CBE15A005B74E3 /* PhoneRepository.swift */; };
-		69AC90B021CC2BDB005B74E3 /* PhoneNetworkController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 69AC90AF21CC2BDB005B74E3 /* PhoneNetworkController.swift */; };
+		69AC90AA21CBCF11005B74E3 /* DevicesListTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 69AC90A921CBCF11005B74E3 /* DevicesListTableViewController.swift */; };
+		69AC90AC21CBDEA1005B74E3 /* Device.swift in Sources */ = {isa = PBXBuildFile; fileRef = 69AC90AB21CBDEA1005B74E3 /* Device.swift */; };
+		69AC90B021CC2BDB005B74E3 /* DeviceNetworkController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 69AC90AF21CC2BDB005B74E3 /* DeviceNetworkController.swift */; };
+		F9F1C7F1E07C8A69F127E2B9 /* Pods_PhoneLibrary.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8947ED8E4BA7D0B6ECA16B8A /* Pods_PhoneLibrary.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
 		6923A81021CC31A300038339 /* Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Extensions.swift; sourceTree = "<group>"; };
+		6923A81621CD51F000038339 /* DeviceRealmController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DeviceRealmController.swift; sourceTree = "<group>"; };
+		6923A81821CD673300038339 /* PhoneLibrary.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = PhoneLibrary.entitlements; sourceTree = "<group>"; };
+		6923A81921CD87D600038339 /* SavedDevicesListTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SavedDevicesListTableViewController.swift; sourceTree = "<group>"; };
 		69AC908E21CBA4A4005B74E3 /* PhoneLibrary.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = PhoneLibrary.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		69AC909121CBA4A4005B74E3 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		69AC909621CBA4A4005B74E3 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
@@ -28,10 +33,12 @@
 		69AC909B21CBA4A6005B74E3 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		69AC909D21CBA4A6005B74E3 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		69AC90A721CBCA92005B74E3 /* SearchViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchViewController.swift; sourceTree = "<group>"; };
-		69AC90A921CBCF11005B74E3 /* PhonesListTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhonesListTableViewController.swift; sourceTree = "<group>"; };
-		69AC90AB21CBDEA1005B74E3 /* Phone.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Phone.swift; sourceTree = "<group>"; };
-		69AC90AD21CBE15A005B74E3 /* PhoneRepository.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhoneRepository.swift; sourceTree = "<group>"; };
-		69AC90AF21CC2BDB005B74E3 /* PhoneNetworkController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhoneNetworkController.swift; sourceTree = "<group>"; };
+		69AC90A921CBCF11005B74E3 /* DevicesListTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DevicesListTableViewController.swift; sourceTree = "<group>"; };
+		69AC90AB21CBDEA1005B74E3 /* Device.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Device.swift; sourceTree = "<group>"; };
+		69AC90AF21CC2BDB005B74E3 /* DeviceNetworkController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DeviceNetworkController.swift; sourceTree = "<group>"; };
+		8947ED8E4BA7D0B6ECA16B8A /* Pods_PhoneLibrary.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_PhoneLibrary.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		91018813A8A0D72002D76E4D /* Pods-PhoneLibrary.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-PhoneLibrary.release.xcconfig"; path = "Pods/Target Support Files/Pods-PhoneLibrary/Pods-PhoneLibrary.release.xcconfig"; sourceTree = "<group>"; };
+		EA45EA0B40B3883578CEFC06 /* Pods-PhoneLibrary.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-PhoneLibrary.debug.xcconfig"; path = "Pods/Target Support Files/Pods-PhoneLibrary/Pods-PhoneLibrary.debug.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -39,17 +46,28 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				F9F1C7F1E07C8A69F127E2B9 /* Pods_PhoneLibrary.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		54B229D7115DF0003AEBADDB /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				8947ED8E4BA7D0B6ECA16B8A /* Pods_PhoneLibrary.framework */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
 		69AC908521CBA4A4005B74E3 = {
 			isa = PBXGroup;
 			children = (
 				69AC909021CBA4A4005B74E3 /* PhoneLibrary */,
 				69AC908F21CBA4A4005B74E3 /* Products */,
+				7E63C2C96ED6B3913D40A347 /* Pods */,
+				54B229D7115DF0003AEBADDB /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
@@ -64,6 +82,7 @@
 		69AC909021CBA4A4005B74E3 /* PhoneLibrary */ = {
 			isa = PBXGroup;
 			children = (
+				6923A81821CD673300038339 /* PhoneLibrary.entitlements */,
 				69AC909521CBA4A4005B74E3 /* Main.storyboard */,
 				69AC909121CBA4A4005B74E3 /* AppDelegate.swift */,
 				69AC90A321CBAB24005B74E3 /* View Controllers */,
@@ -81,7 +100,8 @@
 			isa = PBXGroup;
 			children = (
 				69AC90A721CBCA92005B74E3 /* SearchViewController.swift */,
-				69AC90A921CBCF11005B74E3 /* PhonesListTableViewController.swift */,
+				69AC90A921CBCF11005B74E3 /* DevicesListTableViewController.swift */,
+				6923A81921CD87D600038339 /* SavedDevicesListTableViewController.swift */,
 			);
 			path = "View Controllers";
 			sourceTree = "<group>";
@@ -96,7 +116,7 @@
 		69AC90A521CBAB6E005B74E3 /* Model */ = {
 			isa = PBXGroup;
 			children = (
-				69AC90AB21CBDEA1005B74E3 /* Phone.swift */,
+				69AC90AB21CBDEA1005B74E3 /* Device.swift */,
 				6923A81021CC31A300038339 /* Extensions.swift */,
 			);
 			name = Model;
@@ -105,10 +125,19 @@
 		69AC90A621CBAB76005B74E3 /* Other controllers */ = {
 			isa = PBXGroup;
 			children = (
-				69AC90AD21CBE15A005B74E3 /* PhoneRepository.swift */,
-				69AC90AF21CC2BDB005B74E3 /* PhoneNetworkController.swift */,
+				69AC90AF21CC2BDB005B74E3 /* DeviceNetworkController.swift */,
+				6923A81621CD51F000038339 /* DeviceRealmController.swift */,
 			);
 			path = "Other controllers";
+			sourceTree = "<group>";
+		};
+		7E63C2C96ED6B3913D40A347 /* Pods */ = {
+			isa = PBXGroup;
+			children = (
+				EA45EA0B40B3883578CEFC06 /* Pods-PhoneLibrary.debug.xcconfig */,
+				91018813A8A0D72002D76E4D /* Pods-PhoneLibrary.release.xcconfig */,
+			);
+			name = Pods;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -118,9 +147,11 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 69AC90A021CBA4A6005B74E3 /* Build configuration list for PBXNativeTarget "PhoneLibrary" */;
 			buildPhases = (
+				509AA24C15266A7FCA563F92 /* [CP] Check Pods Manifest.lock */,
 				69AC908A21CBA4A4005B74E3 /* Sources */,
 				69AC908B21CBA4A4005B74E3 /* Frameworks */,
 				69AC908C21CBA4A4005B74E3 /* Resources */,
+				75A6A4E64BBF9391BDF2843B /* [CP] Embed Pods Frameworks */,
 			);
 			buildRules = (
 			);
@@ -143,6 +174,11 @@
 				TargetAttributes = {
 					69AC908D21CBA4A4005B74E3 = {
 						CreatedOnToolsVersion = 10.1;
+						SystemCapabilities = {
+							com.apple.Keychain = {
+								enabled = 1;
+							};
+						};
 					};
 				};
 			};
@@ -177,17 +213,67 @@
 		};
 /* End PBXResourcesBuildPhase section */
 
+/* Begin PBXShellScriptBuildPhase section */
+		509AA24C15266A7FCA563F92 /* [CP] Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
+				"${PODS_ROOT}/Manifest.lock",
+			);
+			name = "[CP] Check Pods Manifest.lock";
+			outputFileListPaths = (
+			);
+			outputPaths = (
+				"$(DERIVED_FILE_DIR)/Pods-PhoneLibrary-checkManifestLockResult.txt",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
+			showEnvVarsInLog = 0;
+		};
+		75A6A4E64BBF9391BDF2843B /* [CP] Embed Pods Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+				"${SRCROOT}/Pods/Target Support Files/Pods-PhoneLibrary/Pods-PhoneLibrary-frameworks.sh",
+				"${BUILT_PRODUCTS_DIR}/Realm/Realm.framework",
+				"${BUILT_PRODUCTS_DIR}/RealmSwift/RealmSwift.framework",
+			);
+			name = "[CP] Embed Pods Frameworks";
+			outputFileListPaths = (
+			);
+			outputPaths = (
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Realm.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/RealmSwift.framework",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-PhoneLibrary/Pods-PhoneLibrary-frameworks.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+/* End PBXShellScriptBuildPhase section */
+
 /* Begin PBXSourcesBuildPhase section */
 		69AC908A21CBA4A4005B74E3 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				69AC90AC21CBDEA1005B74E3 /* Phone.swift in Sources */,
+				69AC90AC21CBDEA1005B74E3 /* Device.swift in Sources */,
 				69AC90A821CBCA92005B74E3 /* SearchViewController.swift in Sources */,
-				69AC90AA21CBCF11005B74E3 /* PhonesListTableViewController.swift in Sources */,
+				69AC90AA21CBCF11005B74E3 /* DevicesListTableViewController.swift in Sources */,
+				6923A81721CD51F000038339 /* DeviceRealmController.swift in Sources */,
 				69AC909221CBA4A4005B74E3 /* AppDelegate.swift in Sources */,
-				69AC90B021CC2BDB005B74E3 /* PhoneNetworkController.swift in Sources */,
-				69AC90AE21CBE15A005B74E3 /* PhoneRepository.swift in Sources */,
+				6923A81A21CD87D600038339 /* SavedDevicesListTableViewController.swift in Sources */,
+				69AC90B021CC2BDB005B74E3 /* DeviceNetworkController.swift in Sources */,
 				6923A81121CC31A300038339 /* Extensions.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -332,8 +418,10 @@
 		};
 		69AC90A121CBA4A6005B74E3 /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = EA45EA0B40B3883578CEFC06 /* Pods-PhoneLibrary.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_ENTITLEMENTS = PhoneLibrary/PhoneLibrary.entitlements;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = 3VZV827YMW;
@@ -352,8 +440,10 @@
 		};
 		69AC90A221CBA4A6005B74E3 /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 91018813A8A0D72002D76E4D /* Pods-PhoneLibrary.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_ENTITLEMENTS = PhoneLibrary/PhoneLibrary.entitlements;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = 3VZV827YMW;

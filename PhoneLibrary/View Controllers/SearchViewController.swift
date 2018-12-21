@@ -12,7 +12,7 @@ class SearchViewController: UIViewController {
     
     struct PropertyKeys {
         static let searchByBrandSegue = "SearchByBrand"
-        static let searchByModelSegue = "SearchByModel"
+        static let searchByNameSegue = "SearchByName"
     }
     
     @IBOutlet weak var searchValueTextField: UITextField!
@@ -43,17 +43,17 @@ class SearchViewController: UIViewController {
     
     
     @IBAction func searchByModelButtonClicked(_ sender: Any) {
-        performSegue(withIdentifier: PropertyKeys.searchByModelSegue, sender: self)
+        performSegue(withIdentifier: PropertyKeys.searchByNameSegue, sender: self)
     }
     
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        guard let phonesListTableViewController = segue.destination as? PhonesListTableViewController else{return}
-                    phonesListTableViewController.searchValue = searchValueTextField.text!
+        guard let devicesListTableViewController = segue.destination as? DevicesListTableViewController else{return}
+                    devicesListTableViewController.searchValue = searchValueTextField.text!
         if segue.identifier == PropertyKeys.searchByBrandSegue{
-            phonesListTableViewController.searchType = SearchType.SearchByBrand
-        }else if segue.identifier == PropertyKeys.searchByModelSegue{
-            phonesListTableViewController.searchType = SearchType.SearchByModel
+            devicesListTableViewController.searchType = DevicesListTableViewController.SearchType.SearchByBrand
+        }else if segue.identifier == PropertyKeys.searchByNameSegue{
+            devicesListTableViewController.searchType = DevicesListTableViewController.SearchType.SearchByName
         }
     }
     
