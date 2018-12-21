@@ -51,9 +51,9 @@ class SearchViewController: UIViewController {
         guard let devicesListTableViewController = segue.destination as? DevicesListTableViewController else{return}
                     devicesListTableViewController.searchValue = searchValueTextField.text!
         if segue.identifier == PropertyKeys.searchByBrandSegue{
-            devicesListTableViewController.searchType = SearchType.SearchByBrand
+            devicesListTableViewController.searchType = DevicesListTableViewController.SearchType.SearchByBrand
         }else if segue.identifier == PropertyKeys.searchByNameSegue{
-            devicesListTableViewController.searchType = SearchType.SearchByName
+            devicesListTableViewController.searchType = DevicesListTableViewController.SearchType.SearchByName
         }
     }
     

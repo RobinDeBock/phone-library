@@ -9,6 +9,7 @@
 /* Begin PBXBuildFile section */
 		6923A81121CC31A300038339 /* Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6923A81021CC31A300038339 /* Extensions.swift */; };
 		6923A81721CD51F000038339 /* DeviceRealmController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6923A81621CD51F000038339 /* DeviceRealmController.swift */; };
+		6923A81A21CD87D600038339 /* SavedDevicesListTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6923A81921CD87D600038339 /* SavedDevicesListTableViewController.swift */; };
 		69AC909221CBA4A4005B74E3 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 69AC909121CBA4A4005B74E3 /* AppDelegate.swift */; };
 		69AC909721CBA4A4005B74E3 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 69AC909521CBA4A4005B74E3 /* Main.storyboard */; };
 		69AC909921CBA4A6005B74E3 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 69AC909821CBA4A6005B74E3 /* Assets.xcassets */; };
@@ -24,6 +25,7 @@
 		6923A81021CC31A300038339 /* Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Extensions.swift; sourceTree = "<group>"; };
 		6923A81621CD51F000038339 /* DeviceRealmController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DeviceRealmController.swift; sourceTree = "<group>"; };
 		6923A81821CD673300038339 /* PhoneLibrary.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = PhoneLibrary.entitlements; sourceTree = "<group>"; };
+		6923A81921CD87D600038339 /* SavedDevicesListTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SavedDevicesListTableViewController.swift; sourceTree = "<group>"; };
 		69AC908E21CBA4A4005B74E3 /* PhoneLibrary.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = PhoneLibrary.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		69AC909121CBA4A4005B74E3 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		69AC909621CBA4A4005B74E3 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
@@ -99,6 +101,7 @@
 			children = (
 				69AC90A721CBCA92005B74E3 /* SearchViewController.swift */,
 				69AC90A921CBCF11005B74E3 /* DevicesListTableViewController.swift */,
+				6923A81921CD87D600038339 /* SavedDevicesListTableViewController.swift */,
 			);
 			path = "View Controllers";
 			sourceTree = "<group>";
@@ -269,6 +272,7 @@
 				69AC90AA21CBCF11005B74E3 /* DevicesListTableViewController.swift in Sources */,
 				6923A81721CD51F000038339 /* DeviceRealmController.swift in Sources */,
 				69AC909221CBA4A4005B74E3 /* AppDelegate.swift in Sources */,
+				6923A81A21CD87D600038339 /* SavedDevicesListTableViewController.swift in Sources */,
 				69AC90B021CC2BDB005B74E3 /* DeviceNetworkController.swift in Sources */,
 				6923A81121CC31A300038339 /* Extensions.swift in Sources */,
 			);
