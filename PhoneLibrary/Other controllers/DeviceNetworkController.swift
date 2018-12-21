@@ -13,27 +13,41 @@ class DeviceNetworkController {
     
     private let baseURL = URL(string: "https://fonoapi.freshpixl.com/v1/")!
     private let token = "90847b79ba574f0e0dc81a27d48f21e1016bbac53dee41c7"
-    private let limit = 10
+    private let limit = 2
     
     //Execute the URLSession datatask with the complete URL
     private func executeUrlSessionDataTask(with url:URL, completion: @escaping ([Device]?) -> Void){
         let task = URLSession.shared.dataTask(with: url) { (data, response, error) in
-            if error != nil {
+            //Check for error
+            guard error == nil else{
                 //print the error and return nill
                 print(error!.localizedDescription)
                 completion(nil)
                 return
-            } else {
-                if let string = String(data: data!, encoding: .utf8) {print(string)}
-                let jsonDecoder = JSONDecoder()
-                if let data = data, let devices = try? jsonDecoder.decode([Device].self, from: data) {
-                    completion(devices)
-                }else {
-                    print("Either no data was returned, or data was not serialized.")
-                    completion(nil)
+            }
+            
+            //Check if data is an empty 2-dimensional array (aka Json="[[]]")
+            //This requires a very specific amount of steps, wich can all throw an error
+            //Only if all requirements are met (aka no errors) we know there is an empty array
+            do{
+                let parsedData = try JSONSerialization.jsonObject(with: data!, options: .allowFragments)
+                let dataArray = parsedData as! [[Any]]
+                if dataArray.isEmpty{
+                    //return an empty list
+                    completion([])
                     return
                 }
+            }catch _{}
+                let jsonDecoder = JSONDecoder()
+                if let data = data, let devices = try? jsonDecoder.decode([Device].self, from: data){
+                    completion(devices)
+                }
+                else {
+                    print("Data was not correctly serialized")
+                    completion(nil)
+                    return
             }
+
         }
         task.resume()
     }
