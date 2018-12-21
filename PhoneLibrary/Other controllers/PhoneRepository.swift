@@ -23,10 +23,10 @@ class PhoneRepository{
         }
     }
     
-    func fetchPhonesByName(_:String, completion: @escaping ([Phone]?) -> Void){
-        var phones :[Phone] = Phone.loadSamplePhones()
-        phones.append(contentsOf: Phone.loadSamplePhones())
-        completion(phones)
+    func fetchPhonesByName(_ name:String, completion: @escaping ([Phone]?) -> Void){
+        networkController.fetchPhonesByName(name){ (phones) in
+            completion(phones)
+        }
     }
 }
 
