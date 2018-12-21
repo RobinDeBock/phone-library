@@ -1,6 +1,6 @@
 //
-//  PhonesListTableViewController.swift
-//  PhoneLibrary
+//  DeviceListTableViewController.swift
+//  DeviceLibrary
 //
 //  Created by Robin De Bock on 20/12/2018.
 //  Copyright © 2018 Robin De Bock. All rights reserved.
@@ -8,12 +8,12 @@
 
 import UIKit
 
-class PhonesListTableViewController: UITableViewController {
+class DevicesListTableViewController: UITableViewController {
 
     var searchValue: String?
     var searchType:SearchType?
     
-    var phones:[Phone]=[]
+    var devices:[Device]=[]
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -21,33 +21,33 @@ class PhonesListTableViewController: UITableViewController {
         print(searchValue!)
         print(searchType!)
         
-        loadPhones()
+        loadDevices()
     }
     
     //Fetch the phones depending on the search type
-    private func loadPhones(){
+    private func loadDevices(){
         guard let searchValue = searchValue, let searchType = searchType else {return}
         UIApplication.shared.isNetworkActivityIndicatorVisible = true
         switch searchType {
         case SearchType.SearchByBrand:
-                PhoneRepository.instance.fetchPhonesByBrand(searchValue){fetchedPhones in
+                DeviceRepository.instance.fetchDevicesByBrand(searchValue){fetchedPhones in
                     self.updateUI(with: fetchedPhones)
             }
-        case SearchType.SearchByModel:
-            PhoneRepository.instance.fetchPhonesByName(searchValue){fetchedPhones in
+        case SearchType.SearchByName:
+            DeviceRepository.instance.fetchDevicesByName(searchValue){fetchedPhones in
                   self.updateUI(with: fetchedPhones)
                 }
             }
         }
     
     
-    private func updateUI(with fetchedPhones:[Phone]?){
+    private func updateUI(with fetchedPhones:[Device]?){
     DispatchQueue.main.async {
         UIApplication.shared.isNetworkActivityIndicatorVisible = false
         //if list is empty show warning and stuff
         if let fetchedPhones = fetchedPhones {
             print(fetchedPhones)
-            self.phones = fetchedPhones
+            self.devices = fetchedPhones
             self.tableView.reloadData()
             }
         }
@@ -61,7 +61,7 @@ class PhonesListTableViewController: UITableViewController {
 
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         if section == 0 {
-            return phones.count
+            return devices.count
         } else {
             return 0
         }
@@ -69,9 +69,9 @@ class PhonesListTableViewController: UITableViewController {
 
     
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: "PhoneCell", for: indexPath)
+        let cell = tableView.dequeueReusableCell(withIdentifier: "DeviceCell", for: indexPath)
         //get the right phone
-        let phone = phones[indexPath.row]
+        let phone = devices[indexPath.row]
         cell.textLabel?.text = phone.description
         return cell
     }
@@ -126,5 +126,5 @@ class PhonesListTableViewController: UITableViewController {
 
 enum SearchType {
     case SearchByBrand
-    case SearchByModel
+    case SearchByName
 }

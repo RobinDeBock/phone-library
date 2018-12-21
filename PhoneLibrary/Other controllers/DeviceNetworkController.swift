@@ -1,5 +1,5 @@
 //
-//  PhoneNetworkController.swift
+//  DeviceNetworkController.swift
 //  PhoneLibrary
 //
 //  Created by Robin De Bock on 20/12/2018.
@@ -7,14 +7,14 @@
 //
 
 import Foundation
-class PhoneNetworkController {
+class DeviceNetworkController {
     
     private let baseURL = URL(string: "https://fonoapi.freshpixl.com/v1/")!
-    private let token = "1ba2a2bf8a17defe7646963cbaea9b45ec6ede3bc20e626f"
+    private let token = "90847b79ba574f0e0dc81a27d48f21e1016bbac53dee41c7"
     private let limit = 10
     
     //Execute the URLSession datatask with the complete URL
-    private func executeUrlSessionDataTask(with url:URL, completion: @escaping ([Phone]?) -> Void){
+    private func executeUrlSessionDataTask(with url:URL, completion: @escaping ([Device]?) -> Void){
         let task = URLSession.shared.dataTask(with: url) { (data, response, error) in
             if error != nil {
                 //print the error and return nill
@@ -24,8 +24,8 @@ class PhoneNetworkController {
             } else {
                 if let string = String(data: data!, encoding: .utf8) {print(string)}
                 let jsonDecoder = JSONDecoder()
-                if let data = data, let phones = try? jsonDecoder.decode([Phone].self, from: data) {
-                    completion(phones)
+                if let data = data, let devices = try? jsonDecoder.decode([Device].self, from: data) {
+                    completion(devices)
                 }else {
                     print("Either no data was returned, or data was not serialized.")
                     completion(nil)
@@ -36,7 +36,7 @@ class PhoneNetworkController {
         task.resume()
     }
     
-    func fetchPhonesByBrand(_ brand:String, completion: @escaping([Phone]?) -> Void) {
+    func fetchDevicesByBrand(_ brand:String, completion: @escaping([Device]?) -> Void) {
         //Adding path to base URL
         let url = baseURL.appendingPathComponent("getlatest")
         
@@ -55,12 +55,12 @@ class PhoneNetworkController {
         }
         
         //Callback function to fetch phones with the complete URL
-        executeUrlSessionDataTask(with: completeUrl){(phones) in
-            completion(phones)
+        executeUrlSessionDataTask(with: completeUrl){(devices) in
+            completion(devices)
         }
 }
     
-    func fetchPhonesByName(_ name:String, completion: @escaping([Phone]?) -> Void) {
+    func fetchDevicesByName(_ name:String, completion: @escaping([Device]?) -> Void) {
         //Adding path to base URL
         let url = baseURL.appendingPathComponent("getdevice")
 
@@ -78,8 +78,8 @@ class PhoneNetworkController {
         }
         
         //Callback function to fetch phones with the complete URL
-        executeUrlSessionDataTask(with: completeUrl){(phones) in
-            completion(phones)
+        executeUrlSessionDataTask(with: completeUrl){(devices) in
+            completion(devices)
         }
     }
     

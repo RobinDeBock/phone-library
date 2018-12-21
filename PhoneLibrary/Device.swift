@@ -1,5 +1,5 @@
 //
-//  Phone.swift
+//  Device.swift
 //  PhoneLibrary
 //
 //  Created by Robin De Bock on 20/12/2018.
@@ -7,24 +7,24 @@
 //
 
 import Foundation
-struct Phone {
+struct Device {
     var name:String;
     var brand:String;
     
     var description: String {
-        return "Phone: \(name), Brand: \(brand)"
+        return "Device: \(name), Brand: \(brand)"
 }
-    static func loadSamplePhones() -> [Phone]{
-        let dummyPhones: [Phone] = [
-            Phone(name: "Mi A1", brand: "Xiaomi"),
-            Phone(name: "OnePlus 5T", brand: "OnePLus")
+    static func loadSampleDevices() -> [Device]{
+        let dummyDevices: [Device] = [
+            Device(name: "Mi A1", brand: "Xiaomi"),
+            Device(name: "OnePlus 5T", brand: "OnePLus")
         ]
-        return dummyPhones
+        return dummyDevices
     }
     
 }
 
-extension Phone:Codable{
+extension Device:Codable{
     
     enum CodingKeys: String, CodingKey {
         case name = "DeviceName"

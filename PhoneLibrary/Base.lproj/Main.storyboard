@@ -10,7 +10,7 @@
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <scenes>
-        <!--Search your phone-->
+        <!--Search for a device-->
         <scene sceneID="rSB-AY-pYX">
             <objects>
                 <viewController id="KcC-Ea-tGf" customClass="SearchViewController" customModule="PhoneLibrary" customModuleProvider="target" sceneMemberID="viewController">
@@ -25,8 +25,8 @@
                                     <action selector="searchByBrandButtonClicked:" destination="KcC-Ea-tGf" eventType="touchUpInside" id="dya-ei-6Nf"/>
                                 </connections>
                             </button>
-                            <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Brand name or model" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="VHf-II-xFz">
-                                <rect key="frame" x="87.5" y="280" width="200" height="30"/>
+                            <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Brand name or device name" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="VHf-II-xFz">
+                                <rect key="frame" x="87" y="280" width="201.5" height="30"/>
                                 <constraints>
                                     <constraint firstAttribute="width" relation="greaterThanOrEqual" constant="200" id="fYn-lh-UVV"/>
                                 </constraints>
@@ -35,8 +35,8 @@
                                 <textInputTraits key="textInputTraits"/>
                             </textField>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="9xF-92-qUF">
-                                <rect key="frame" x="130" y="351" width="115" height="30"/>
-                                <state key="normal" title="Search by model"/>
+                                <rect key="frame" x="132" y="351" width="111" height="30"/>
+                                <state key="normal" title="Search by name"/>
                                 <connections>
                                     <action selector="searchByModelButtonClicked:" destination="KcC-Ea-tGf" eventType="touchUpInside" id="dHB-Zq-Eqh"/>
                                 </connections>
@@ -55,29 +55,29 @@
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="Pwh-1M-e8A"/>
                     </view>
-                    <navigationItem key="navigationItem" title="Search your phone" id="dkL-oo-1BA">
+                    <navigationItem key="navigationItem" title="Search for a device" id="dkL-oo-1BA">
                         <barButtonItem key="backBarButtonItem" title="Search" id="xpQ-ZS-dem"/>
                     </navigationItem>
                     <connections>
                         <outlet property="searchValueTextField" destination="VHf-II-xFz" id="hCr-m9-9C1"/>
                         <segue destination="tBf-ff-kAQ" kind="show" identifier="SearchByBrand" id="wF6-Jh-KY3"/>
-                        <segue destination="tBf-ff-kAQ" kind="show" identifier="SearchByModel" id="0Te-Z0-dvC"/>
+                        <segue destination="tBf-ff-kAQ" kind="show" identifier="SearchByName" id="0Te-Z0-dvC"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="yf6-tS-0X5" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="1073" y="296"/>
         </scene>
-        <!--Phones List Table View Controller-->
+        <!--Devices List Table View Controller-->
         <scene sceneID="h7e-qg-K9I">
             <objects>
-                <tableViewController id="tBf-ff-kAQ" customClass="PhonesListTableViewController" customModule="PhoneLibrary" customModuleProvider="target" sceneMemberID="viewController">
+                <tableViewController id="tBf-ff-kAQ" customClass="DevicesListTableViewController" customModule="PhoneLibrary" customModuleProvider="target" sceneMemberID="viewController">
                     <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="grouped" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="18" sectionFooterHeight="18" id="L7Y-eO-1tt">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" cocoaTouchSystemColor="groupTableViewBackgroundColor"/>
                         <prototypes>
-                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="PhoneCell" id="hZH-Wh-Bng">
+                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="DeviceCell" id="hZH-Wh-Bng">
                                 <rect key="frame" x="0.0" y="55.5" width="375" height="44"/>
                                 <autoresizingMask key="autoresizingMask"/>
                                 <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="hZH-Wh-Bng" id="Ne6-yT-gdG">
@@ -110,7 +110,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="154-XA-39d" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1060" y="-370.16491754122939"/>
+            <point key="canvasLocation" x="1073" y="-370"/>
         </scene>
         <!--Tab Bar Controller-->
         <scene sceneID="06p-fK-18Q">
