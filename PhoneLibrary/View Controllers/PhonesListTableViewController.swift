@@ -22,33 +22,33 @@ class PhonesListTableViewController: UITableViewController {
         print(searchType!)
         
         loadPhones()
-
-        // Uncomment the following line to display an Edit button in the navigation bar for this view controller.
-        // self.navigationItem.rightBarButtonItem = self.editButtonItem
     }
     
-    func loadPhones(){
+    //Fetch the phones depending on the search type
+    private func loadPhones(){
         guard let searchValue = searchValue, let searchType = searchType else {return}
+        UIApplication.shared.isNetworkActivityIndicatorVisible = true
         switch searchType {
         case SearchType.SearchByBrand:
                 PhoneRepository.instance.fetchPhonesByBrand(searchValue){fetchedPhones in
-                    DispatchQueue.main.async {
-                        if let fetchedPhones = fetchedPhones {
-                            print(fetchedPhones)
-                            self.phones = fetchedPhones
-                            self.tableView.reloadData()
-                        }
-                    }
+                    self.updateUI(with: fetchedPhones)
             }
         case SearchType.SearchByModel:
             PhoneRepository.instance.fetchPhonesByName(searchValue){fetchedPhones in
-                DispatchQueue.main.async {
-                    if let fetchedPhones = fetchedPhones {
-                        print(fetchedPhones)
-                        self.phones = fetchedPhones
-                        self.tableView.reloadData()
-                    }
+                  self.updateUI(with: fetchedPhones)
                 }
+            }
+        }
+    
+    
+    private func updateUI(with fetchedPhones:[Phone]?){
+    DispatchQueue.main.async {
+        UIApplication.shared.isNetworkActivityIndicatorVisible = false
+        //if list is empty show warning and stuff
+        if let fetchedPhones = fetchedPhones {
+            print(fetchedPhones)
+            self.phones = fetchedPhones
+            self.tableView.reloadData()
             }
         }
     }
