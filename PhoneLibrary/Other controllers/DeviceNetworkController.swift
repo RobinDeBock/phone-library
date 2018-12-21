@@ -9,6 +9,8 @@
 import Foundation
 class DeviceNetworkController {
     
+    static let instance:DeviceNetworkController = DeviceNetworkController()
+    
     private let baseURL = URL(string: "https://fonoapi.freshpixl.com/v1/")!
     private let token = "90847b79ba574f0e0dc81a27d48f21e1016bbac53dee41c7"
     private let limit = 10

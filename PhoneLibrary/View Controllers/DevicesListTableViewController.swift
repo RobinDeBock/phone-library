@@ -30,11 +30,11 @@ class DevicesListTableViewController: UITableViewController {
         UIApplication.shared.isNetworkActivityIndicatorVisible = true
         switch searchType {
         case SearchType.SearchByBrand:
-                DeviceRepository.instance.fetchDevicesByBrand(searchValue){fetchedPhones in
+                DeviceNetworkController.instance.fetchDevicesByBrand(searchValue){fetchedPhones in
                     self.updateUI(with: fetchedPhones)
             }
         case SearchType.SearchByName:
-            DeviceRepository.instance.fetchDevicesByName(searchValue){fetchedPhones in
+            DeviceNetworkController.instance.fetchDevicesByName(searchValue){fetchedPhones in
                   self.updateUI(with: fetchedPhones)
                 }
             }
