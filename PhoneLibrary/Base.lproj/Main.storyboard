@@ -91,13 +91,59 @@
                             <outlet property="delegate" destination="tBf-ff-kAQ" id="7to-yC-ebU"/>
                         </connections>
                     </tableView>
+                    <navigationItem key="navigationItem" id="Z1e-sl-iVf"/>
                     <refreshControl key="refreshControl" opaque="NO" multipleTouchEnabled="YES" contentMode="center" insetsLayoutMarginsFromSafeArea="NO" enabled="NO" contentHorizontalAlignment="center" contentVerticalAlignment="center" id="lTX-1L-Fh5">
+                        <rect key="frame" x="0.0" y="0.0" width="1000" height="1000"/>
                         <autoresizingMask key="autoresizingMask"/>
                     </refreshControl>
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="0KM-7d-atQ" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1837" y="297"/>
+            <point key="canvasLocation" x="3020" y="294"/>
+        </scene>
+        <!--View Controller-->
+        <scene sceneID="lRt-fL-ddq">
+            <objects>
+                <viewController id="vUB-6N-7Gd" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="m7x-vM-W13">
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        <viewLayoutGuide key="safeArea" id="cXo-g0-5P9"/>
+                    </view>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="nwY-FA-KkJ" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="2018" y="1442"/>
+        </scene>
+        <!--Navigation Controller-->
+        <scene sceneID="kVy-Pc-6AO">
+            <objects>
+                <navigationController id="fu6-bI-zRH" sceneMemberID="viewController">
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" id="YqY-nQ-Hys">
+                        <rect key="frame" x="0.0" y="20" width="375" height="44"/>
+                        <autoresizingMask key="autoresizingMask"/>
+                    </navigationBar>
+                    <connections>
+                        <segue destination="tBf-ff-kAQ" kind="relationship" relationship="rootViewController" id="hKm-E3-iXl"/>
+                    </connections>
+                </navigationController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="dO6-BK-z7K" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="2017" y="739"/>
+        </scene>
+        <!--Split View Controller-->
+        <scene sceneID="l0r-l8-84B">
+            <objects>
+                <splitViewController id="bIo-O6-C8H" sceneMemberID="viewController">
+                    <connections>
+                        <segue destination="fu6-bI-zRH" kind="relationship" relationship="masterViewController" id="jSC-Dp-fT9"/>
+                        <segue destination="vUB-6N-7Gd" kind="relationship" relationship="detailViewController" id="lfD-80-1KC"/>
+                    </connections>
+                </splitViewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="9VS-e7-AVz" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="1073" y="1110"/>
         </scene>
         <!--Saved Devices List Table View Controller-->
         <scene sceneID="xNP-7E-rFF">
@@ -128,15 +174,20 @@
             </objects>
             <point key="canvasLocation" x="1073" y="-370"/>
         </scene>
-        <!--Tab Bar Controller-->
+        <!--Base Tab Bar View Controller-->
         <scene sceneID="06p-fK-18Q">
             <objects>
-                <tabBarController id="x4X-nG-CMX" sceneMemberID="viewController">
+                <tabBarController id="x4X-nG-CMX" customClass="BaseTabBarViewController" customModule="PhoneLibrary" customModuleProvider="target" sceneMemberID="viewController">
                     <tabBar key="tabBar" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" id="Nov-Ga-Lxa">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="49"/>
                         <autoresizingMask key="autoresizingMask"/>
                         <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                     </tabBar>
+                    <userDefinedRuntimeAttributes>
+                        <userDefinedRuntimeAttribute type="number" keyPath="defaultIndex">
+                            <integer key="value" value="1"/>
+                        </userDefinedRuntimeAttribute>
+                    </userDefinedRuntimeAttributes>
                     <connections>
                         <segue destination="WcZ-Fz-CTh" kind="relationship" relationship="viewControllers" id="K0g-bI-SiO"/>
                         <segue destination="rfm-Lk-Mfd" kind="relationship" relationship="viewControllers" id="1tM-cD-eYN"/>
@@ -157,6 +208,9 @@
                         <autoresizingMask key="autoresizingMask"/>
                     </navigationBar>
                     <nil name="viewControllers"/>
+                    <toolbar key="toolbar" opaque="NO" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" id="wI5-H2-fUp">
+                        <autoresizingMask key="autoresizingMask"/>
+                    </toolbar>
                     <connections>
                         <segue destination="7eP-nc-s45" kind="relationship" relationship="rootViewController" id="7Jf-yj-e14"/>
                     </connections>
@@ -186,6 +240,6 @@
         </scene>
     </scenes>
     <inferredMetricsTieBreakers>
-        <segue reference="0Te-Z0-dvC"/>
+        <segue reference="wF6-Jh-KY3"/>
     </inferredMetricsTieBreakers>
 </document>
