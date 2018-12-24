@@ -15,17 +15,27 @@ class DetailViewController: UIViewController, UICollectionViewDataSource, UIColl
     
     @IBOutlet weak var tableView: UITableView!
     
+    //Hardcoded amount of collection view items
+    let collectionViewItems = 5
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        let width = collectionView.frame.size.width / 3
+        let columnAmount = 3
+        //SOURCE: https://www.youtube.com/watch?v=2-nxXXQyVuE
+        //-*-*-*-*-*-
+        let itemWidth = collectionView.frame.size.width / CGFloat(columnAmount)
         let layout = collectionView.collectionViewLayout as! UICollectionViewFlowLayout
-        layout.itemSize = CGSize(width: width, height: width)
-        collectionViewHeight.constant = width * 2
+        //Item is a square
+        layout.itemSize = CGSize(width: itemWidth, height: itemWidth)
+        //-*-*-*-*-*-
+        let amountOfRows = ceil(Double(collectionViewItems) / Double(columnAmount))
+        print(amountOfRows)
+        collectionViewHeight.constant = itemWidth * CGFloat(amountOfRows)
     }
     
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return 5
+        return collectionViewItems
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
