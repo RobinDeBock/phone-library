@@ -76,8 +76,9 @@ class DevicesListTableViewController: UITableViewController {
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "DeviceCell", for: indexPath)
         //get the right phone
-        let phone = devices[indexPath.row]
-        cell.textLabel?.text = phone.description
+        let device = devices[indexPath.row]
+        cell.textLabel?.text = device.description
+        print(device.ram)
         return cell
     }
     

@@ -16,12 +16,13 @@ class DetailViewController: UIViewController, UICollectionViewDataSource, UIColl
     @IBOutlet weak var tableView: UITableView!
     
     //Hardcoded amount of collection view items
-    let collectionViewItems = 5
+    let collectionViewItemAmount = 5
+    //Amount of columns in the collectionView
+    let columnAmount = 3
     
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        let columnAmount = 3
         //SOURCE: https://www.youtube.com/watch?v=2-nxXXQyVuE
         //-*-*-*-*-*-
         let itemWidth = collectionView.frame.size.width / CGFloat(columnAmount)
@@ -29,13 +30,14 @@ class DetailViewController: UIViewController, UICollectionViewDataSource, UIColl
         //Item is a square
         layout.itemSize = CGSize(width: itemWidth, height: itemWidth)
         //-*-*-*-*-*-
-        let amountOfRows = ceil(Double(collectionViewItems) / Double(columnAmount))
+        let amountOfRows = ceil(Double(collectionViewItemAmount) / Double(columnAmount))
         print(amountOfRows)
         collectionViewHeight.constant = itemWidth * CGFloat(amountOfRows)
     }
     
+    //COLLECTION VIEW
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return collectionViewItems
+        return collectionViewItemAmount
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
@@ -43,7 +45,9 @@ class DetailViewController: UIViewController, UICollectionViewDataSource, UIColl
         cell.titleLabel.text = "Testjee"
         return cell
     }
-    
+    //**************
+
+    //TABLE VIEW
     func numberOfSections(in tableView: UITableView) -> Int {
         return 3
     }
@@ -57,5 +61,6 @@ class DetailViewController: UIViewController, UICollectionViewDataSource, UIColl
         cell.textLabel?.text = "Test"
         return cell
     }
+    //**************
 
 }

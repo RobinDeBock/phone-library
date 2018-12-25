@@ -11,8 +11,44 @@ import RealmSwift
 import Realm
 
 class Device:Object, Codable {
-    @objc dynamic var name:String="";
-    @objc dynamic var brand:String="";
+    @objc dynamic var name:String=""
+    @objc dynamic var brand:String=""
+    //PlaceHolders
+    //--Internal memory & RAM
+    @objc dynamic var internalProp:String=""
+    @objc dynamic var batteryProp:String=""
+    //Main specs
+    @objc dynamic var cpu:String=""
+    @objc dynamic var screenResolution:String=""
+    var ram:String{
+        get{
+            guard !internalProp.isEmpty else{return ""}
+            guard let indexOfChar = internalProp.index(of: ",") else {return ""}
+            let index = internalProp.index(indexOfChar, offsetBy:1)
+            return String(internalProp.suffix(from: index))
+        }
+    }
+    var internalMemory:Double=0
+    var battery:String=""
+    @objc dynamic var secondaryCamera:String=""
+    //Additional specs
+    //--Release
+    @objc dynamic var announcedDate:String=""
+    @objc dynamic var releaseStatus:String=""
+    //--Physical
+    @objc dynamic var screenSize:String=""
+    @objc dynamic var dimensions:String=""
+    @objc dynamic var weight:Double=0
+    //--Hardware
+    @objc dynamic var gpu:String=""
+    @objc dynamic var chipset:String=""
+    @objc dynamic var headphoneJack:Bool=false
+    @objc dynamic var usb:String=""
+    @objc dynamic var primaryCamera:String=""
+    @objc dynamic var simType:String=""
+    @objc dynamic var cardSlot:String=""
+    //--Software
+    @objc dynamic var os:String=""
     
     convenience init(name: String, brand:String) {
         self.init()
@@ -24,6 +60,33 @@ class Device:Object, Codable {
         return "Device: \(name), Brand: \(brand)"
     }
     
+    //Codable
+    //--Codable constructor (can't be put in extension)
+    required init(from decoder: Decoder) throws {
+        super.init()
+        let valueContainer = try decoder.container(keyedBy:CodingKeys.self)
+        self.name = try valueContainer.decode(String.self, forKey: CodingKeys.name)
+        self.brand = try valueContainer.decode(String.self, forKey: CodingKeys.brand)
+        self.cpu = (try? valueContainer.decode(String.self, forKey: CodingKeys.cpu)) ?? ""
+        self.screenResolution = (try? valueContainer.decode(String.self, forKey: CodingKeys.screenResolution)) ?? ""
+        self.internalProp = (try? valueContainer.decode(String.self, forKey: CodingKeys.internalProp)) ?? ""
+        self.batteryProp = (try? valueContainer.decode(String.self, forKey: CodingKeys.batteryProp)) ?? ""
+        self.secondaryCamera = (try? valueContainer.decode(String.self, forKey: CodingKeys.secondaryCamera)) ?? ""
+    }
+    
+    //--Json coding keys
+    enum CodingKeys: String, CodingKey {
+        case name = "DeviceName"
+        case brand = "Brand"
+        case cpu
+        case screenResolution = "resolution"
+        case internalProp = "internal"
+        case batteryProp = "battery"
+        case secondaryCamera = "secondary"
+    }
+    //**************
+    
+    
     //Realm constructors (can't be put in extension)
     required init() {
         super.init()
@@ -34,24 +97,12 @@ class Device:Object, Codable {
     required init(realm: RLMRealm, schema: RLMObjectSchema) {
         super.init(realm: realm, schema: schema)
     }
-    
-    //Codable (can't be put in extension)
-    required init(from decoder: Decoder) throws {
-        super.init()
-        let valueContainer = try decoder.container(keyedBy:CodingKeys.self)
-        self.name = try valueContainer.decode(String.self, forKey: CodingKeys.name)
-        self.brand = try valueContainer.decode(String.self, forKey: CodingKeys.brand)
-    }
-    
-    enum CodingKeys: String, CodingKey {
-        case name = "DeviceName"
-        case brand = "Brand"
-    }
+    //**************
     
 }
 
-//Realm
 extension Device{
+    
     //Dummy data
     static func loadSampleDevices() -> [Device]{
         let dummyDevices: [Device] = [
