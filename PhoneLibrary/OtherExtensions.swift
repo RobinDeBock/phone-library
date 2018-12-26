@@ -16,3 +16,23 @@ extension URL{
     }
 }
 
+//SOURCE: https://www.hackingwithswift.com/articles/108/how-to-use-regular-expressions-in-swift
+//*-*-*-*-*-*-
+extension NSRegularExpression {
+    convenience init(_ pattern: String) {
+        do {
+            try self.init(pattern: pattern)
+        } catch {
+            preconditionFailure("Illegal regular expression: \(pattern).")
+        }
+    }
+}
+//*-*-*-*-*-*-
+extension NSRegularExpression {
+    func matches(_ string: String) -> String {
+        let completeStringRange = NSRange(location: 0, length: string.utf16.count)
+        guard let range =  firstMatch(in: string, options: [], range: completeStringRange)?.range else {return ""}
+        return String(string.dropFirst(range.lowerBound).prefix(range.upperBound - range.lowerBound) as Substring)
+    }
+}
+

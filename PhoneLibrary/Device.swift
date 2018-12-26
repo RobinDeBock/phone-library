@@ -10,26 +10,15 @@ import Foundation
 import RealmSwift
 import Realm
 
-class Device:Object, Codable {
+class Device:Object, Decodable {
     @objc dynamic var name:String=""
     @objc dynamic var brand:String=""
-    //PlaceHolders
-    //--Internal memory & RAM
-    @objc dynamic var internalProp:String=""
-    @objc dynamic var batteryProp:String=""
     //Main specs
     @objc dynamic var cpu:String=""
     @objc dynamic var screenResolution:String=""
-    var ram:String{
-        get{
-            guard !internalProp.isEmpty else{return ""}
-            guard let indexOfChar = internalProp.index(of: ",") else {return ""}
-            let index = internalProp.index(indexOfChar, offsetBy:1)
-            return String(internalProp.suffix(from: index))
-        }
-    }
-    var internalMemory:Double=0
-    var battery:String=""
+    @objc dynamic var ram:String=""
+    //var internalMemory:Double=0
+    @objc dynamic var battery:String=""
     @objc dynamic var secondaryCamera:String=""
     //Additional specs
     //--Release
@@ -52,8 +41,8 @@ class Device:Object, Codable {
     
     convenience init(name: String, brand:String) {
         self.init()
-        self.name = name;
-        self.brand = brand;
+        self.name = name
+        self.brand = brand
     }
     
    override var description: String {
@@ -69,8 +58,13 @@ class Device:Object, Codable {
         self.brand = try valueContainer.decode(String.self, forKey: CodingKeys.brand)
         self.cpu = (try? valueContainer.decode(String.self, forKey: CodingKeys.cpu)) ?? ""
         self.screenResolution = (try? valueContainer.decode(String.self, forKey: CodingKeys.screenResolution)) ?? ""
-        self.internalProp = (try? valueContainer.decode(String.self, forKey: CodingKeys.internalProp)) ?? ""
-        self.batteryProp = (try? valueContainer.decode(String.self, forKey: CodingKeys.batteryProp)) ?? ""
+        var ramVal:String {
+            guard let stringValue = try? valueContainer.decode(String.self, forKey: CodingKeys.internalProp) else {return ""}
+            let regex = NSRegularExpression("[0-9]* GB RAM")
+            return regex.matches(stringValue)
+            }
+        self.ram = ramVal
+        //self.batteryProp = (try? valueContainer.decode(String.self, forKey: CodingKeys.batteryProp)) ?? ""
         self.secondaryCamera = (try? valueContainer.decode(String.self, forKey: CodingKeys.secondaryCamera)) ?? ""
     }
     
@@ -102,6 +96,8 @@ class Device:Object, Codable {
 }
 
 extension Device{
+    //
+    
     
     //Dummy data
     static func loadSampleDevices() -> [Device]{
