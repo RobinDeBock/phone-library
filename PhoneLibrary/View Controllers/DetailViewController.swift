@@ -31,6 +31,7 @@ class DetailViewController: UIViewController{
         super.viewDidLoad()
         deviceName.title = device.name
         mainSpecs = device.mainSpecs()
+        additionalSpecs = device.additionalSpecCategoriesAndValues()
         
         calculateCollectionViewItemSize()
     }
@@ -69,16 +70,24 @@ extension DetailViewController: UICollectionViewDataSource{
 
 extension DetailViewController: UITableViewDataSource{
     func numberOfSections(in tableView: UITableView) -> Int {
-        return 3
+        return additionalSpecs.count
+    }
+    
+    func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
+        return Array(additionalSpecs.keys)[section]
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return 2
+        let additionalSpecKey = Array(additionalSpecs.keys)[section]
+        return additionalSpecs[additionalSpecKey]!.count
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "tableViewCell", for: indexPath)
-        cell.textLabel?.text = "Test"
+        let additionalSpecKey = Array(additionalSpecs.keys)[indexPath.section]
+        let deviceSpec = additionalSpecs[additionalSpecKey]![indexPath.row]
+        cell.textLabel?.text = deviceSpec.name
+        cell.detailTextLabel?.text = deviceSpec.value
         return cell
     }
 }

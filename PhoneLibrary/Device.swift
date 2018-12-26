@@ -56,7 +56,12 @@ class Device:Object, Decodable {
         let valueContainer = try decoder.container(keyedBy:CodingKeys.self)
         self.name = try valueContainer.decode(String.self, forKey: CodingKeys.name)
         self.brand = try valueContainer.decode(String.self, forKey: CodingKeys.brand)
-        self.cpu = (try? valueContainer.decode(String.self, forKey: CodingKeys.cpu)) ?? ""
+        var cpuValue:String {
+            guard let stringValue = try? valueContainer.decode(String.self, forKey: CodingKeys.cpu) else {return ""}
+            let regex = NSRegularExpression("[0-9]*\\.[0-9]* GHz")
+            return regex.matches(stringValue)
+        }
+        self.cpu = cpuValue
         var screenResolutionValue:String {
             guard let stringValue = try? valueContainer.decode(String.self, forKey: CodingKeys.screenResolution) else {return ""}
             let regex = NSRegularExpression("[0-9]* x [0-9]*")
@@ -66,7 +71,7 @@ class Device:Object, Decodable {
         var ramValue:String {
             guard let stringValue = try? valueContainer.decode(String.self, forKey: CodingKeys.internalProp) else {return ""}
             let regex = NSRegularExpression("[0-9]* GB RAM")
-            return regex.matches(stringValue)
+            return regex.matches(stringValue).replacingOccurrences(of: "RAM", with: "")
             }
         self.ram = ramValue
         //self.batteryProp = (try? valueContainer.decode(String.self, forKey: CodingKeys.batteryProp)) ?? ""
@@ -82,6 +87,13 @@ class Device:Object, Decodable {
             return regex.matches(stringValue)
         }
         self.frontCamera = secondaryCameraValue
+        //Additional Specs
+        self.screenSize = (try? valueContainer.decode(String.self, forKey: CodingKeys.screenSize)) ?? ""
+        self.dimensions = (try? valueContainer.decode(String.self, forKey: CodingKeys.dimensions)) ?? ""
+        self.weight = (try? valueContainer.decode(String.self, forKey: CodingKeys.weight)) ?? ""
+        self.announcedDate = (try? valueContainer.decode(String.self, forKey: CodingKeys.announcedDate)) ?? ""
+        self.releaseStatus = (try? valueContainer.decode(String.self, forKey: CodingKeys.releaseStatus)) ?? ""
+        //**************
     }
     
     //--Json coding keys and enum value for other properties
@@ -94,6 +106,12 @@ class Device:Object, Decodable {
         case batteryProp = "battery"
         case rearCamera = "primary_"
         case frontCamera = "secondary"
+        //Additional specs
+        case screenSize = "size"
+        case dimensions
+        case weight
+        case announcedDate = "announced"
+        case releaseStatus = "status"
     }
     //**************
     
@@ -136,21 +154,21 @@ extension Device{
         return result
     }
     
-    func additionalSpecCategoriesWithValues() -> [String:[DeviceSpec]]{
+    func additionalSpecCategoriesAndValues() -> [String:[DeviceSpec]]{
         var categories : [String:[DeviceSpec]] = [:]
-        let physicalCategory:[DeviceSpec] = [
-            DeviceSpec(name:"Screen size", value:screenSize),
-            DeviceSpec(name:"Dimensions", value:screenSize),
-            DeviceSpec(name:"Weight", value:weight)
-        ]
-        let releaseCategory:[DeviceSpec] = [
-            DeviceSpec(name: "Announced", value: announcedDate),
-            DeviceSpec(name: "Release", value: releaseStatus)
-        ]
-        
-        categories["Physical"] = physicalCategory
-        categories["Release"] = releaseCategory
-        
+        //Physical category
+        var physicalCategory:[DeviceSpec] = []
+        if !screenSize.isEmpty{physicalCategory.append(DeviceSpec(name:"Screen size", value:screenSize))}
+        if !dimensions.isEmpty{physicalCategory.append(DeviceSpec(name:"Dimensions", value:dimensions))}
+        if !weight.isEmpty{physicalCategory.append(DeviceSpec(name:"Weight", value:weight))}
+        if !physicalCategory.isEmpty{categories["Physical"] = physicalCategory}
+        //*****************
+        //Release category
+        var releaseCategory:[DeviceSpec] = []
+        if !screenSize.isEmpty{releaseCategory.append(DeviceSpec(name: "Announced", value: announcedDate))}
+        if !screenSize.isEmpty{releaseCategory.append(DeviceSpec(name: "Release", value: releaseStatus))}
+        if !releaseCategory.isEmpty{categories["Release"] = releaseCategory}
+        //*****************
         return categories
     }
 }
