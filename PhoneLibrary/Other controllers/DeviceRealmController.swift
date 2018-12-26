@@ -23,7 +23,14 @@ class DeviceRealmController{
         //location of the local DB
         print("realm file location", realm.configuration.fileURL!)
         //load stored devices
-        devices = try! Realm().objects(Device.self)
+        if let realmDevices = try? Realm().objects(Device.self){
+            devices = realmDevices
+        }else{
+            //empty out all saved devices
+            try! realm.write {
+                realm.deleteAll()
+            }
+        }
     }
     
     func add(favorite device:Device) -> Bool{
