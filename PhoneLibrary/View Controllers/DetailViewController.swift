@@ -8,21 +8,37 @@
 
 import UIKit
 
-class DetailViewController: UIViewController, UICollectionViewDataSource, UICollectionViewDelegate, UITableViewDelegate, UITableViewDataSource{
-
+class DetailViewController: UIViewController{
+    @IBOutlet weak var deviceName: UINavigationItem!
+    
     @IBOutlet weak var collectionView: UICollectionView!
     @IBOutlet weak var collectionViewHeight: NSLayoutConstraint!
     
     @IBOutlet weak var tableView: UITableView!
     
-    //Hardcoded amount of collection view items
-    let collectionViewItemAmount = 5
+    var device:Device!
+    
+    //Mainspecs for collection view
+    var mainSpecs:[Device.MainSpecNames:String] = [:]
+    
+    //Additional specs for the tableview
+    var additionalSpecs:[String:[DeviceSpec]] = [:]
+    
     //Amount of columns in the collectionView
     let columnAmount = 3
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        deviceName.title = device.name
+        mainSpecs = device.mainSpecs()
         
+        calculateCollectionViewItemSize()
+    }
+    
+}
+
+extension DetailViewController: UICollectionViewDataSource{
+    private func calculateCollectionViewItemSize(){
         //SOURCE: https://www.youtube.com/watch?v=2-nxXXQyVuE
         //-*-*-*-*-*-
         let itemWidth = collectionView.frame.size.width / CGFloat(columnAmount)
@@ -30,24 +46,28 @@ class DetailViewController: UIViewController, UICollectionViewDataSource, UIColl
         //Item is a square
         layout.itemSize = CGSize(width: itemWidth, height: itemWidth)
         //-*-*-*-*-*-
-        let amountOfRows = ceil(Double(collectionViewItemAmount) / Double(columnAmount))
-        print(amountOfRows)
+        let amountOfRows = ceil(Double(mainSpecs.count) / Double(columnAmount))
         collectionViewHeight.constant = itemWidth * CGFloat(amountOfRows)
     }
     
-    //COLLECTION VIEW
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return collectionViewItemAmount
+        print("There are \(mainSpecs.count) main specs")
+        return mainSpecs.count
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "collectionViewSpecCell", for: indexPath) as! CollectionViewSpecCell
-        cell.titleLabel.text = "Testjee"
+        //Set image
+        let mainSpecKey = Array(mainSpecs.keys)[indexPath.row]
+        let imageName:String = mainSpecKey.rawValue + "_icon"
+        cell.imageView.image = UIImage(named: imageName)
+        //Set label text
+        cell.titleLabel.text = mainSpecs[mainSpecKey]
         return cell
     }
-    //**************
+}
 
-    //TABLE VIEW
+extension DetailViewController: UITableViewDataSource{
     func numberOfSections(in tableView: UITableView) -> Int {
         return 3
     }
@@ -61,6 +81,4 @@ class DetailViewController: UIViewController, UICollectionViewDataSource, UIColl
         cell.textLabel?.text = "Test"
         return cell
     }
-    //**************
-
 }

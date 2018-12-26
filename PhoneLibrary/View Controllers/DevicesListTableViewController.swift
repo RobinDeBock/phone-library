@@ -23,9 +23,6 @@ class DevicesListTableViewController: UITableViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        print(searchValue!)
-        print(searchType!)
-        
         loadDevices()
     }
     
@@ -78,7 +75,6 @@ class DevicesListTableViewController: UITableViewController {
         //get the right phone
         let device = devices[indexPath.row]
         cell.textLabel?.text = device.description
-        print(device.ram)
         return cell
     }
     
@@ -88,6 +84,16 @@ class DevicesListTableViewController: UITableViewController {
         if DeviceRealmController.instance.add(favorite: devices[indexPath.row]){
             tableView.deselectRow(at: indexPath, animated: true)
         }*/
+    }
+    
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        switch segue.identifier {
+        case "showDetail":
+            let detailViewController = segue.destination as! DetailViewController
+            detailViewController.device = devices[tableView.indexPathForSelectedRow!.row]
+        default:
+            fatalError("Unknown segue")
+        }
     }
 
 }
