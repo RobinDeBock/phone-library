@@ -178,6 +178,34 @@ extension Device{
     }
 }
 
+//Deep Copy
+extension Device:NSCopying{
+    func copy(with zone: NSZone? = nil) -> Any {
+        let copy = Device()
+        copy.name = self.name
+        copy.brand = self.brand
+        copy.cpu = self.cpu
+        copy.screenResolution = self.screenResolution
+        copy.ram = self.ram
+        copy.batteryShort = self.batteryShort
+        copy.rearCamera = self.rearCamera
+        copy.frontCamera = self.frontCamera
+        copy.screenSize = self.screenSize
+        copy.dimensions = self.dimensions
+        copy.weight = self.weight
+        copy.announcedDate = self.announcedDate
+        copy.releaseStatus = self.releaseStatus
+        copy.gpu = self.gpu
+        copy.chipset = self.chipset
+        copy.headphoneJack = self.headphoneJack
+        copy.usb = self.usb
+        copy.simType = self.simType
+        copy.cardSlot = self.cardSlot
+        copy.os = self.os
+        return copy
+    }
+}
+
 extension Device{
     //Dummy data
     static func loadSampleDevices() -> [Device]{
