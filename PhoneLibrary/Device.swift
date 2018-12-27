@@ -74,7 +74,12 @@ class Device:Object, Decodable {
             return regex.matches(stringValue).replacingOccurrences(of: "RAM", with: "")
             }
         self.ram = ramValue
-        //self.batteryProp = (try? valueContainer.decode(String.self, forKey: CodingKeys.batteryProp)) ?? ""
+        var batteryValue:String {
+            guard let stringValue = try? valueContainer.decode(String.self, forKey: CodingKeys.batteryShort) else {return ""}
+            let regex = NSRegularExpression("[0-9]* mAh")
+            return regex.matches(stringValue)
+        }
+        self.batteryShort = batteryValue
         var primaryCameraValue:String {
             guard let stringValue = try? valueContainer.decode(String.self, forKey: CodingKeys.rearCamera) else {return ""}
             let regex = NSRegularExpression("[0-9]* MP")
@@ -103,7 +108,7 @@ class Device:Object, Decodable {
         case cpu
         case screenResolution = "resolution"
         case internalProp = "internal"
-        case batteryProp = "battery"
+        case batteryShort = "battery_c"
         case rearCamera = "primary_"
         case frontCamera = "secondary"
         //Additional specs
@@ -143,14 +148,14 @@ extension Device{
     }
     //Define main specs with enum value so caller can handle it accordingly
     //Only not-empty values are added
-    func mainSpecs() -> [MainSpecNames:String]{
-        var result:[MainSpecNames:String] = [:]
-        if !cpu.isEmpty {result[.cpu] = cpu}
-        if !screenResolution.isEmpty {result[.screenResolution] = screenResolution}
-        if !ram.isEmpty {result[.ram] = ram}
-        if !batteryShort.isEmpty {result[.battery] = batteryShort}
-        if !rearCamera.isEmpty {result[.rearCamera] = rearCamera}
-        if !frontCamera.isEmpty {result[.frontCamera] = frontCamera}
+    func mainSpecs() -> [MainSpecNames:DeviceSpec]{
+        var result:[MainSpecNames:DeviceSpec] = [:]
+        if !cpu.isEmpty {result[.cpu] = DeviceSpec(name: "CPU", value:cpu)}
+        if !screenResolution.isEmpty {result[.screenResolution] = DeviceSpec(name: "Resolution", value:screenResolution)}
+        if !ram.isEmpty {result[.ram] = DeviceSpec(name: "RAM", value: ram)}
+        if !batteryShort.isEmpty {result[.battery] = DeviceSpec(name: "Battery", value: batteryShort)}
+        if !rearCamera.isEmpty {result[.rearCamera] = DeviceSpec(name: "Rear camera", value: rearCamera)}
+        if !frontCamera.isEmpty {result[.frontCamera] = DeviceSpec(name: "Front camera", value: frontCamera)}
         return result
     }
     

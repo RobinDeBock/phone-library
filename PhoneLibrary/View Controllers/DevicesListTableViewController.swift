@@ -80,10 +80,6 @@ class DevicesListTableViewController: UITableViewController {
     
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         performSegue(withIdentifier: "showDetail", sender: self)
-        /*
-        if DeviceRealmController.instance.add(favorite: devices[indexPath.row]){
-            tableView.deselectRow(at: indexPath, animated: true)
-        }*/
     }
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {

@@ -14,7 +14,7 @@ class DeviceRealmController{
     static var instance:DeviceRealmController = DeviceRealmController()
     
     var devices: Results<Device>!
-    private let realm: Realm?
+    private var realm: Realm?
     
     private init(){
         //If something goes wrong in initialisation, the CRUD functions will handle it themselves
@@ -31,6 +31,10 @@ class DeviceRealmController{
                 realm.deleteAll()
             }
         }
+    }
+    
+    func isFavoritised(device:Device) -> Bool{
+       return devices.first(where: {$0.name == device.name}) != nil
     }
     
     func add(favorite device:Device) -> Bool{

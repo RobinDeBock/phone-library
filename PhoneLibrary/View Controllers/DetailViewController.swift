@@ -10,6 +10,7 @@ import UIKit
 
 class DetailViewController: UIViewController{
     @IBOutlet weak var deviceName: UINavigationItem!
+    @IBOutlet weak var addToFavoritesBarButtonItem: UIBarButtonItem!
     
     @IBOutlet weak var collectionView: UICollectionView!
     @IBOutlet weak var collectionViewHeight: NSLayoutConstraint!
@@ -19,7 +20,7 @@ class DetailViewController: UIViewController{
     var device:Device!
     
     //Mainspecs for collection view
-    var mainSpecs:[Device.MainSpecNames:String] = [:]
+    var mainSpecs:[Device.MainSpecNames:DeviceSpec] = [:]
     
     //Additional specs for the tableview
     var additionalSpecs:[String:[DeviceSpec]] = [:]
@@ -29,11 +30,49 @@ class DetailViewController: UIViewController{
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        deviceName.title = device.name
+        //Assign dictionaries to seperate objects for accessibility in code
         mainSpecs = device.mainSpecs()
         additionalSpecs = device.additionalSpecCategoriesAndValues()
-        
+        //Tab bar configuration
+        deviceName.title = device.name
+        //CollectionView configuration
         calculateCollectionViewItemSize()
+        //TableView configuration
+        tableView.cellLayoutMarginsFollowReadableWidth = true
+    }
+    
+    //Update icon to alert user if he can save
+    private func updateAddToFavoritesButton(isFavorite:Bool){
+        if isFavorite{
+            addToFavoritesBarButtonItem.tintColor = UIColor.blue
+        }else{
+            addToFavoritesBarButtonItem.tintColor = .lightGray
+        }
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        let isFavoritised = DeviceRealmController.instance.isFavoritised(device: device)
+        updateAddToFavoritesButton(isFavorite: isFavoritised)
+    }
+    
+    @IBAction func addToFavoritesButtonTapped(_ sender: Any) {
+        switch DeviceRealmController.instance.isFavoritised(device: device) {
+        case true: //device is favoritised
+            //Remove from favorites
+            if DeviceRealmController.instance.remove(favorite: device){
+                updateAddToFavoritesButton(isFavorite: false)
+            }else{
+                //show alert
+            }
+        case false:
+            //Add to favorites
+            if DeviceRealmController.instance.add(favorite: device){
+                updateAddToFavoritesButton(isFavorite: true)
+            }else{
+                //show alert
+            }
+        }
     }
     
 }
@@ -63,13 +102,17 @@ extension DetailViewController: UICollectionViewDataSource{
         let imageName:String = mainSpecKey.rawValue + "_icon"
         cell.imageView.image = UIImage(named: imageName)
         //Set label text
-        cell.titleLabel.text = mainSpecs[mainSpecKey]
+        let mainSpec : DeviceSpec = mainSpecs[mainSpecKey]!
+        cell.titleLabel.text = mainSpec.name
+        cell.valueLabel.text = mainSpec.value
         return cell
     }
 }
 
 extension DetailViewController: UITableViewDataSource{
     func numberOfSections(in tableView: UITableView) -> Int {
+        print("There are \(additionalSpecs.count) additional spec categories")
+        //amount of additional spec categories + our own custom one
         return additionalSpecs.count
     }
     
