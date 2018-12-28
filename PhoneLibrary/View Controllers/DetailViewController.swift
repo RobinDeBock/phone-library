@@ -35,6 +35,7 @@ class DetailViewController: UIViewController{
         additionalSpecs = device.additionalSpecCategoriesAndValues()
         //Tab bar configuration
         deviceName.title = device.name
+        addToFavoritesBarButtonItem.customView = addToFavoritesBarButtonItem.value(forKey: "view") as? UIView
         //CollectionView configuration
         calculateCollectionViewItemSize()
         //TableView configuration
@@ -68,6 +69,11 @@ class DetailViewController: UIViewController{
         case false:
             //Add to favorites
             if DeviceRealmController.instance.add(favorite: device){
+                UIView.animate(withDuration: 0.3) {
+                    let view = self.addToFavoritesBarButtonItem.value(forKey: "view") as? UIView
+                    view?.transform = CGAffineTransform(scaleX: 4.0, y: 4.0)
+                    view?.transform = CGAffineTransform(scaleX: 1.0, y: 1.0)
+                }
                 updateAddToFavoritesButton(isFavorite: true)
             }else{
                 //show alert
