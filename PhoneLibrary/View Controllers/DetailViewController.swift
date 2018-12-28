@@ -23,7 +23,7 @@ class DetailViewController: UIViewController{
     var mainSpecs:[MainDeviceSpec] = []
     
     //Additional specs for the tableview
-    var additionalSpecs:[String:[DeviceSpec]] = [:]
+    var additionalSpecs:[DeviceSpecCategory] = []
     
     //Amount of columns in the collectionView
     let columnAmount = 3
@@ -121,18 +121,16 @@ extension DetailViewController: UITableViewDataSource{
     }
     
     func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
-        return Array(additionalSpecs.keys)[section]
+        return additionalSpecs[section].name
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        let additionalSpecKey = Array(additionalSpecs.keys)[section]
-        return additionalSpecs[additionalSpecKey]!.count
+        return additionalSpecs[section].DeviceSpecs.count
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "tableViewCell", for: indexPath)
-        let additionalSpecKey = Array(additionalSpecs.keys)[indexPath.section]
-        let deviceSpec = additionalSpecs[additionalSpecKey]![indexPath.row]
+        let deviceSpec = additionalSpecs[indexPath.section].DeviceSpecs[indexPath.row]
         cell.textLabel?.text = deviceSpec.name
         cell.detailTextLabel?.text = deviceSpec.value
         return cell

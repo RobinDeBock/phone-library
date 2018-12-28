@@ -161,20 +161,20 @@ extension Device{
         return result
     }
     
-    func additionalSpecCategoriesAndValues() -> [String:[DeviceSpec]]{
-        var categories : [String:[DeviceSpec]] = [:]
+    func additionalSpecCategoriesAndValues() -> [DeviceSpecCategory]{
+        var categories : [DeviceSpecCategory] = []
+        //Release category
+        var releaseCategory:[DeviceSpec] = []
+        if !announcedDate.isEmpty{releaseCategory.append(DeviceSpec(name: "Announced", value: announcedDate))}
+        if !releaseStatus.isEmpty{releaseCategory.append(DeviceSpec(name: "Status", value: releaseStatus))}
+        if !releaseCategory.isEmpty{categories.append(DeviceSpecCategory(name:"Release", DeviceSpecs:releaseCategory))}
+        //*****************
         //Physical category
         var physicalCategory:[DeviceSpec] = []
         if !screenSize.isEmpty{physicalCategory.append(DeviceSpec(name:"Screen size", value:screenSize))}
         if !dimensions.isEmpty{physicalCategory.append(DeviceSpec(name:"Dimensions", value:dimensions))}
         if !weight.isEmpty{physicalCategory.append(DeviceSpec(name:"Weight", value:weight))}
-        if !physicalCategory.isEmpty{categories["Physical"] = physicalCategory}
-        //*****************
-        //Release category
-        var releaseCategory:[DeviceSpec] = []
-        if !screenSize.isEmpty{releaseCategory.append(DeviceSpec(name: "Announced", value: announcedDate))}
-        if !screenSize.isEmpty{releaseCategory.append(DeviceSpec(name: "Release", value: releaseStatus))}
-        if !releaseCategory.isEmpty{categories["Release"] = releaseCategory}
+        if !physicalCategory.isEmpty{categories.append(DeviceSpecCategory(name:"Physical", DeviceSpecs:physicalCategory))}
         //*****************
         return categories
     }
