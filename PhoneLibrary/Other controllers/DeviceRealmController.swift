@@ -43,6 +43,7 @@ class DeviceRealmController{
                 print("ERROR: Realm was not instantiated")
                 return false}
             try realm.write{
+                //Storing a copy of our object so it can be deleted and re-added
                 let copy = device.copy() as! Device
                 realm.add(copy)
                 print("Saved to Realm: " + device.description)

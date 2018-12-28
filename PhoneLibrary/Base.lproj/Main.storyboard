@@ -18,40 +18,49 @@
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="5Qx-3s-4nS">
-                                <rect key="frame" x="131" y="318.5" width="113" height="30"/>
-                                <state key="normal" title="Search by brand"/>
-                                <connections>
-                                    <action selector="searchByBrandButtonClicked:" destination="KcC-Ea-tGf" eventType="touchUpInside" id="dya-ei-6Nf"/>
-                                </connections>
-                            </button>
-                            <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Brand name or device name" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="VHf-II-xFz">
-                                <rect key="frame" x="87" y="280" width="201.5" height="30"/>
+                            <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" distribution="fillProportionally" alignment="center" spacing="7" translatesAutoresizingMaskIntoConstraints="NO" id="p67-Id-r29">
+                                <rect key="frame" x="56.5" y="278.5" width="262" height="110"/>
+                                <subviews>
+                                    <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Brand name or device name" minimumFontSize="17" clearButtonMode="always" translatesAutoresizingMaskIntoConstraints="NO" id="VHf-II-xFz">
+                                        <rect key="frame" x="0.0" y="0.0" width="262" height="30"/>
+                                        <constraints>
+                                            <constraint firstAttribute="width" relation="greaterThanOrEqual" priority="750" constant="200" id="fYn-lh-UVV"/>
+                                        </constraints>
+                                        <nil key="textColor"/>
+                                        <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                        <textInputTraits key="textInputTraits"/>
+                                        <connections>
+                                            <action selector="searchValueTextEditingChanged:" destination="KcC-Ea-tGf" eventType="editingChanged" id="W59-rX-Tbc"/>
+                                        </connections>
+                                    </textField>
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="5Qx-3s-4nS">
+                                        <rect key="frame" x="0.0" y="37" width="262" height="33"/>
+                                        <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                        <state key="normal" title="Search by brand"/>
+                                        <connections>
+                                            <action selector="searchByBrandButtonClicked:" destination="KcC-Ea-tGf" eventType="touchUpInside" id="dya-ei-6Nf"/>
+                                        </connections>
+                                    </button>
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="9xF-92-qUF">
+                                        <rect key="frame" x="0.0" y="77" width="262" height="33"/>
+                                        <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                        <state key="normal" title="Search by name"/>
+                                        <connections>
+                                            <action selector="searchByModelButtonClicked:" destination="KcC-Ea-tGf" eventType="touchUpInside" id="dHB-Zq-Eqh"/>
+                                        </connections>
+                                    </button>
+                                </subviews>
                                 <constraints>
-                                    <constraint firstAttribute="width" relation="greaterThanOrEqual" constant="200" id="fYn-lh-UVV"/>
+                                    <constraint firstItem="9xF-92-qUF" firstAttribute="width" secondItem="VHf-II-xFz" secondAttribute="width" id="DL0-3R-1rd"/>
+                                    <constraint firstItem="5Qx-3s-4nS" firstAttribute="width" secondItem="VHf-II-xFz" secondAttribute="width" id="Vai-Ws-JtJ"/>
                                 </constraints>
-                                <nil key="textColor"/>
-                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
-                                <textInputTraits key="textInputTraits"/>
-                            </textField>
-                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="9xF-92-qUF">
-                                <rect key="frame" x="132" y="351" width="111" height="30"/>
-                                <state key="normal" title="Search by name"/>
-                                <connections>
-                                    <action selector="searchByModelButtonClicked:" destination="KcC-Ea-tGf" eventType="touchUpInside" id="dHB-Zq-Eqh"/>
-                                </connections>
-                            </button>
+                            </stackView>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <constraints>
-                            <constraint firstItem="VHf-II-xFz" firstAttribute="centerX" secondItem="lr0-2j-WjX" secondAttribute="centerX" id="09a-YI-vGM"/>
-                            <constraint firstItem="5Qx-3s-4nS" firstAttribute="centerY" secondItem="lr0-2j-WjX" secondAttribute="centerY" id="G96-kx-LOH"/>
-                            <constraint firstItem="5Qx-3s-4nS" firstAttribute="centerX" secondItem="lr0-2j-WjX" secondAttribute="centerX" id="LpM-tl-r24"/>
-                            <constraint firstItem="Pwh-1M-e8A" firstAttribute="trailing" relation="greaterThanOrEqual" secondItem="VHf-II-xFz" secondAttribute="trailing" constant="25" id="a22-bl-p71"/>
-                            <constraint firstItem="9xF-92-qUF" firstAttribute="centerX" secondItem="lr0-2j-WjX" secondAttribute="centerX" id="aeU-HP-WC2"/>
-                            <constraint firstItem="9xF-92-qUF" firstAttribute="top" secondItem="5Qx-3s-4nS" secondAttribute="bottom" constant="2.5" id="glD-SE-IaZ"/>
-                            <constraint firstItem="VHf-II-xFz" firstAttribute="leading" relation="greaterThanOrEqual" secondItem="Pwh-1M-e8A" secondAttribute="leading" constant="25" id="tZr-Jm-TH8"/>
-                            <constraint firstItem="5Qx-3s-4nS" firstAttribute="top" secondItem="VHf-II-xFz" secondAttribute="bottom" constant="8.5" id="tcE-z6-67S"/>
+                            <constraint firstItem="VHf-II-xFz" firstAttribute="leading" relation="greaterThanOrEqual" secondItem="Pwh-1M-e8A" secondAttribute="leading" constant="25" id="Tna-Bv-ixD"/>
+                            <constraint firstItem="p67-Id-r29" firstAttribute="centerY" secondItem="lr0-2j-WjX" secondAttribute="centerY" id="vvj-YJ-dOf"/>
+                            <constraint firstItem="p67-Id-r29" firstAttribute="centerX" secondItem="lr0-2j-WjX" secondAttribute="centerX" id="yxJ-f6-qs2"/>
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="Pwh-1M-e8A"/>
                     </view>
@@ -59,6 +68,8 @@
                         <barButtonItem key="backBarButtonItem" title="Search" id="xpQ-ZS-dem"/>
                     </navigationItem>
                     <connections>
+                        <outlet property="searchByBrandButton" destination="5Qx-3s-4nS" id="HLH-x0-b8V"/>
+                        <outlet property="searchByNameButton" destination="9xF-92-qUF" id="CyW-wF-0Hq"/>
                         <outlet property="searchValueTextField" destination="VHf-II-xFz" id="hCr-m9-9C1"/>
                         <segue destination="tBf-ff-kAQ" kind="show" identifier="SearchByBrand" id="wF6-Jh-KY3"/>
                         <segue destination="tBf-ff-kAQ" kind="show" identifier="SearchByName" id="0Te-Z0-dvC"/>
@@ -68,7 +79,7 @@
             </objects>
             <point key="canvasLocation" x="1073" y="296"/>
         </scene>
-        <!--Devices List Table View Controller-->
+        <!--Devices-->
         <scene sceneID="h7e-qg-K9I">
             <objects>
                 <tableViewController id="tBf-ff-kAQ" customClass="DevicesListTableViewController" customModule="PhoneLibrary" customModuleProvider="target" sceneMemberID="viewController">
@@ -91,7 +102,7 @@
                             <outlet property="delegate" destination="tBf-ff-kAQ" id="7to-yC-ebU"/>
                         </connections>
                     </tableView>
-                    <navigationItem key="navigationItem" id="Z1e-sl-iVf"/>
+                    <navigationItem key="navigationItem" title="Devices" id="Z1e-sl-iVf"/>
                     <refreshControl key="refreshControl" opaque="NO" multipleTouchEnabled="YES" contentMode="center" insetsLayoutMarginsFromSafeArea="NO" enabled="NO" contentHorizontalAlignment="center" contentVerticalAlignment="center" id="lTX-1L-Fh5">
                         <rect key="frame" x="0.0" y="0.0" width="1000" height="1000"/>
                         <autoresizingMask key="autoresizingMask"/>

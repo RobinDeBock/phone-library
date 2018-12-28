@@ -16,28 +16,58 @@ class SearchViewController: UIViewController {
     }
     
     @IBOutlet weak var searchValueTextField: UITextField!
+    @IBOutlet weak var searchByBrandButton: UIButton!
+    @IBOutlet weak var searchByNameButton: UIButton!
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        searchValueTextField.clearButtonMode = UITextField.ViewMode.whileEditing
-
-        //searchValueTextField.layer.borderWidth = 1.0
-        //searchValueTextField.layer.borderColor = UIColor.red.cgColor
+        
+        //Layout of search buttons configuration
+        searchByBrandButton.tintColor = .white
+        searchByBrandButton.layer.cornerRadius = 5.0
+        
+        searchByNameButton.tintColor = .white
+        searchByNameButton.layer.cornerRadius = 5.0
+        
+        updateSearchButtonStates()
+        
+        //SOURCE: https://stackoverflow.com/questions/24126678/close-ios-keyboard-by-touching-anywhere-using-swift
+        //(Had to do some debugging of my own and code code combining)
+        //*-*-*-*-*-*-*-
+        //Looks for single or multiple taps.
+        let tap: UITapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(SearchViewController.dismissKeyboard))
+        //Uncomment the line below if you want the tap not not interfere and cancel other interactions.
+        //tap.cancelsTouchesInView = false
+        view.addGestureRecognizer(tap)
     }
-    /*    @IBAction func textEditingChanged(_ sender:UITextField ){
-     updateSaveButtonState()
-     }
-     
-     private func updateSaveButtonState(){
-     let symbolText = symbolTextField.text ?? ""
-     let nameText = nameTextField.text ?? ""
-     let descriptionText = descriptionTextField.text ?? ""
-     let usageText = usageTextField.text ?? ""
-     saveButton.isEnabled = !symbolText.isEmpty && !nameText.isEmpty && !descriptionText.isEmpty && !usageText.isEmpty
-     }*/
+    
+    //Calls this function when the tap is recognized.
+    @objc func dismissKeyboard() {
+        //Causes the view (or one of its embedded text fields) to resign the first responder status.
+        view.endEditing(true)
+    }
+    //*-*-*-*-*-*-*-
+    
+    
+    @IBAction func searchValueTextEditingChanged(_ sender: Any) {
+        updateSearchButtonStates()
+    }
+    
+    private func updateSearchButtonStates(){
+        let searchValue = (searchValueTextField.text ?? "").trimmingCharacters(in: .whitespacesAndNewlines)
+        let isValidInput:Bool = !searchValue.isEmpty && searchValue.count < 20
+        if isValidInput {
+            searchByBrandButton.backgroundColor = .blue
+            searchByNameButton.backgroundColor = .blue
+        }else{
+            searchByBrandButton.backgroundColor = .lightGray
+            searchByNameButton.backgroundColor = .lightGray
+        }
+        searchByBrandButton.isEnabled = isValidInput
+        searchByNameButton.isEnabled = isValidInput
+    }
     
     @IBAction func searchByBrandButtonClicked(_ sender: Any) {
-        //TODO add foutcontrole
         performSegue(withIdentifier: PropertyKeys.searchByBrandSegue, sender: self)
     }
     
