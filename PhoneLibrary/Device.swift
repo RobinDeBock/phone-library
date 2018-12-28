@@ -22,17 +22,17 @@ class Device:Object, Decodable {
     @objc dynamic var frontCamera:String=""
     //TODO var internalMemory:Double=0
     //Additional specs
+    //--Release
+    @objc dynamic var announcedDate:String=""
+    @objc dynamic var releaseStatus:String=""
     //--Physical
     @objc dynamic var screenSize:String=""
     @objc dynamic var dimensions:String=""
     @objc dynamic var weight:String=""
-    //--Release
-    @objc dynamic var announcedDate:String=""
-    @objc dynamic var releaseStatus:String=""
     //--Hardware
     @objc dynamic var gpu:String=""
     @objc dynamic var chipset:String=""
-    @objc dynamic var headphoneJack:Bool=false
+    @objc dynamic var headphoneJack:String=""
     @objc dynamic var usb:String=""
     @objc dynamic var simType:String=""
     @objc dynamic var cardSlot:String=""
@@ -54,6 +54,7 @@ class Device:Object, Decodable {
     required init(from decoder: Decoder) throws {
         super.init()
         let valueContainer = try decoder.container(keyedBy:CodingKeys.self)
+        
         self.name = try valueContainer.decode(String.self, forKey: CodingKeys.name)
         self.brand = try valueContainer.decode(String.self, forKey: CodingKeys.brand)
         var cpuValue:String {
@@ -93,11 +94,33 @@ class Device:Object, Decodable {
         }
         self.frontCamera = secondaryCameraValue
         //Additional Specs
+        //--Release
+        self.announcedDate = (try? valueContainer.decode(String.self, forKey: CodingKeys.announcedDate)) ?? ""
+        self.releaseStatus = (try? valueContainer.decode(String.self, forKey: CodingKeys.releaseStatus)) ?? ""
+        //--Physical
         self.screenSize = (try? valueContainer.decode(String.self, forKey: CodingKeys.screenSize)) ?? ""
         self.dimensions = (try? valueContainer.decode(String.self, forKey: CodingKeys.dimensions)) ?? ""
         self.weight = (try? valueContainer.decode(String.self, forKey: CodingKeys.weight)) ?? ""
-        self.announcedDate = (try? valueContainer.decode(String.self, forKey: CodingKeys.announcedDate)) ?? ""
-        self.releaseStatus = (try? valueContainer.decode(String.self, forKey: CodingKeys.releaseStatus)) ?? ""
+        //--Hardware
+        self.gpu = (try? valueContainer.decode(String.self, forKey: CodingKeys.gpu)) ?? ""
+        self.chipset = (try? valueContainer.decode(String.self, forKey: CodingKeys.chipset)) ?? ""
+        var headphoneJackValue:String{
+            guard let stringValue = try? valueContainer.decode(String.self, forKey: CodingKeys.headphoneJack) else {return ""}
+            switch stringValue.lowercased() {
+            case "yes":
+                return "true"
+            case "no":
+                return "false"
+            default:
+                return ""
+            }
+        }
+        self.headphoneJack = headphoneJackValue
+        self.usb = (try? valueContainer.decode(String.self, forKey: CodingKeys.usb)) ?? ""
+        self.simType = (try? valueContainer.decode(String.self, forKey: CodingKeys.simType)) ?? ""
+        self.cardSlot = (try? valueContainer.decode(String.self, forKey: CodingKeys.cardSlot)) ?? ""
+        //--Software
+        self.os = (try? valueContainer.decode(String.self, forKey: CodingKeys.os)) ?? ""
         //**************
     }
     
@@ -112,11 +135,22 @@ class Device:Object, Decodable {
         case rearCamera = "primary_"
         case frontCamera = "secondary"
         //Additional specs
+        //--Release
+        case announcedDate = "announced"
+        case releaseStatus = "status"
+        //--Physical
         case screenSize = "size"
         case dimensions
         case weight
-        case announcedDate = "announced"
-        case releaseStatus = "status"
+        //--Hardware
+        case gpu
+        case chipset
+        case headphoneJack = "_3_5mm_jack_"
+        case usb
+        case simType = "sim"
+        case cardSlot = "card_slot"
+        //--Software
+        case os
     }
     //**************
     
@@ -168,14 +202,33 @@ extension Device{
         if !announcedDate.isEmpty{releaseCategory.append(DeviceSpec(name: "Announced", value: announcedDate))}
         if !releaseStatus.isEmpty{releaseCategory.append(DeviceSpec(name: "Status", value: releaseStatus))}
         if !releaseCategory.isEmpty{categories.append(DeviceSpecCategory(name:"Release", DeviceSpecs:releaseCategory))}
-        //*****************
         //Physical category
         var physicalCategory:[DeviceSpec] = []
         if !screenSize.isEmpty{physicalCategory.append(DeviceSpec(name:"Screen size", value:screenSize))}
         if !dimensions.isEmpty{physicalCategory.append(DeviceSpec(name:"Dimensions", value:dimensions))}
         if !weight.isEmpty{physicalCategory.append(DeviceSpec(name:"Weight", value:weight))}
         if !physicalCategory.isEmpty{categories.append(DeviceSpecCategory(name:"Physical", DeviceSpecs:physicalCategory))}
-        //*****************
+        //Hardware category
+        var hardwareCategory:[DeviceSpec] = []
+        if !gpu.isEmpty{hardwareCategory.append(DeviceSpec(name:"GPU", value:gpu))}
+        if !chipset.isEmpty{hardwareCategory.append(DeviceSpec(name:"Chipset", value:chipset))}
+        switch headphoneJack{
+        case "true":
+            hardwareCategory.append(DeviceSpec(name:"Headphone jack", value:"Yes"))
+        case "false":
+            hardwareCategory.append(DeviceSpec(name:"Headphone jack", value:"No"))
+        default:
+            break;
+        }
+        if !usb.isEmpty{hardwareCategory.append(DeviceSpec(name:"USB", value:usb))}
+        if !simType.isEmpty{hardwareCategory.append(DeviceSpec(name:"Sim type", value:simType))}
+        if !cardSlot.isEmpty{hardwareCategory.append(DeviceSpec(name:"Card slot", value:cardSlot))}
+        if !hardwareCategory.isEmpty{categories.append(DeviceSpecCategory(name:"Hardware", DeviceSpecs:hardwareCategory))}
+        //Software category
+        var softwareCategory:[DeviceSpec] = []
+        if !os.isEmpty{softwareCategory.append(DeviceSpec(name:"Operating system", value:os))}
+        if !hardwareCategory.isEmpty{categories.append(DeviceSpecCategory(name:"Software", DeviceSpecs:softwareCategory))}
+        
         return categories
     }
 }
