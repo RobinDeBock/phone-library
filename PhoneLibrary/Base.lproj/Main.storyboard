@@ -19,10 +19,10 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" distribution="fillProportionally" alignment="center" spacing="7" translatesAutoresizingMaskIntoConstraints="NO" id="p67-Id-r29">
-                                <rect key="frame" x="70" y="278.5" width="235" height="110"/>
+                                <rect key="frame" x="56.5" y="278.5" width="262" height="110"/>
                                 <subviews>
-                                    <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Brand name or device name" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="VHf-II-xFz">
-                                        <rect key="frame" x="0.0" y="0.0" width="235" height="30"/>
+                                    <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Brand name or device name" minimumFontSize="17" clearButtonMode="always" translatesAutoresizingMaskIntoConstraints="NO" id="VHf-II-xFz">
+                                        <rect key="frame" x="0.0" y="0.0" width="262" height="30"/>
                                         <constraints>
                                             <constraint firstAttribute="width" relation="greaterThanOrEqual" priority="750" constant="200" id="fYn-lh-UVV"/>
                                         </constraints>
@@ -34,7 +34,7 @@
                                         </connections>
                                     </textField>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="5Qx-3s-4nS">
-                                        <rect key="frame" x="0.0" y="37" width="235" height="33"/>
+                                        <rect key="frame" x="0.0" y="37" width="262" height="33"/>
                                         <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                         <state key="normal" title="Search by brand"/>
                                         <connections>
@@ -42,7 +42,7 @@
                                         </connections>
                                     </button>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="9xF-92-qUF">
-                                        <rect key="frame" x="0.0" y="77" width="235" height="33"/>
+                                        <rect key="frame" x="0.0" y="77" width="262" height="33"/>
                                         <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                         <state key="normal" title="Search by name"/>
                                         <connections>

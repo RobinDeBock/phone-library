@@ -21,8 +21,7 @@ class SearchViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        //Show clear button on text field
-        searchValueTextField.clearButtonMode = UITextField.ViewMode.always
+        
         //Layout of search buttons configuration
         searchByBrandButton.tintColor = .white
         searchByBrandButton.layer.cornerRadius = 5.0
@@ -56,15 +55,16 @@ class SearchViewController: UIViewController {
     
     private func updateSearchButtonStates(){
         let searchValue = (searchValueTextField.text ?? "").trimmingCharacters(in: .whitespacesAndNewlines)
-        if searchValue.isEmpty {
-            searchByBrandButton.backgroundColor = .lightGray
-            searchByNameButton.backgroundColor = .lightGray
-        }else{
+        let isValidInput:Bool = !searchValue.isEmpty && searchValue.count < 20
+        if isValidInput {
             searchByBrandButton.backgroundColor = .blue
             searchByNameButton.backgroundColor = .blue
+        }else{
+            searchByBrandButton.backgroundColor = .lightGray
+            searchByNameButton.backgroundColor = .lightGray
         }
-        searchByBrandButton.isEnabled = !searchValue.isEmpty
-        searchByNameButton.isEnabled = !searchValue.isEmpty
+        searchByBrandButton.isEnabled = isValidInput
+        searchByNameButton.isEnabled = isValidInput
     }
     
     @IBAction func searchByBrandButtonClicked(_ sender: Any) {
