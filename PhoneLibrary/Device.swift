@@ -138,7 +138,9 @@ class Device:Object, Decodable {
 //Main Specs
 extension Device{
  
-    enum MainSpecNames:String{
+    //Not using coding keys, so we can split fields into multiple ones (e.g. batteryShort and the full battery text)
+    //Also the images are named after these enum values
+    enum MainSpecIdentifier:String{
         case cpu
         case screenResolution
         case ram
@@ -148,14 +150,14 @@ extension Device{
     }
     //Define main specs with enum value so caller can handle it accordingly
     //Only not-empty values are added
-    func mainSpecs() -> [MainSpecNames:DeviceSpec]{
-        var result:[MainSpecNames:DeviceSpec] = [:]
-        if !cpu.isEmpty {result[.cpu] = DeviceSpec(name: "CPU", value:cpu)}
-        if !screenResolution.isEmpty {result[.screenResolution] = DeviceSpec(name: "Resolution", value:screenResolution)}
-        if !ram.isEmpty {result[.ram] = DeviceSpec(name: "RAM", value: ram)}
-        if !batteryShort.isEmpty {result[.battery] = DeviceSpec(name: "Battery", value: batteryShort)}
-        if !rearCamera.isEmpty {result[.rearCamera] = DeviceSpec(name: "Rear camera", value: rearCamera)}
-        if !frontCamera.isEmpty {result[.frontCamera] = DeviceSpec(name: "Front camera", value: frontCamera)}
+    func mainSpecs() -> [MainDeviceSpec]{
+        var result:[MainDeviceSpec] = []
+        if !cpu.isEmpty {result.append(MainDeviceSpec(identifier: .cpu, name: "CPU", value:cpu))}
+        if !screenResolution.isEmpty {result.append(MainDeviceSpec(identifier: .screenResolution, name: "Resolution", value:screenResolution))}
+        if !ram.isEmpty {result.append(MainDeviceSpec(identifier: .ram, name: "RAM", value: ram))}
+        if !batteryShort.isEmpty {result.append(MainDeviceSpec(identifier: .battery, name: "Battery", value: batteryShort))}
+        if !rearCamera.isEmpty {result.append(MainDeviceSpec(identifier: .rearCamera, name: "Rear camera", value: rearCamera))}
+        if !frontCamera.isEmpty {result.append(MainDeviceSpec(identifier: .frontCamera, name: "Front camera", value: frontCamera))}
         return result
     }
     

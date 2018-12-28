@@ -20,7 +20,7 @@ class DetailViewController: UIViewController{
     var device:Device!
     
     //Mainspecs for collection view
-    var mainSpecs:[Device.MainSpecNames:DeviceSpec] = [:]
+    var mainSpecs:[MainDeviceSpec] = []
     
     //Additional specs for the tableview
     var additionalSpecs:[String:[DeviceSpec]] = [:]
@@ -35,14 +35,13 @@ class DetailViewController: UIViewController{
         additionalSpecs = device.additionalSpecCategoriesAndValues()
         //Tab bar configuration
         deviceName.title = device.name
-        addToFavoritesBarButtonItem.customView = addToFavoritesBarButtonItem.value(forKey: "view") as? UIView
         //CollectionView configuration
         calculateCollectionViewItemSize()
         //TableView configuration
         tableView.cellLayoutMarginsFollowReadableWidth = true
     }
     
-    //Update icon to alert user if he can save
+    //Update icon color to alert user if he can add to favorites
     private func updateAddToFavoritesButton(isFavorite:Bool){
         if isFavorite{
             addToFavoritesBarButtonItem.tintColor = UIColor.blue
@@ -104,11 +103,10 @@ extension DetailViewController: UICollectionViewDataSource{
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "collectionViewSpecCell", for: indexPath) as! CollectionViewSpecCell
         //Set image
-        let mainSpecKey = Array(mainSpecs.keys)[indexPath.row]
-        let imageName:String = mainSpecKey.rawValue + "_icon"
+        let mainSpec = mainSpecs[indexPath.row]
+        let imageName:String = mainSpec.identifier.rawValue + "_icon"
         cell.imageView.image = UIImage(named: imageName)
         //Set label text
-        let mainSpec : DeviceSpec = mainSpecs[mainSpecKey]!
         cell.titleLabel.text = mainSpec.name
         cell.valueLabel.text = mainSpec.value
         return cell
