@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import DZNEmptyDataSet
 
 class DevicesListTableViewController:UITableViewController {
 
@@ -14,6 +15,7 @@ class DevicesListTableViewController:UITableViewController {
     var searchType:SearchType?
     
     var devices:[Device]=[]
+    private var emptyListPlaceHolderIsShown:Bool = false
     
     enum SearchType {
         case SearchByBrand
@@ -23,12 +25,19 @@ class DevicesListTableViewController:UITableViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        //Hide the seperators
+        self.tableView.separatorStyle = .none
+        
+        //Empty tableview placeholder
+        self.tableView.emptyDataSetSource = self
+        self.tableView.emptyDataSetDelegate = self
+        
         loadDevices()
     }
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        tableView.reloadData()
+        //tableView.reloadData()
     }
     
     //Fetch the phones depending on the search type
@@ -51,7 +60,7 @@ class DevicesListTableViewController:UITableViewController {
     DispatchQueue.main.async {
         UIApplication.shared.isNetworkActivityIndicatorVisible = false
 
-        guard let fetchedPhones = fetchedPhones else{
+        guard let fetchedDevices = fetchedPhones else{
             //if list is nil, an error occured
             let alertController = UIAlertController(title: "Something went wrong", message: "An error occured when fetching the devices, please try again.", preferredStyle: UIAlertController.Style.alert)
             alertController.addAction(UIAlertAction(title: "Go Back", style: UIAlertAction.Style.default,handler: {action in
@@ -62,13 +71,20 @@ class DevicesListTableViewController:UITableViewController {
             return
         }
         
-        //Load devices
-        self.devices = fetchedPhones
-        self.tableView.reloadData()
+        //Assign devices
+        self.devices = fetchedDevices
         
-        //Showing a message when no devices are present
-        if fetchedPhones.isEmpty{
-            //TODO:show message
+        //If device list is empty, default placeholder will be shown
+        if !self.devices.isEmpty{
+            //Hide the empty tableview placeholder
+            self.emptyListPlaceHolderIsShown = false
+            self.tableView.separatorStyle = .singleLine
+            self.tableView.reloadData()
+        }else{
+            //The empty tableview placeholder may be shown when necessary
+            self.emptyListPlaceHolderIsShown = true
+            self.tableView.separatorStyle = .none
+            self.tableView.reloadEmptyDataSet()
         }
         }
         
@@ -111,4 +127,21 @@ extension DevicesListTableViewController{
             fatalError("Unknown segue")
         }
     }
+}
+
+extension DevicesListTableViewController: DZNEmptyDataSetSource, DZNEmptyDataSetDelegate{
+    func title(forEmptyDataSet scrollView: UIScrollView!) -> NSAttributedString! {
+        let attributes = [NSAttributedString.Key.font:UIFont.systemFont(ofSize: 30, weight: .heavy)]
+        return NSAttributedString(string: "Nothing found", attributes:attributes)
+    }
+    
+    func description(forEmptyDataSet scrollView: UIScrollView!) -> NSAttributedString! {
+        let attributes = [NSAttributedString.Key.font:UIFont.systemFont(ofSize: 20)]
+        return NSAttributedString(string: "Try another device or brand name", attributes:attributes)
+    }
+    
+    func emptyDataSetShouldDisplay(_ scrollView: UIScrollView!) -> Bool {
+        return emptyListPlaceHolderIsShown
+    }
+    
 }
