@@ -39,7 +39,7 @@ class SavedDevicesListTableViewController: UITableViewController {
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "SavedDeviceCell", for: indexPath)
         let phone = DeviceRealmController.instance.devices[indexPath.row]
-        cell.textLabel?.text = phone.description
+        cell.textLabel?.text = phone.name
         return cell
     }
     

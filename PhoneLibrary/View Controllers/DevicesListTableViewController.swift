@@ -26,6 +26,11 @@ class DevicesListTableViewController:UITableViewController {
         loadDevices()
     }
     
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        tableView.reloadData()
+    }
+    
     //Fetch the phones depending on the search type
     private func loadDevices(){
         guard let searchValue = searchValue, let searchType = searchType else {return}
@@ -88,7 +93,8 @@ extension DevicesListTableViewController{
         let cell = tableView.dequeueReusableCell(withIdentifier: "DeviceCell", for: indexPath)
         //get the right phone
         let device = devices[indexPath.row]
-        cell.textLabel?.text = device.description
+        cell.textLabel?.text = device.name
+        cell.detailTextLabel?.text = DeviceRealmController.instance.isFavoritised(device: device) ? "⭐️" : ""
         return cell
     }
     
