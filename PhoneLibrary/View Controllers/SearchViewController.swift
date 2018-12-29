@@ -68,14 +68,18 @@ class SearchViewController: UIViewController {
     }
     
     @IBAction func searchByBrandButtonClicked(_ sender: Any) {
-        performSegue(withIdentifier: PropertyKeys.searchByBrandSegue, sender: self)
+        performSearch(withIdentifier: PropertyKeys.searchByBrandSegue)
     }
     
     
     @IBAction func searchByModelButtonClicked(_ sender: Any) {
-        performSegue(withIdentifier: PropertyKeys.searchByNameSegue, sender: self)
+        performSearch(withIdentifier: PropertyKeys.searchByNameSegue)
     }
     
+    private func performSearch(withIdentifier segue:String){
+        
+        performSegue(withIdentifier: segue, sender: self)
+    }
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         guard let devicesListTableViewController = segue.destination as? DevicesListTableViewController else{return}

@@ -8,7 +8,7 @@
 
 import UIKit
 
-class DevicesListTableViewController: UITableViewController {
+class DevicesListTableViewController:UITableViewController {
 
     var searchValue: String?
     var searchType:SearchType?
@@ -33,12 +33,10 @@ class DevicesListTableViewController: UITableViewController {
         switch searchType {
         case SearchType.SearchByBrand:
                 DeviceNetworkController.instance.fetchDevicesByBrand(searchValue){fetchedPhones in
-                    UIApplication.shared.isNetworkActivityIndicatorVisible = false
                     self.updateUI(with: fetchedPhones)
             }
         case SearchType.SearchByName:
             DeviceNetworkController.instance.fetchDevicesByName(searchValue){fetchedPhones in
-                    UIApplication.shared.isNetworkActivityIndicatorVisible = false
                   self.updateUI(with: fetchedPhones)
                 }
             }
@@ -47,29 +45,41 @@ class DevicesListTableViewController: UITableViewController {
     
     private func updateUI(with fetchedPhones:[Device]?){
     DispatchQueue.main.async {
+        UIApplication.shared.isNetworkActivityIndicatorVisible = false
+
         guard let fetchedPhones = fetchedPhones else{
             //if list is nil, an error occured
-            self.showAlert(with: "Devices could not be fetched")
+            let alertController = UIAlertController(title: "Devices not loaded", message: "An error occured when fetching the devices, please try again.", preferredStyle: UIAlertController.Style.alert)
+            alertController.addAction(UIAlertAction(title: "Go Back", style: UIAlertAction.Style.default,handler: nil))
+            self.present(alertController, animated: true, completion: nil)
             return
         }
-            self.devices = fetchedPhones
-            self.tableView.reloadData()
+        
+        //Load devices
+        self.devices = fetchedPhones
+        self.tableView.reloadData()
+        
+        //Showing a message when no devices are present
+        if fetchedPhones.isEmpty{
+            //TODO:show message
+        }
         }
     }
     
-    private func showAlert(with message:String){
-        let alertController = UIAlertController(title: "iOScreator", message: "Hello, world!", preferredStyle: UIAlertController.Style.alert)
-        alertController.addAction(UIAlertAction(title: "Dismiss", style: UIAlertAction.Style.default,handler: nil))
+    private func showAlert(title:String, message:String){
+        let alertController = UIAlertController(title: title, message: message, preferredStyle: UIAlertController.Style.alert)
+        alertController.addAction(UIAlertAction(title: "Go Back", style: UIAlertAction.Style.default,handler: nil))
         
         self.present(alertController, animated: true, completion: nil)
     }
 
-    //Table view data source
+}
 
+extension DevicesListTableViewController{
     override func numberOfSections(in tableView: UITableView) -> Int {
         return 1
     }
-
+    
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         if section == 0 {
             return devices.count
@@ -77,7 +87,6 @@ class DevicesListTableViewController: UITableViewController {
             return 0
         }
     }
-
     
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "DeviceCell", for: indexPath)
@@ -100,5 +109,4 @@ class DevicesListTableViewController: UITableViewController {
             fatalError("Unknown segue")
         }
     }
-
 }
