@@ -77,8 +77,14 @@ class SearchViewController: UIViewController {
     }
     
     private func performSearch(withIdentifier segue:String){
-        
-        performSegue(withIdentifier: segue, sender: self)
+        if DeviceNetworkController.instance.isConnected{
+            performSegue(withIdentifier: segue, sender: self)
+        }else{
+            //No internet connection, show alert
+            let alertController = UIAlertController(title: "No internet connection", message: "Make sure your device is connected to the internet.", preferredStyle: UIAlertController.Style.alert)
+            alertController.addAction(UIAlertAction(title: "Dismiss", style: UIAlertAction.Style.default,handler: nil))
+            self.present(alertController, animated: true, completion: nil)
+        }
     }
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
