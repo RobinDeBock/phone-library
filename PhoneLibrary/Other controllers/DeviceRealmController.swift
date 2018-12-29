@@ -24,6 +24,8 @@ class DeviceRealmController{
 
     private var realm: Realm?
     
+    static let devicesUpdatedNotification = Notification.Name("DeviceRealmController.realmDevicesUpdated")
+    
     private init(){
         //If something goes wrong in initialisation, the CRUD functions will handle it themselves
         realm = try? Realm()
@@ -52,17 +54,21 @@ class DeviceRealmController{
             guard let realm = realm else{
                 print("ERROR: Realm was not instantiated")
                 return false}
+            
             //Check if device is already saved
             if realmDevices.first(where: {$0.name == device.name}) != nil {
                 print("ERROR: Device already exists in Realm")
                 return false}
+            
+            //Storing a copy of our object so it can be deleted and re-added
+            let copy = device.copy() as! Device
             try realm.write{
-                //Storing a copy of our object so it can be deleted and re-added
-                let copy = device.copy() as! Device
                 realm.add(copy)
-                print("Saved to Realm: " + device.description)
             }
-             return true
+            print("Saved to Realm: " + device.description)
+            //Notify observers
+            NotificationCenter.default.post(name: DeviceRealmController.devicesUpdatedNotification, object: nil)
+            return true
         }catch let error{
             print(error.localizedDescription)
             return false
@@ -84,10 +90,12 @@ class DeviceRealmController{
                 print("ERROR: could not find device: '\(device.description)' in realm list")
                 return false
             }
+            print("Deleting from Realm: " + realmDevice.description)
             try realm.write{
-                print("Deleting from Realm: " + realmDevice.description)
                 realm.delete(realmDevice)
             }
+            //Notify observers
+            NotificationCenter.default.post(name: DeviceRealmController.devicesUpdatedNotification, object: nil)
             return true
         }catch let error{
             print(error.localizedDescription)

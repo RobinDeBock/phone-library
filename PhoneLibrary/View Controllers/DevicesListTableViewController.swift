@@ -33,11 +33,13 @@ class DevicesListTableViewController:UITableViewController{
         self.tableView.emptyDataSetDelegate = self
         
         loadDevices()
+        //Add observer for the devices list
+        NotificationCenter.default.addObserver(self, selector: #selector(reload), name: DeviceRealmController.devicesUpdatedNotification, object: nil)
     }
     
-    override func viewWillAppear(_ animated: Bool) {
-        super.viewWillAppear(animated)
-        //tableView.reloadData()
+    //Using a seperate function to reload the tableview
+    @objc private func reload(){
+        tableView.reloadData()
     }
     
     //Fetch the phones depending on the search type
@@ -59,9 +61,9 @@ class DevicesListTableViewController:UITableViewController{
     private func updateUI(with fetchedPhones:[Device]?){
     DispatchQueue.main.async {
         UIApplication.shared.isNetworkActivityIndicatorVisible = false
-
         guard let fetchedDevices = fetchedPhones else{
             //if list is nil, an error occured
+            //Show alert
             let alertController = UIAlertController(title: "Something went wrong", message: "An error occured when fetching the devices, please try again.", preferredStyle: UIAlertController.Style.alert)
             alertController.addAction(UIAlertAction(title: "Go Back", style: UIAlertAction.Style.default,handler: {action in
                 //Go back to SearchViewController
@@ -79,11 +81,13 @@ class DevicesListTableViewController:UITableViewController{
             //Hide the empty tableview placeholder
             self.emptyListPlaceHolderIsShown = false
             self.tableView.separatorStyle = .singleLine
+            //Reload the table and hide the placeholder automatically
             self.tableView.reloadData()
         }else{
             //The empty tableview placeholder may be shown when necessary
             self.emptyListPlaceHolderIsShown = true
             self.tableView.separatorStyle = .none
+            //Make the placeholder check if it should be shown (it should)
             self.tableView.reloadEmptyDataSet()
         }
         }
