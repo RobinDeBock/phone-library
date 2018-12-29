@@ -52,6 +52,10 @@ class DeviceRealmController{
             guard let realm = realm else{
                 print("ERROR: Realm was not instantiated")
                 return false}
+            //Check if device is already saved
+            if realmDevices.first(where: {$0.name == device.name}) != nil {
+                print("ERROR: Device already exists in Realm")
+                return false}
             try realm.write{
                 //Storing a copy of our object so it can be deleted and re-added
                 let copy = device.copy() as! Device
