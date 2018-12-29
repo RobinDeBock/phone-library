@@ -1,5 +1,6 @@
 PODS:
   - Alamofire (4.8.0)
+  - DZNEmptyDataSet (1.8.1)
   - Realm (3.13.0):
     - Realm/Headers (= 3.13.0)
   - Realm/Headers (3.13.0)
@@ -8,19 +9,22 @@ PODS:
 
 DEPENDENCIES:
   - Alamofire
+  - DZNEmptyDataSet
   - RealmSwift
 
 SPEC REPOS:
   https://github.com/cocoapods/specs.git:
     - Alamofire
+    - DZNEmptyDataSet
     - Realm
     - RealmSwift
 
 SPEC CHECKSUMS:
   Alamofire: 3ec537f71edc9804815215393ae2b1a8ea33a844
+  DZNEmptyDataSet: 9525833b9e68ac21c30253e1d3d7076cc828eaa7
   Realm: 5edd2ee65406aef591a4f9895de5a3440e51b3d8
   RealmSwift: be5ebc7930e37cd3376b41cec7f21984528aaa16
 
-PODFILE CHECKSUM: 377de8cf9aeb128abfe2a3f8ff88d45df0824eb0
+PODFILE CHECKSUM: f76edf56a128f43b09b60fed8eaa977f648ad5a7
 
 COCOAPODS: 1.5.3

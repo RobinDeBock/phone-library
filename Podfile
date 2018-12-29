@@ -8,5 +8,6 @@ target 'PhoneLibrary' do
   # Pods for PhoneLibrary
 	pod 'RealmSwift'
 	pod 'Alamofire'
+    pod 'DZNEmptyDataSet'
 
 end
