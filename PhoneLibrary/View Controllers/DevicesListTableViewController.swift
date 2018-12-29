@@ -9,7 +9,7 @@
 import UIKit
 import DZNEmptyDataSet
 
-class DevicesListTableViewController:UITableViewController {
+class DevicesListTableViewController:UITableViewController{
 
     var searchValue: String?
     var searchType:SearchType?
@@ -92,6 +92,7 @@ class DevicesListTableViewController:UITableViewController {
 
 }
 
+//Table view
 extension DevicesListTableViewController{
     override func numberOfSections(in tableView: UITableView) -> Int {
         return 1
@@ -129,6 +130,7 @@ extension DevicesListTableViewController{
     }
 }
 
+//Empty dataset
 extension DevicesListTableViewController: DZNEmptyDataSetSource, DZNEmptyDataSetDelegate{
     func title(forEmptyDataSet scrollView: UIScrollView!) -> NSAttributedString! {
         let attributes = [NSAttributedString.Key.font:UIFont.systemFont(ofSize: 30, weight: .heavy)]
