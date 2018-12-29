@@ -249,8 +249,8 @@
                         <viewLayoutGuide key="safeArea" id="c19-hf-IqT"/>
                     </view>
                     <navigationItem key="navigationItem" largeTitleDisplayMode="never" id="aiF-JS-lH2">
-                        <barButtonItem key="rightBarButtonItem" title="Item" image="addToFavorites_icon" id="Hm3-d9-KyU">
-                            <inset key="imageInsets" minX="0.0" minY="0.0" maxX="0.0" maxY="5"/>
+                        <barButtonItem key="rightBarButtonItem" title="⭐️" image="addToFavorites_icon" id="Hm3-d9-KyU">
+                            <inset key="imageInsets" minX="0.0" minY="0.0" maxX="3" maxY="1"/>
                             <connections>
                                 <action selector="addToFavoritesButtonTapped:" destination="BzC-Ua-MZD" id="IHi-fh-r1x"/>
                             </connections>

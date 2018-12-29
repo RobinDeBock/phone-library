@@ -41,15 +41,6 @@ class DetailViewController: UIViewController{
         tableView.cellLayoutMarginsFollowReadableWidth = true
     }
     
-    //Update icon color to alert user if he can add to favorites
-    private func updateAddToFavoritesButton(isFavorite:Bool){
-        if isFavorite{
-            addToFavoritesBarButtonItem.tintColor = UIColor.blue
-        }else{
-            addToFavoritesBarButtonItem.tintColor = .lightGray
-        }
-    }
-    
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         let isFavoritised = DeviceRealmController.instance.isFavoritised(device: device)
@@ -63,20 +54,39 @@ class DetailViewController: UIViewController{
             if DeviceRealmController.instance.remove(favorite: device){
                 updateAddToFavoritesButton(isFavorite: false)
             }else{
-                //show alert
+                //Error
+                let alertController = UIAlertController(title: "Something went wrong", message: "An error occured when trying to remove the device from favorites. Please try again", preferredStyle: UIAlertController.Style.alert)
+                alertController.addAction(UIAlertAction(title: "Dismiss", style: UIAlertAction.Style.default,handler: nil))
+                self.present(alertController, animated: true, completion: nil)
             }
         case false:
             //Add to favorites
             if DeviceRealmController.instance.add(favorite: device){
-                UIView.animate(withDuration: 0.3) {
-                    let view = self.addToFavoritesBarButtonItem.value(forKey: "view") as? UIView
-                    view?.transform = CGAffineTransform(scaleX: 4.0, y: 4.0)
-                    view?.transform = CGAffineTransform(scaleX: 1.0, y: 1.0)
-                }
                 updateAddToFavoritesButton(isFavorite: true)
             }else{
-                //show alert
+                //Error
+                let alertController = UIAlertController(title: "Something went wrong", message: "An error occured when trying to remove the device from favorites. Please try again", preferredStyle: UIAlertController.Style.alert)
+                alertController.addAction(UIAlertAction(title: "Dismiss", style: UIAlertAction.Style.default,handler: nil))
+                self.present(alertController, animated: true, completion: nil)
             }
+        }
+    }
+    
+    //Update icon color to alert user if he can add to favorites
+    private func updateAddToFavoritesButton(isFavorite:Bool){
+        if isFavorite{
+            UIView.animate(withDuration: 0.3) {
+                let view = self.addToFavoritesBarButtonItem.value(forKey: "view") as? UIView
+                view?.transform = CGAffineTransform(scaleX: 4.0, y: 4.0)
+                view?.transform = CGAffineTransform(scaleX: 1.0, y: 1.0)
+            }
+            addToFavoritesBarButtonItem.image = nil
+            addToFavoritesBarButtonItem.title = "⭐️"
+            addToFavoritesBarButtonItem.setTitleTextAttributes([ NSAttributedString.Key.font: UIFont.systemFont(ofSize: 25)], for: UIControl.State.normal)
+        }else{
+            addToFavoritesBarButtonItem.image = UIImage(named: "addToFavorites_icon")
+            addToFavoritesBarButtonItem.tintColor = .lightGray
+            addToFavoritesBarButtonItem.title = nil
         }
     }
     
