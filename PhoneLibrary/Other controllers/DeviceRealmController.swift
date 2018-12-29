@@ -24,7 +24,7 @@ class DeviceRealmController{
 
     private var realm: Realm?
     
-    static let devicesUpdatedNotification = Notification.Name("DeviceRealmController.realmDevicesUpdated")
+    static let devicesUpdatedNotification = Notification.Name("DeviceRealmController.devicesUpdated")
     
     private init(){
         //If something goes wrong in initialisation, the CRUD functions will handle it themselves

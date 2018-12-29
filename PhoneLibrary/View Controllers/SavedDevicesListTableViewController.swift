@@ -14,18 +14,22 @@ class SavedDevicesListTableViewController: UITableViewController {
         super.viewDidLoad()
     }
     
-    override func viewDidAppear(_ animated: Bool) {
-        super.viewDidAppear(animated)
-        self.tableView.reloadData()
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        //Can't be put on an observer, because if we delete rows ourselves, we want the animation to play
+        //With the observer, the table is refreshed before the row can be deleted, so the index is incorrect
+        //Could be fixed if we check each time the observer is called if this is the current screen, but why bother, this is much cleaner
+        tableView.reloadData()
     }
 
-    // MARK: - Table view data source
+}
 
+extension SavedDevicesListTableViewController{
     override func numberOfSections(in tableView: UITableView) -> Int {
         // #warning Incomplete implementation, return the number of sections
         return 1
     }
-
+    
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         // #warning Incomplete implementation, return the number of rows
         if section == 0 {
@@ -34,7 +38,6 @@ class SavedDevicesListTableViewController: UITableViewController {
             return 0
         }
     }
-
     
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "SavedDeviceCell", for: indexPath)
@@ -44,9 +47,9 @@ class SavedDevicesListTableViewController: UITableViewController {
     }
     
     override func tableView(_ tableView: UITableView, editingStyleForRowAt indexPath: IndexPath) -> UITableViewCell.EditingStyle {
-       return UITableViewCell.EditingStyle.delete
+        return UITableViewCell.EditingStyle.delete
     }
-
+    
     override func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
         if editingStyle == .delete {
             // Delete the row from the data source
@@ -55,5 +58,4 @@ class SavedDevicesListTableViewController: UITableViewController {
             }
         }
     }
-
 }
