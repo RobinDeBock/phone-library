@@ -16,6 +16,8 @@ class SavedDevicesListTableViewController: UITableViewController {
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
+        //Reset the counter for new devices (so also the badge)
+        DeviceRealmController.instance.resetNewDevicesCounter()
         //Can't be put on an observer, because if we delete rows ourselves, we want the animation to play
         //With the observer, the table is refreshed before the row can be deleted, so the index is incorrect
         //Could be fixed if we check each time the observer is called if this is the current screen, but why bother, this is much cleaner
