@@ -13,7 +13,15 @@ class DeviceRealmController{
     //Singleton pattern
     static var instance:DeviceRealmController = DeviceRealmController()
     
-    var devices: Results<Device>!
+    private var realmDevices: Results<Device>!
+    
+    //Public readonly property to handle nil array of realmDevices
+    var devices:[Device]{
+        get{
+            return realmDevices != nil ? Array(realmDevices) : []
+        }
+    }
+
     private var realm: Realm?
     
     private init(){
@@ -23,8 +31,8 @@ class DeviceRealmController{
         //location of the local DB
         print("Realm file location: \(realm.configuration.fileURL!)")
         //load stored devices
-        if let realmDevices = try? Realm().objects(Device.self){
-            devices = realmDevices
+        if let fetchedRealmDevices = try? Realm().objects(Device.self){
+            realmDevices = fetchedRealmDevices
         }else{
             //empty out all saved devices
             try! realm.write {
@@ -34,7 +42,9 @@ class DeviceRealmController{
     }
     
     func isFavoritised(device:Device) -> Bool{
-       return devices.first(where: {$0.name == device.name}) != nil
+        //In case local Realm database was emptied
+        guard realmDevices != nil, !realmDevices.isEmpty else{return false}
+        return realmDevices.first(where: {$0.name == device.name}) != nil
     }
     
     func add(favorite device:Device) -> Bool{
@@ -56,8 +66,8 @@ class DeviceRealmController{
     }
     
     func removeByIndex(index:Int) -> Bool{
-        guard index >= 0 && index < devices.count else {return false}
-        return remove(favorite: devices[index])
+        guard index >= 0 && index < realmDevices.count else {return false}
+        return remove(favorite: realmDevices[index])
     }
     
     func remove(favorite device:Device) -> Bool{
@@ -66,7 +76,7 @@ class DeviceRealmController{
                 print("ERROR: Realm was not instantiated")
                 return false}
             //find device in realm list
-            guard let realmDevice = devices.first(where: {$0.name == device.name}) else{
+            guard let realmDevice = realmDevices.first(where: {$0.name == device.name}) else{
                 print("ERROR: could not find device: '\(device.description)' in realm list")
                 return false
             }
