@@ -42,15 +42,17 @@ class DevicesListTableViewController:UITableViewController {
             }
         }
     
-    
     private func updateUI(with fetchedPhones:[Device]?){
     DispatchQueue.main.async {
         UIApplication.shared.isNetworkActivityIndicatorVisible = false
 
         guard let fetchedPhones = fetchedPhones else{
             //if list is nil, an error occured
-            let alertController = UIAlertController(title: "Devices not loaded", message: "An error occured when fetching the devices, please try again.", preferredStyle: UIAlertController.Style.alert)
-            alertController.addAction(UIAlertAction(title: "Go Back", style: UIAlertAction.Style.default,handler: nil))
+            let alertController = UIAlertController(title: "Something went wrong", message: "An error occured when fetching the devices, please try again.", preferredStyle: UIAlertController.Style.alert)
+            alertController.addAction(UIAlertAction(title: "Go Back", style: UIAlertAction.Style.default,handler: {action in
+                //Go back to SearchViewController
+                self.navigationController?.popViewController(animated: true)
+            }))
             self.present(alertController, animated: true, completion: nil)
             return
         }
@@ -64,13 +66,7 @@ class DevicesListTableViewController:UITableViewController {
             //TODO:show message
         }
         }
-    }
-    
-    private func showAlert(title:String, message:String){
-        let alertController = UIAlertController(title: title, message: message, preferredStyle: UIAlertController.Style.alert)
-        alertController.addAction(UIAlertAction(title: "Go Back", style: UIAlertAction.Style.default,handler: nil))
         
-        self.present(alertController, animated: true, completion: nil)
     }
 
 }
