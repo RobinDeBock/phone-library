@@ -103,10 +103,6 @@
                         </connections>
                     </tableView>
                     <navigationItem key="navigationItem" title="Devices" id="Z1e-sl-iVf"/>
-                    <refreshControl key="refreshControl" opaque="NO" multipleTouchEnabled="YES" contentMode="center" insetsLayoutMarginsFromSafeArea="NO" enabled="NO" contentHorizontalAlignment="center" contentVerticalAlignment="center" id="lTX-1L-Fh5">
-                        <rect key="frame" x="0.0" y="0.0" width="1000" height="1000"/>
-                        <autoresizingMask key="autoresizingMask"/>
-                    </refreshControl>
                     <connections>
                         <segue destination="BzC-Ua-MZD" kind="show" identifier="showDetail" id="m3k-Us-JTa"/>
                     </connections>
@@ -236,7 +232,7 @@
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="c19-hf-IqT"/>
                     </view>
-                    <navigationItem key="navigationItem" id="aiF-JS-lH2">
+                    <navigationItem key="navigationItem" largeTitleDisplayMode="never" id="aiF-JS-lH2">
                         <barButtonItem key="rightBarButtonItem" title="Item" image="addToFavorites_icon" id="Hm3-d9-KyU">
                             <inset key="imageInsets" minX="0.0" minY="0.0" maxX="0.0" maxY="5"/>
                             <connections>
@@ -256,7 +252,7 @@
             </objects>
             <point key="canvasLocation" x="2997.5999999999999" y="295.50224887556226"/>
         </scene>
-        <!--Saved Devices List Table View Controller-->
+        <!--Favorites-->
         <scene sceneID="xNP-7E-rFF">
             <objects>
                 <tableViewController id="7eP-nc-s45" customClass="SavedDevicesListTableViewController" customModule="PhoneLibrary" customModuleProvider="target" sceneMemberID="viewController">
@@ -279,7 +275,7 @@
                             <outlet property="delegate" destination="7eP-nc-s45" id="tRc-sZ-wwU"/>
                         </connections>
                     </tableView>
-                    <navigationItem key="navigationItem" id="zdP-3r-eTm"/>
+                    <navigationItem key="navigationItem" title="Favorites" id="zdP-3r-eTm"/>
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Q99-lf-K6f" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
@@ -314,8 +310,8 @@
                 <navigationController title="Favorites" automaticallyAdjustsScrollViewInsets="NO" id="WcZ-Fz-CTh" sceneMemberID="viewController">
                     <tabBarItem key="tabBarItem" systemItem="favorites" id="2dK-Uw-8K3"/>
                     <toolbarItems/>
-                    <navigationBar key="navigationBar" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" id="9dp-mW-TNH">
-                        <rect key="frame" x="0.0" y="20" width="375" height="44"/>
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" largeTitles="YES" id="9dp-mW-TNH">
+                        <rect key="frame" x="0.0" y="20" width="375" height="96"/>
                         <autoresizingMask key="autoresizingMask"/>
                     </navigationBar>
                     <nil name="viewControllers"/>
@@ -336,8 +332,8 @@
                 <navigationController automaticallyAdjustsScrollViewInsets="NO" id="rfm-Lk-Mfd" sceneMemberID="viewController">
                     <tabBarItem key="tabBarItem" systemItem="search" id="gVK-pL-apN"/>
                     <toolbarItems/>
-                    <navigationBar key="navigationBar" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" id="XSb-ah-hlG">
-                        <rect key="frame" x="0.0" y="20" width="375" height="44"/>
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" largeTitles="YES" id="XSb-ah-hlG">
+                        <rect key="frame" x="0.0" y="20" width="375" height="96"/>
                         <autoresizingMask key="autoresizingMask"/>
                     </navigationBar>
                     <nil name="viewControllers"/>

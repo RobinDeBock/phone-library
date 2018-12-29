@@ -33,10 +33,12 @@ class DevicesListTableViewController: UITableViewController {
         switch searchType {
         case SearchType.SearchByBrand:
                 DeviceNetworkController.instance.fetchDevicesByBrand(searchValue){fetchedPhones in
+                    UIApplication.shared.isNetworkActivityIndicatorVisible = false
                     self.updateUI(with: fetchedPhones)
             }
         case SearchType.SearchByName:
             DeviceNetworkController.instance.fetchDevicesByName(searchValue){fetchedPhones in
+                    UIApplication.shared.isNetworkActivityIndicatorVisible = false
                   self.updateUI(with: fetchedPhones)
                 }
             }
@@ -45,14 +47,21 @@ class DevicesListTableViewController: UITableViewController {
     
     private func updateUI(with fetchedPhones:[Device]?){
     DispatchQueue.main.async {
-        UIApplication.shared.isNetworkActivityIndicatorVisible = false
-        //if list is empty show warning and stuff
-        if let fetchedPhones = fetchedPhones {
-            print(fetchedPhones)
+        guard let fetchedPhones = fetchedPhones else{
+            //if list is nil, an error occured
+            self.showAlert(with: "Devices could not be fetched")
+            return
+        }
             self.devices = fetchedPhones
             self.tableView.reloadData()
-            }
         }
+    }
+    
+    private func showAlert(with message:String){
+        let alertController = UIAlertController(title: "iOScreator", message: "Hello, world!", preferredStyle: UIAlertController.Style.alert)
+        alertController.addAction(UIAlertAction(title: "Dismiss", style: UIAlertAction.Style.default,handler: nil))
+        
+        self.present(alertController, animated: true, completion: nil)
     }
 
     //Table view data source
