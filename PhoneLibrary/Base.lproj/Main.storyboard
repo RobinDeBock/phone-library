@@ -83,17 +83,33 @@
         <scene sceneID="h7e-qg-K9I">
             <objects>
                 <tableViewController id="tBf-ff-kAQ" customClass="DevicesListTableViewController" customModule="PhoneLibrary" customModuleProvider="target" sceneMemberID="viewController">
-                    <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="grouped" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="18" sectionFooterHeight="18" id="L7Y-eO-1tt">
+                    <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" id="L7Y-eO-1tt">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                        <color key="backgroundColor" cocoaTouchSystemColor="groupTableViewBackgroundColor"/>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <prototypes>
-                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="DeviceCell" id="hZH-Wh-Bng">
-                                <rect key="frame" x="0.0" y="55.5" width="375" height="44"/>
+                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" accessoryType="disclosureIndicator" indentationWidth="10" reuseIdentifier="DeviceCell" textLabel="zk0-Vk-Vnc" detailTextLabel="0WT-3R-prk" style="IBUITableViewCellStyleValue1" id="hZH-Wh-Bng">
+                                <rect key="frame" x="0.0" y="28" width="375" height="44"/>
                                 <autoresizingMask key="autoresizingMask"/>
                                 <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="hZH-Wh-Bng" id="Ne6-yT-gdG">
-                                    <rect key="frame" x="0.0" y="0.0" width="375" height="43.5"/>
+                                    <rect key="frame" x="0.0" y="0.0" width="341" height="43.5"/>
                                     <autoresizingMask key="autoresizingMask"/>
+                                    <subviews>
+                                        <label opaque="NO" multipleTouchEnabled="YES" contentMode="left" insetsLayoutMarginsFromSafeArea="NO" text="Title" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="zk0-Vk-Vnc">
+                                            <rect key="frame" x="16" y="12" width="33.5" height="20.5"/>
+                                            <autoresizingMask key="autoresizingMask"/>
+                                            <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                            <nil key="textColor"/>
+                                            <nil key="highlightedColor"/>
+                                        </label>
+                                        <label opaque="NO" multipleTouchEnabled="YES" contentMode="left" insetsLayoutMarginsFromSafeArea="NO" text="Detail" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="0WT-3R-prk">
+                                            <rect key="frame" x="296" y="12" width="44" height="20.5"/>
+                                            <autoresizingMask key="autoresizingMask"/>
+                                            <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                            <nil key="textColor"/>
+                                            <nil key="highlightedColor"/>
+                                        </label>
+                                    </subviews>
                                 </tableViewCellContentView>
                             </tableViewCell>
                         </prototypes>
@@ -103,10 +119,6 @@
                         </connections>
                     </tableView>
                     <navigationItem key="navigationItem" title="Devices" id="Z1e-sl-iVf"/>
-                    <refreshControl key="refreshControl" opaque="NO" multipleTouchEnabled="YES" contentMode="center" insetsLayoutMarginsFromSafeArea="NO" enabled="NO" contentHorizontalAlignment="center" contentVerticalAlignment="center" id="lTX-1L-Fh5">
-                        <rect key="frame" x="0.0" y="0.0" width="1000" height="1000"/>
-                        <autoresizingMask key="autoresizingMask"/>
-                    </refreshControl>
                     <connections>
                         <segue destination="BzC-Ua-MZD" kind="show" identifier="showDetail" id="m3k-Us-JTa"/>
                     </connections>
@@ -189,7 +201,7 @@
                                     <outlet property="delegate" destination="BzC-Ua-MZD" id="fyR-6t-h0y"/>
                                 </connections>
                             </collectionView>
-                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="grouped" separatorStyle="default" allowsSelection="NO" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="18" sectionFooterHeight="18" translatesAutoresizingMaskIntoConstraints="NO" id="xCN-vl-W4U">
+                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="grouped" separatorStyle="none" allowsSelection="NO" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="18" sectionFooterHeight="18" translatesAutoresizingMaskIntoConstraints="NO" id="xCN-vl-W4U">
                                 <rect key="frame" x="0.0" y="364" width="375" height="254"/>
                                 <color key="backgroundColor" cocoaTouchSystemColor="groupTableViewBackgroundColor"/>
                                 <prototypes>
@@ -197,7 +209,7 @@
                                         <rect key="frame" x="0.0" y="55.5" width="375" height="44"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="NLd-iq-Reu" id="xpz-47-a6M">
-                                            <rect key="frame" x="0.0" y="0.0" width="375" height="43.5"/>
+                                            <rect key="frame" x="0.0" y="0.0" width="375" height="44"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <label opaque="NO" multipleTouchEnabled="YES" contentMode="left" insetsLayoutMarginsFromSafeArea="NO" text="Title" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="r8d-rR-iGP">
@@ -236,7 +248,7 @@
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="c19-hf-IqT"/>
                     </view>
-                    <navigationItem key="navigationItem" id="aiF-JS-lH2">
+                    <navigationItem key="navigationItem" largeTitleDisplayMode="never" id="aiF-JS-lH2">
                         <barButtonItem key="rightBarButtonItem" title="Item" image="addToFavorites_icon" id="Hm3-d9-KyU">
                             <inset key="imageInsets" minX="0.0" minY="0.0" maxX="0.0" maxY="5"/>
                             <connections>
@@ -256,7 +268,7 @@
             </objects>
             <point key="canvasLocation" x="2997.5999999999999" y="295.50224887556226"/>
         </scene>
-        <!--Saved Devices List Table View Controller-->
+        <!--Favorites-->
         <scene sceneID="xNP-7E-rFF">
             <objects>
                 <tableViewController id="7eP-nc-s45" customClass="SavedDevicesListTableViewController" customModule="PhoneLibrary" customModuleProvider="target" sceneMemberID="viewController">
@@ -279,7 +291,7 @@
                             <outlet property="delegate" destination="7eP-nc-s45" id="tRc-sZ-wwU"/>
                         </connections>
                     </tableView>
-                    <navigationItem key="navigationItem" id="zdP-3r-eTm"/>
+                    <navigationItem key="navigationItem" title="Favorites" id="zdP-3r-eTm"/>
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Q99-lf-K6f" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
@@ -314,8 +326,8 @@
                 <navigationController title="Favorites" automaticallyAdjustsScrollViewInsets="NO" id="WcZ-Fz-CTh" sceneMemberID="viewController">
                     <tabBarItem key="tabBarItem" systemItem="favorites" id="2dK-Uw-8K3"/>
                     <toolbarItems/>
-                    <navigationBar key="navigationBar" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" id="9dp-mW-TNH">
-                        <rect key="frame" x="0.0" y="20" width="375" height="44"/>
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" largeTitles="YES" id="9dp-mW-TNH">
+                        <rect key="frame" x="0.0" y="20" width="375" height="96"/>
                         <autoresizingMask key="autoresizingMask"/>
                     </navigationBar>
                     <nil name="viewControllers"/>
@@ -336,8 +348,8 @@
                 <navigationController automaticallyAdjustsScrollViewInsets="NO" id="rfm-Lk-Mfd" sceneMemberID="viewController">
                     <tabBarItem key="tabBarItem" systemItem="search" id="gVK-pL-apN"/>
                     <toolbarItems/>
-                    <navigationBar key="navigationBar" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" id="XSb-ah-hlG">
-                        <rect key="frame" x="0.0" y="20" width="375" height="44"/>
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" largeTitles="YES" id="XSb-ah-hlG">
+                        <rect key="frame" x="0.0" y="20" width="375" height="96"/>
                         <autoresizingMask key="autoresizingMask"/>
                     </navigationBar>
                     <nil name="viewControllers"/>

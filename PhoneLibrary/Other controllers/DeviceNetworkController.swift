@@ -7,16 +7,29 @@
 //
 
 import Foundation
+import Alamofire
 class DeviceNetworkController {
     
     static let instance:DeviceNetworkController = DeviceNetworkController()
     
     private let baseURL = URL(string: "https://fonoapi.freshpixl.com/v1/")!
     private let token = "8028a51667e8abba2f44e01bb07e76461737bf568473249e"
-    private let limit = 2
+    private let limit = 20
+    
+    //Check if internet connection is available
+    var isConnected:Bool {
+        return NetworkReachabilityManager()!.isReachable
+    }
     
     //Execute the URLSession datatask with the complete URL
     private func executeUrlSessionDataTask(with url:URL, completion: @escaping ([Device]?) -> Void){
+        if !isConnected{
+            //No internet connection
+            print("ERROR: no internet connection")
+            completion(nil)
+            return
+        }
+
         let task = URLSession.shared.dataTask(with: url) { (data, response, error) in
             //Check for error
             guard error == nil else{

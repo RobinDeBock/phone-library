@@ -68,14 +68,24 @@ class SearchViewController: UIViewController {
     }
     
     @IBAction func searchByBrandButtonClicked(_ sender: Any) {
-        performSegue(withIdentifier: PropertyKeys.searchByBrandSegue, sender: self)
+        performSearch(withIdentifier: PropertyKeys.searchByBrandSegue)
     }
     
     
     @IBAction func searchByModelButtonClicked(_ sender: Any) {
-        performSegue(withIdentifier: PropertyKeys.searchByNameSegue, sender: self)
+        performSearch(withIdentifier: PropertyKeys.searchByNameSegue)
     }
     
+    private func performSearch(withIdentifier segue:String){
+        if DeviceNetworkController.instance.isConnected{
+            performSegue(withIdentifier: segue, sender: self)
+        }else{
+            //No internet connection, show alert
+            let alertController = UIAlertController(title: "No internet connection", message: "Make sure your device is connected to the internet.", preferredStyle: UIAlertController.Style.alert)
+            alertController.addAction(UIAlertAction(title: "Dismiss", style: UIAlertAction.Style.default,handler: nil))
+            self.present(alertController, animated: true, completion: nil)
+        }
+    }
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         guard let devicesListTableViewController = segue.destination as? DevicesListTableViewController else{return}
