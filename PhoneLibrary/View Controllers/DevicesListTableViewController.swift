@@ -73,25 +73,34 @@ class DevicesListTableViewController:UITableViewController{
             return
         }
         
-        //Assign devices
-        self.devices = fetchedDevices
+            //Assign devices
+            self.devices = fetchedDevices
         
-        //If device list is empty, default placeholder will be shown
-        if !self.devices.isEmpty{
-            //Hide the empty tableview placeholder
-            self.emptyListPlaceHolderIsShown = false
-            self.tableView.separatorStyle = .singleLine
-            //Reload the table and hide the placeholder automatically
-            self.tableView.reloadData()
-        }else{
-            //The empty tableview placeholder may be shown when necessary
-            self.emptyListPlaceHolderIsShown = true
-            self.tableView.separatorStyle = .none
-            //Make the placeholder check if it should be shown (it should)
-            self.tableView.reloadEmptyDataSet()
+            //If device list is empty, default placeholder will be shown
+            if !self.devices.isEmpty{
+                //Hide the empty tableview placeholder
+                self.emptyListPlaceHolderIsShown = false
+                self.tableView.separatorStyle = .singleLine
+                //Reload the table and hide the placeholder automatically
+                self.tableView.reloadData()
+            }else{
+                //The empty tableview placeholder may be shown when necessary
+                self.emptyListPlaceHolderIsShown = true
+                self.tableView.separatorStyle = .none
+                //Make the placeholder check if it should be shown (it should)
+                self.tableView.reloadEmptyDataSet()
+            }
         }
+    }
+    
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        switch segue.identifier {
+        case "showDetail":
+            let detailViewController = segue.destination as! DetailViewController
+            detailViewController.device = devices[tableView.indexPathForSelectedRow!.row]
+        default:
+            fatalError("Unknown segue")
         }
-        
     }
 
 }
@@ -121,16 +130,6 @@ extension DevicesListTableViewController{
     
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         performSegue(withIdentifier: "showDetail", sender: self)
-    }
-    
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        switch segue.identifier {
-        case "showDetail":
-            let detailViewController = segue.destination as! DetailViewController
-            detailViewController.device = devices[tableView.indexPathForSelectedRow!.row]
-        default:
-            fatalError("Unknown segue")
-        }
     }
 }
 
