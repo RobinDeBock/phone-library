@@ -25,10 +25,12 @@ class DetailViewController: UIViewController{
     //Additional specs for the tableview
     var additionalSpecs:[DeviceSpecCategory] = []
     
-    //Hardcoded amount of columns in the collectionView in portait mode
+    //Hardcoded configurations for collectionView in portait mode
     let minItemWidth:CGFloat = 110
     let maxItemWidth:CGFloat = 150
     let preferredPortretColumnAmount = 3
+    let maxRowsPortretMode = 2
+    
     var columnAmount = 3
     var collectionViewHeightValue:CGFloat = 0
     
@@ -59,6 +61,11 @@ class DetailViewController: UIViewController{
         collectionViewHeight.constant = collectionViewHeightValue
     }
     
+    override func viewDidAppear(_ animated: Bool) {
+        //Show the scroll indicator momentarily
+        collectionView.flashScrollIndicators()
+    }
+    
     override func viewWillDisappear(_ animated: Bool) {
         //Unsubscribe from screen rotation observable
         NotificationCenter.default.removeObserver(self, name: UIDevice.orientationDidChangeNotification, object: nil)
@@ -72,18 +79,13 @@ class DetailViewController: UIViewController{
     private func configureCollectionViewLayout(){
         //Device orientation doesn't show what orientation the screen is in when it's lying flat
         let isPortrait = UIScreen.main.bounds.width < UIScreen.main.bounds.height
+        print("Is portrait: \(isPortrait)")
+
+        //Configure scroll
+        collectionView.isScrollEnabled = true
         
         let collectionViewLayout = collectionView.collectionViewLayout as! UICollectionViewFlowLayout
-        if isPortrait {//Portrait
-            //Collection view has vertical scroll direction, no scroll
-            collectionViewLayout.scrollDirection = UICollectionView.ScrollDirection.vertical
-            collectionView.isScrollEnabled = false
-        }else{//Landscape
-            //Collection view has: horizontal scroll direction, do scroll
-            collectionViewLayout.scrollDirection = UICollectionView.ScrollDirection.horizontal
-            collectionView.isScrollEnabled = true
-        }
-        
+
         //Get the calculated itemWidth
         let itemWidth = calculateCollectionViewItemSize()
         print("ItemWidth: \(itemWidth)")
@@ -92,16 +94,23 @@ class DetailViewController: UIViewController{
         collectionViewLayout.itemSize = CGSize(width: itemWidth, height: itemWidth)
         
         //calculate amount of rows necessary
-        let amountOfRows = ceil(CGFloat(mainSpecs.count) / CGFloat(columnAmount))
+        var amountOfRows:Int
+        if isPortrait{
+           amountOfRows = Int(ceil(CGFloat(mainSpecs.count) / CGFloat(columnAmount)))
+            //Check if amountOfRows does not exceed max amount of rows
+            amountOfRows = amountOfRows <= maxRowsPortretMode ? amountOfRows : maxRowsPortretMode
+        }else{
+            //portrait has only one row
+            amountOfRows = 1
+        }
         print("Amount of rows: \(amountOfRows)")
-        //Won't update the constraint here
+        //Store value for when screen is first shown and update the constraint here
         collectionViewHeightValue = itemWidth * CGFloat(amountOfRows)
+        collectionViewHeight.constant = collectionViewHeightValue
         print("collectionViewHeightValue: \(collectionViewHeightValue)")
     }
 
     private func calculateCollectionViewItemSize() -> CGFloat{
-        //Also based on SOURCE: https://www.youtube.com/watch?v=2-nxXXQyVuE , although at this point it's becoming quite unique
-        
         //We calculate the itemWidth based on the smallest value, so that's always the width of the device should it be in portrait mode
         //This way the icons won't resize on mobile rotation
         let screenWidthPortrait =  min(UIScreen.main.bounds.width, UIScreen.main.bounds.height)
@@ -113,7 +122,9 @@ class DetailViewController: UIViewController{
         //-*-*-*-*-*-
         itemWidth = screenWidthPortrait / CGFloat(columnAmount)
         //-*-*-*-*-*-
-        
+        print("Calc columnAmount: \(columnAmount)")
+        print("Calc itemWidth: \(itemWidth)")
+
         //If the itemWidth is smaller than our minimum, we recalculate the columnAmount with our minValue
         //Likewise for maxValue
         if itemWidth < minItemWidth {
