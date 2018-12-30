@@ -25,8 +25,9 @@ class DetailViewController: UIViewController{
     //Additional specs for the tableview
     var additionalSpecs:[DeviceSpecCategory] = []
     
-    //Amount of columns in the collectionView
+    //Hardcoded amount of columns in the collectionView in portait mode
     let columnAmount = 3
+    let maxItemWidth:CGFloat = 150
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -35,16 +36,79 @@ class DetailViewController: UIViewController{
         additionalSpecs = device.additionalSpecCategoriesAndValues()
         //Tab bar configuration
         deviceName.title = device.name
-        //CollectionView configuration
-        calculateCollectionViewItemSize()
         //TableView configuration
         tableView.cellLayoutMarginsFollowReadableWidth = true
     }
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
+        //Detect screen rotation, subscribe to screen rotation observable
+        NotificationCenter.default.addObserver(self, selector: #selector(screenRotation), name: UIDevice.orientationDidChangeNotification, object: nil)
+        //Update collection view size once already
+        configureCollectionViewLayout()
+        //Check if device is already in favorites
         let isFavoritised = DeviceRealmController.instance.isFavoritised(device: device)
         updateAddToFavoritesButton(isFavorite: isFavoritised)
+    }
+    
+    override func viewWillDisappear(_ animated: Bool) {
+        //Unsubscribe from screen rotation observable
+        NotificationCenter.default.removeObserver(self, name: UIDevice.orientationDidChangeNotification, object: nil)
+    }
+    
+    @objc private func screenRotation(){
+        //CollectionView configuration
+        configureCollectionViewLayout()
+    }
+    
+    private func configureCollectionViewLayout(){
+        //Screen orientation code was based on a source:http://lab.dejaworks.com/ios-swift-detecting-device-rotation/
+        //But that was depricated, so I fiddled around with the available options until this came out
+        //It's safe to say this is my original code ©
+        //Check if current orientation is of a kind we support
+
+        /*guard UIDevice.current.orientation == UIDeviceOrientation.portrait
+            || UIDevice.current.orientation == UIDeviceOrientation.landscapeLeft
+            || UIDevice.current.orientation == UIDeviceOrientation.landscapeRight else {
+                return
+        }*/
+        
+        //Get the calculated itemWidth
+        let itemWidth = calculateCollectionViewItemSize()
+        
+        let collectionViewLayout = collectionView.collectionViewLayout as! UICollectionViewFlowLayout
+        //Item is a square
+        collectionViewLayout.itemSize = CGSize(width: itemWidth, height: itemWidth)
+        
+        if UIDevice.current.orientation == UIDeviceOrientation.landscapeLeft ||
+            UIDevice.current.orientation == UIDeviceOrientation.landscapeRight {
+            //Collection view has: horizontal scroll direction, do scroll
+
+        }else{//Portrait
+            //Collection view has: vertical scroll direction, no scroll
+            collectionViewLayout.scrollDirection = UICollectionView.ScrollDirection.vertical
+            collectionView.isScrollEnabled = false
+            
+            let amountOfRows = ceil(Double(mainSpecs.count) / Double(columnAmount))
+            collectionViewHeight.constant = itemWidth * CGFloat(amountOfRows)
+        }
+        
+    }
+
+    private func calculateCollectionViewItemSize() -> CGFloat{
+        //Also based on SOURCE: https://www.youtube.com/watch?v=2-nxXXQyVuE , although at this point it's becoming quite unique
+        //We calculate the itemWidth based on the smallest value, so that's always the width of the device should it be in portrait mode
+        let screenWidthPortrait =  min(UIScreen.main.bounds.width, UIScreen.main.bounds.height)
+        
+        var itemWidth:CGFloat
+        
+        //SOURCE: https://www.youtube.com/watch?v=2-nxXXQyVuE
+        //-*-*-*-*-*-
+        itemWidth = screenWidthPortrait / CGFloat(columnAmount)
+        //-*-*-*-*-*-
+        //To support large devices we put in a maximum value
+        itemWidth = (itemWidth <= maxItemWidth) ? itemWidth : maxItemWidth
+        return itemWidth
     }
     
     @IBAction func addToFavoritesButtonTapped(_ sender: Any) {
@@ -93,18 +157,6 @@ class DetailViewController: UIViewController{
 }
 
 extension DetailViewController: UICollectionViewDataSource{
-    private func calculateCollectionViewItemSize(){
-        //SOURCE: https://www.youtube.com/watch?v=2-nxXXQyVuE
-        //-*-*-*-*-*-
-        let itemWidth = collectionView.frame.size.width / CGFloat(columnAmount)
-        let layout = collectionView.collectionViewLayout as! UICollectionViewFlowLayout
-        //Item is a square
-        layout.itemSize = CGSize(width: itemWidth, height: itemWidth)
-        //-*-*-*-*-*-
-        let amountOfRows = ceil(Double(mainSpecs.count) / Double(columnAmount))
-        collectionViewHeight.constant = itemWidth * CGFloat(amountOfRows)
-    }
-    
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         print("There are \(mainSpecs.count) main specs")
         return mainSpecs.count
