@@ -28,6 +28,7 @@ class DetailViewController: UIViewController{
     //Hardcoded amount of columns in the collectionView in portait mode
     let columnAmount = 3
     let maxItemWidth:CGFloat = 150
+    var collectionViewHeightValue:CGFloat = 0
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -51,6 +52,11 @@ class DetailViewController: UIViewController{
         updateAddToFavoritesButton(isFavorite: isFavoritised)
     }
     
+    override func viewDidLayoutSubviews() {
+        //Updating constraints doesn't work inside viewWillAppear
+        collectionViewHeight.constant = collectionViewHeightValue
+    }
+    
     override func viewWillDisappear(_ animated: Bool) {
         //Unsubscribe from screen rotation observable
         NotificationCenter.default.removeObserver(self, name: UIDevice.orientationDidChangeNotification, object: nil)
@@ -62,17 +68,8 @@ class DetailViewController: UIViewController{
     }
     
     private func configureCollectionViewLayout(){
-        //Screen orientation code was based on a source:http://lab.dejaworks.com/ios-swift-detecting-device-rotation/
-        //But that was depricated, so I fiddled around with the available options until this came out
-        //It's safe to say this is my original code ©
-        //Check if current orientation is of a kind we support
-
-        /*guard UIDevice.current.orientation == UIDeviceOrientation.portrait
-            || UIDevice.current.orientation == UIDeviceOrientation.landscapeLeft
-            || UIDevice.current.orientation == UIDeviceOrientation.landscapeRight else {
-                return
-        }*/
-        
+        //Device orientation doesn't show what orientation the screen is in when it's lying flat
+        let isPortrait = UIScreen.main.bounds.width < UIScreen.main.bounds.height
         //Get the calculated itemWidth
         let itemWidth = calculateCollectionViewItemSize()
         
@@ -80,19 +77,18 @@ class DetailViewController: UIViewController{
         //Item is a square
         collectionViewLayout.itemSize = CGSize(width: itemWidth, height: itemWidth)
         
-        if UIDevice.current.orientation == UIDeviceOrientation.landscapeLeft ||
-            UIDevice.current.orientation == UIDeviceOrientation.landscapeRight {
-            //Collection view has: horizontal scroll direction, do scroll
-
-        }else{//Portrait
+        if isPortrait {
             //Collection view has: vertical scroll direction, no scroll
             collectionViewLayout.scrollDirection = UICollectionView.ScrollDirection.vertical
             collectionView.isScrollEnabled = false
             
+            //Decide amount of columns based on maxItemWidth
             let amountOfRows = ceil(Double(mainSpecs.count) / Double(columnAmount))
-            collectionViewHeight.constant = itemWidth * CGFloat(amountOfRows)
+            //Won't update the constraint here
+            collectionViewHeightValue = itemWidth * CGFloat(amountOfRows)
+        }else{//Landscape
+            //Collection view has: horizontal scroll direction, do scroll
         }
-        
     }
 
     private func calculateCollectionViewItemSize() -> CGFloat{
