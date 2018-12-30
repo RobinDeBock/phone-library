@@ -26,8 +26,10 @@ class DetailViewController: UIViewController{
     var additionalSpecs:[DeviceSpecCategory] = []
     
     //Hardcoded amount of columns in the collectionView in portait mode
-    let columnAmount = 3
+    let minItemWidth:CGFloat = 110
     let maxItemWidth:CGFloat = 150
+    let preferredPortretColumnAmount = 3
+    var columnAmount = 3
     var collectionViewHeightValue:CGFloat = 0
     
     override func viewDidLoad() {
@@ -68,42 +70,57 @@ class DetailViewController: UIViewController{
     }
     
     private func configureCollectionViewLayout(){
+        let collectionViewLayout = collectionView.collectionViewLayout as! UICollectionViewFlowLayout
         //Device orientation doesn't show what orientation the screen is in when it's lying flat
         let isPortrait = UIScreen.main.bounds.width < UIScreen.main.bounds.height
         //Get the calculated itemWidth
-        let itemWidth = calculateCollectionViewItemSize()
-        
-        let collectionViewLayout = collectionView.collectionViewLayout as! UICollectionViewFlowLayout
+        let itemWidth = calculateCollectionViewItemSize(isPortrait: isPortrait)
+        print("ItemWidth: \(itemWidth)")
+        print("columnAmount: \(columnAmount)")
         //Item is a square
         collectionViewLayout.itemSize = CGSize(width: itemWidth, height: itemWidth)
         
-        if isPortrait {
-            //Collection view has: vertical scroll direction, no scroll
+        if isPortrait {//Portrait
+            //Collection view has vertical scroll direction, no scroll
             collectionViewLayout.scrollDirection = UICollectionView.ScrollDirection.vertical
             collectionView.isScrollEnabled = false
             
-            //Decide amount of columns based on maxItemWidth
-            let amountOfRows = ceil(Double(mainSpecs.count) / Double(columnAmount))
+            //calculate amount of rows necessary
+            let amountOfRows = ceil(CGFloat(mainSpecs.count) / CGFloat(columnAmount))
+            print("Amount of rows: \(amountOfRows)")
             //Won't update the constraint here
             collectionViewHeightValue = itemWidth * CGFloat(amountOfRows)
+            print("collectionViewHeightValue: \(collectionViewHeightValue)")
         }else{//Landscape
             //Collection view has: horizontal scroll direction, do scroll
+            
+            //Row is one item high
+            //Won't update the constraint here
+            //collectionViewHeightValue = itemWidth
         }
     }
 
-    private func calculateCollectionViewItemSize() -> CGFloat{
+    private func calculateCollectionViewItemSize(isPortrait:Bool) -> CGFloat{
         //Also based on SOURCE: https://www.youtube.com/watch?v=2-nxXXQyVuE , although at this point it's becoming quite unique
+        
         //We calculate the itemWidth based on the smallest value, so that's always the width of the device should it be in portrait mode
+        //This way the icons won't resize on mobile rotation
         let screenWidthPortrait =  min(UIScreen.main.bounds.width, UIScreen.main.bounds.height)
         
         var itemWidth:CGFloat
+        columnAmount = preferredPortretColumnAmount
         
         //SOURCE: https://www.youtube.com/watch?v=2-nxXXQyVuE
         //-*-*-*-*-*-
         itemWidth = screenWidthPortrait / CGFloat(columnAmount)
         //-*-*-*-*-*-
+        //If the itemWidth is smaller than our minimum, we recalculate the columnAmount with our minValue
+        if itemWidth < minItemWidth {
+            columnAmount = Int(floor(collectionView.frame.width / minItemWidth))
+            itemWidth = screenWidthPortrait / CGFloat(columnAmount)
+        }
         //To support large devices we put in a maximum value
-        itemWidth = (itemWidth <= maxItemWidth) ? itemWidth : maxItemWidth
+        //itemWidth = (itemWidth <= maxItemWidth) ? itemWidth : maxItemWidth
         return itemWidth
     }
     
