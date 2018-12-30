@@ -13,6 +13,11 @@ class DeviceRealmController{
     //Singleton pattern
     static var instance:DeviceRealmController = DeviceRealmController()
     
+    static let devicesUpdatedNotification = Notification.Name("DeviceRealmController.devicesUpdated")
+    static let newlyAddedDevicesAmountUpdatedNotification = Notification.Name("DeviceRealmController.newlyAddedDevicesAmountUpdated")
+    
+    private var realm: Realm?
+    
     private var realmDevices: Results<Device>!
     
     //Public readonly property to handle nil array of realmDevices
@@ -21,8 +26,27 @@ class DeviceRealmController{
             return realmDevices != nil ? Array(realmDevices) : []
         }
     }
-
-    private var realm: Realm?
+    
+    private var newlyAddedDevices:Int = 0{
+        didSet{
+            if newlyAddedDevices < 0{
+                newlyAddedDevices = 0
+            }
+            NotificationCenter.default.post(name: DeviceRealmController.newlyAddedDevicesAmountUpdatedNotification, object: nil)
+        }
+    }
+    
+    func resetNewDevicesCounter(){
+        newlyAddedDevices = 0
+        NotificationCenter.default.post(name: DeviceRealmController.newlyAddedDevicesAmountUpdatedNotification, object: nil)
+    }
+    
+    //public getter
+    var newlyAddedDevicesAmount:Int{
+        get{
+            return newlyAddedDevices
+        }
+    }
     
     private init(){
         //If something goes wrong in initialisation, the CRUD functions will handle it themselves
@@ -52,13 +76,24 @@ class DeviceRealmController{
             guard let realm = realm else{
                 print("ERROR: Realm was not instantiated")
                 return false}
+            
+            //Check if device is already saved
+            if realmDevices.first(where: {$0.name == device.name}) != nil {
+                print("ERROR: Device already exists in Realm")
+                return false}
+            
+            //Storing a copy of our object so it can be deleted and re-added
+            let copy = device.copy() as! Device
             try realm.write{
-                //Storing a copy of our object so it can be deleted and re-added
-                let copy = device.copy() as! Device
                 realm.add(copy)
-                print("Saved to Realm: " + device.description)
             }
-             return true
+            print("Saved to Realm: " + device.description)
+            //Increment amount of new devices
+            newlyAddedDevices += 1
+            //Notify observers
+            NotificationCenter.default.post(name: DeviceRealmController.devicesUpdatedNotification, object: nil)
+            NotificationCenter.default.post(name: DeviceRealmController.newlyAddedDevicesAmountUpdatedNotification, object: nil)
+            return true
         }catch let error{
             print(error.localizedDescription)
             return false
@@ -80,10 +115,15 @@ class DeviceRealmController{
                 print("ERROR: could not find device: '\(device.description)' in realm list")
                 return false
             }
+            print("Deleting from Realm: " + realmDevice.description)
             try realm.write{
-                print("Deleting from Realm: " + realmDevice.description)
                 realm.delete(realmDevice)
             }
+            //Lower amount of new devices
+            newlyAddedDevices -= 1
+            //Notify observers
+            NotificationCenter.default.post(name: DeviceRealmController.devicesUpdatedNotification, object: nil)
+            NotificationCenter.default.post(name: DeviceRealmController.newlyAddedDevicesAmountUpdatedNotification, object: nil)
             return true
         }catch let error{
             print(error.localizedDescription)

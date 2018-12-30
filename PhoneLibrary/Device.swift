@@ -121,7 +121,6 @@ class Device:Object, Decodable {
         self.cardSlot = (try? valueContainer.decode(String.self, forKey: CodingKeys.cardSlot)) ?? ""
         //--Software
         self.os = (try? valueContainer.decode(String.self, forKey: CodingKeys.os)) ?? ""
-        //**************
     }
     
     //--Json coding keys and enum value for other properties

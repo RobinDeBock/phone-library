@@ -13,9 +13,22 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
     var window: UIWindow?
 
+    var favoritesTabBarItem : UITabBarItem!
+    
+    @objc func updateFavoritesBadge(){
+        switch DeviceRealmController.instance.newlyAddedDevicesAmount {
+        case 0:
+            favoritesTabBarItem.badgeValue = nil
+        case let count:
+            favoritesTabBarItem.badgeValue = String(count)
+        }
+    }
 
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
-        // Override point for customization after application launch.
+        //Set initial value of the favoritesTabBarItem and add observer
+        NotificationCenter.default.addObserver(self, selector: #selector(updateFavoritesBadge), name: DeviceRealmController.newlyAddedDevicesAmountUpdatedNotification, object: nil)
+        favoritesTabBarItem = (self.window!.rootViewController! as! UITabBarController).viewControllers![0].tabBarItem
+        updateFavoritesBadge()
         return true
     }
 

@@ -38,6 +38,15 @@ class DeviceNetworkController {
                 return
             }
             
+            let jsonDecoder = JSONDecoder()
+    
+            if let data = data, let devices = try? jsonDecoder.decode([Device].self, from: data){
+                completion(devices)
+                return
+            }
+                
+            //Something went wrong
+            
             //Check if data is an empty 2-dimensional array (aka Json="[[]]")
             //Only if all requirements are met we know there is an empty array
             if let parsedData = try? JSONSerialization.jsonObject(with: data!, options: .allowFragments), let dataArray = parsedData as? [[Any]]{
@@ -48,16 +57,21 @@ class DeviceNetworkController {
                 }
             }
             
-            let jsonDecoder = JSONDecoder()
-            if let data = data, let devices = try? jsonDecoder.decode([Device].self, from: data){
-                completion(devices)
-            }
-            else {
-                print("Data was not correctly serialized")
+            if let data = data, let errorMessage = try? jsonDecoder.decode(ErrorResult.self, from: data){
+                if errorMessage.message.contains("No Matching Results Found"){
+                    completion([])
+                    return
+                }
+                //A different error message was sent
+                print("ERROR: \(errorMessage.message)")
                 completion(nil)
                 return
             }
-
+            
+            //Result sets were not empty, something went wrong in decoding
+            print("ERROR: Data was not correctly serialized")
+            completion(nil)
+            return
         }
         task.resume()
     }
@@ -110,5 +124,27 @@ class DeviceNetworkController {
     }
     
     
+}
+
+//ErrorResult class
+extension DeviceNetworkController{
+    class ErrorResult:Decodable{
+        var status:String
+        var message:String
+        var innerException:String
+        
+        required init(from decoder: Decoder) throws {
+            let valueContainer = try decoder.container(keyedBy:CodingKeys.self)
+            self.status = (try? valueContainer.decode(String.self, forKey: CodingKeys.status)) ?? ""
+            self.message = (try? valueContainer.decode(String.self, forKey: CodingKeys.message)) ?? ""
+            self.innerException = (try? valueContainer.decode(String.self, forKey: CodingKeys.innerException)) ?? ""
+        }
+        
+        enum CodingKeys: String, CodingKey {
+            case status
+            case message
+            case innerException
+        }
+    }
 }
 

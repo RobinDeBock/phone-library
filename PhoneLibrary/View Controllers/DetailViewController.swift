@@ -25,8 +25,14 @@ class DetailViewController: UIViewController{
     //Additional specs for the tableview
     var additionalSpecs:[DeviceSpecCategory] = []
     
-    //Amount of columns in the collectionView
-    let columnAmount = 3
+    //Hardcoded configurations for collectionView in portait mode
+    let minItemWidth:CGFloat = 110
+    let maxItemWidth:CGFloat = 150
+    let preferredPortretColumnAmount = 3
+    let maxRowsPortretMode = 2
+    
+    var columnAmount = 3
+    var collectionViewHeightValue:CGFloat = 0
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -35,25 +41,93 @@ class DetailViewController: UIViewController{
         additionalSpecs = device.additionalSpecCategoriesAndValues()
         //Tab bar configuration
         deviceName.title = device.name
-        //CollectionView configuration
-        calculateCollectionViewItemSize()
         //TableView configuration
         tableView.cellLayoutMarginsFollowReadableWidth = true
     }
     
-    //Update icon color to alert user if he can add to favorites
-    private func updateAddToFavoritesButton(isFavorite:Bool){
-        if isFavorite{
-            addToFavoritesBarButtonItem.tintColor = UIColor.blue
-        }else{
-            addToFavoritesBarButtonItem.tintColor = .lightGray
-        }
-    }
-    
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
+        //Detect screen rotation, subscribe to screen rotation observable
+        NotificationCenter.default.addObserver(self, selector: #selector(screenRotation), name: UIDevice.orientationDidChangeNotification, object: nil)
+        //Update collection view size once already
+        configureCollectionViewLayout()
+        //Check if device is already in favorites
         let isFavoritised = DeviceRealmController.instance.isFavoritised(device: device)
         updateAddToFavoritesButton(isFavorite: isFavoritised)
+    }
+    
+    override func viewDidLayoutSubviews() {
+        //Updating constraints doesn't work inside viewWillAppear
+        collectionViewHeight.constant = collectionViewHeightValue
+    }
+    
+    override func viewDidAppear(_ animated: Bool) {
+        //Show the scroll indicator momentarily
+        collectionView.flashScrollIndicators()
+    }
+    
+    override func viewWillDisappear(_ animated: Bool) {
+        //Unsubscribe from screen rotation observable
+        NotificationCenter.default.removeObserver(self, name: UIDevice.orientationDidChangeNotification, object: nil)
+    }
+    
+    @objc private func screenRotation(){
+        //CollectionView configuration
+        configureCollectionViewLayout()
+    }
+    
+    private func configureCollectionViewLayout(){
+        //Device orientation doesn't show what orientation the screen is in when it's lying flat
+        let isPortrait = UIScreen.main.bounds.width < UIScreen.main.bounds.height
+
+        //Configure scroll
+        collectionView.isScrollEnabled = true
+        
+        let collectionViewLayout = collectionView.collectionViewLayout as! UICollectionViewFlowLayout
+
+        //Get the calculated itemWidth
+        let itemWidth = calculateCollectionViewItemSize()
+        //Item is a square
+        collectionViewLayout.itemSize = CGSize(width: itemWidth, height: itemWidth)
+        
+        //calculate amount of rows necessary
+        var amountOfRows:Int
+        if isPortrait{
+           amountOfRows = Int(ceil(CGFloat(mainSpecs.count) / CGFloat(columnAmount)))
+            //Check if amountOfRows does not exceed max amount of rows
+            amountOfRows = amountOfRows <= maxRowsPortretMode ? amountOfRows : maxRowsPortretMode
+        }else{
+            //portrait has only one row
+            amountOfRows = 1
+        }
+        //Store value for when screen is first shown and update the constraint here
+        collectionViewHeightValue = itemWidth * CGFloat(amountOfRows)
+        collectionViewHeight.constant = collectionViewHeightValue
+    }
+
+    private func calculateCollectionViewItemSize() -> CGFloat{
+        //We calculate the itemWidth based on the smallest value, so that's always the width of the device should it be in portrait mode
+        //This way the icons won't resize on mobile rotation
+        let screenWidthPortrait =  min(UIScreen.main.bounds.width, UIScreen.main.bounds.height)
+        
+        var itemWidth:CGFloat
+        columnAmount = preferredPortretColumnAmount
+        
+        //SOURCE: https://www.youtube.com/watch?v=2-nxXXQyVuE
+        //-*-*-*-*-*-
+        itemWidth = screenWidthPortrait / CGFloat(columnAmount)
+        //-*-*-*-*-*-
+
+        //If the itemWidth is smaller than our minimum, we recalculate the columnAmount with our minValue
+        //Likewise for maxValue
+        if itemWidth < minItemWidth {
+            columnAmount = Int(floor(collectionView.frame.width / minItemWidth))
+            itemWidth = screenWidthPortrait / CGFloat(columnAmount)
+        }else if itemWidth > maxItemWidth{
+            columnAmount = Int(ceil(collectionView.frame.width / maxItemWidth))
+            itemWidth = screenWidthPortrait / CGFloat(columnAmount)
+        }
+        return itemWidth
     }
     
     @IBAction func addToFavoritesButtonTapped(_ sender: Any) {
@@ -63,40 +137,46 @@ class DetailViewController: UIViewController{
             if DeviceRealmController.instance.remove(favorite: device){
                 updateAddToFavoritesButton(isFavorite: false)
             }else{
-                //show alert
+                //Error
+                let alertController = UIAlertController(title: "Something went wrong", message: "An error occured when trying to remove the device from favorites. Please try again", preferredStyle: UIAlertController.Style.alert)
+                alertController.addAction(UIAlertAction(title: "Dismiss", style: UIAlertAction.Style.default,handler: nil))
+                self.present(alertController, animated: true, completion: nil)
             }
         case false:
             //Add to favorites
             if DeviceRealmController.instance.add(favorite: device){
-                UIView.animate(withDuration: 0.3) {
-                    let view = self.addToFavoritesBarButtonItem.value(forKey: "view") as? UIView
-                    view?.transform = CGAffineTransform(scaleX: 4.0, y: 4.0)
-                    view?.transform = CGAffineTransform(scaleX: 1.0, y: 1.0)
-                }
                 updateAddToFavoritesButton(isFavorite: true)
             }else{
-                //show alert
+                //Error
+                let alertController = UIAlertController(title: "Something went wrong", message: "An error occured when trying to remove the device from favorites. Please try again", preferredStyle: UIAlertController.Style.alert)
+                alertController.addAction(UIAlertAction(title: "Dismiss", style: UIAlertAction.Style.default,handler: nil))
+                self.present(alertController, animated: true, completion: nil)
             }
+        }
+    }
+    
+    //Update icon color to alert user if he can add to favorites
+    private func updateAddToFavoritesButton(isFavorite:Bool){
+        if isFavorite{
+            UIView.animate(withDuration: 0.3) {
+                let view = self.addToFavoritesBarButtonItem.value(forKey: "view") as? UIView
+                view?.transform = CGAffineTransform(scaleX: 4.0, y: 4.0)
+                view?.transform = CGAffineTransform(scaleX: 1.0, y: 1.0)
+            }
+            addToFavoritesBarButtonItem.image = nil
+            addToFavoritesBarButtonItem.title = "⭐️"
+            addToFavoritesBarButtonItem.setTitleTextAttributes([ NSAttributedString.Key.font: UIFont.systemFont(ofSize: 25)], for: UIControl.State.normal)
+        }else{
+            addToFavoritesBarButtonItem.image = UIImage(named: "addToFavorites_icon")
+            addToFavoritesBarButtonItem.tintColor = .lightGray
+            addToFavoritesBarButtonItem.title = nil
         }
     }
     
 }
 
 extension DetailViewController: UICollectionViewDataSource{
-    private func calculateCollectionViewItemSize(){
-        //SOURCE: https://www.youtube.com/watch?v=2-nxXXQyVuE
-        //-*-*-*-*-*-
-        let itemWidth = collectionView.frame.size.width / CGFloat(columnAmount)
-        let layout = collectionView.collectionViewLayout as! UICollectionViewFlowLayout
-        //Item is a square
-        layout.itemSize = CGSize(width: itemWidth, height: itemWidth)
-        //-*-*-*-*-*-
-        let amountOfRows = ceil(Double(mainSpecs.count) / Double(columnAmount))
-        collectionViewHeight.constant = itemWidth * CGFloat(amountOfRows)
-    }
-    
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        print("There are \(mainSpecs.count) main specs")
         return mainSpecs.count
     }
     
@@ -115,7 +195,6 @@ extension DetailViewController: UICollectionViewDataSource{
 
 extension DetailViewController: UITableViewDataSource{
     func numberOfSections(in tableView: UITableView) -> Int {
-        print("There are \(additionalSpecs.count) additional spec categories")
         //amount of additional spec categories + our own custom one
         return additionalSpecs.count
     }
