@@ -79,7 +79,6 @@ class DetailViewController: UIViewController{
     private func configureCollectionViewLayout(){
         //Device orientation doesn't show what orientation the screen is in when it's lying flat
         let isPortrait = UIScreen.main.bounds.width < UIScreen.main.bounds.height
-        print("Is portrait: \(isPortrait)")
 
         //Configure scroll
         collectionView.isScrollEnabled = true
@@ -88,8 +87,6 @@ class DetailViewController: UIViewController{
 
         //Get the calculated itemWidth
         let itemWidth = calculateCollectionViewItemSize()
-        print("ItemWidth: \(itemWidth)")
-        print("columnAmount: \(columnAmount)")
         //Item is a square
         collectionViewLayout.itemSize = CGSize(width: itemWidth, height: itemWidth)
         
@@ -103,11 +100,9 @@ class DetailViewController: UIViewController{
             //portrait has only one row
             amountOfRows = 1
         }
-        print("Amount of rows: \(amountOfRows)")
         //Store value for when screen is first shown and update the constraint here
         collectionViewHeightValue = itemWidth * CGFloat(amountOfRows)
         collectionViewHeight.constant = collectionViewHeightValue
-        print("collectionViewHeightValue: \(collectionViewHeightValue)")
     }
 
     private func calculateCollectionViewItemSize() -> CGFloat{
@@ -122,8 +117,6 @@ class DetailViewController: UIViewController{
         //-*-*-*-*-*-
         itemWidth = screenWidthPortrait / CGFloat(columnAmount)
         //-*-*-*-*-*-
-        print("Calc columnAmount: \(columnAmount)")
-        print("Calc itemWidth: \(itemWidth)")
 
         //If the itemWidth is smaller than our minimum, we recalculate the columnAmount with our minValue
         //Likewise for maxValue
@@ -184,7 +177,6 @@ class DetailViewController: UIViewController{
 
 extension DetailViewController: UICollectionViewDataSource{
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        print("There are \(mainSpecs.count) main specs")
         return mainSpecs.count
     }
     
@@ -203,7 +195,6 @@ extension DetailViewController: UICollectionViewDataSource{
 
 extension DetailViewController: UITableViewDataSource{
     func numberOfSections(in tableView: UITableView) -> Int {
-        print("There are \(additionalSpecs.count) additional spec categories")
         //amount of additional spec categories + our own custom one
         return additionalSpecs.count
     }
