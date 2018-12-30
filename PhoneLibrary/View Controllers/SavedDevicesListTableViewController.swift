@@ -11,6 +11,10 @@ import UIKit
 class SavedDevicesListTableViewController: UITableViewController {
 
     private var devices:[Device] = []
+    private var brandNames:[String] = []
+    private var devicesByBrandDict:[String:[Device]] = [:]
+    
+    private var showByBrand = true
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -24,8 +28,17 @@ class SavedDevicesListTableViewController: UITableViewController {
         //Can't be put on an observer, because if we delete rows ourselves, we want the animation to play
         //With the observer, the table is refreshed before the row can be deleted, so the index is incorrect
         //Could be fixed if we check each time the observer is called if this is the current screen
-        devices = DeviceRealmController.instance.devices
+        loadData()
         tableView.reloadData()
+    }
+    
+    private func loadData(){
+        devices = DeviceRealmController.instance.devices.reversed()
+        if showByBrand{
+            brandNames = devices.brandNames().sorted()
+            print(brandNames)
+            devicesByBrandDict = devices.devicesByBrandDict()
+        }
     }
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
@@ -42,21 +55,36 @@ class SavedDevicesListTableViewController: UITableViewController {
 
 extension SavedDevicesListTableViewController{
     override func numberOfSections(in tableView: UITableView) -> Int {
-        return 1
+        print(brandNames)
+        return showByBrand ? brandNames.count : 1
     }
     
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        if section == 0 {
+        if showByBrand{
+            print(devicesByBrandDict[brandNames[section]]?.count ?? 0)
+            return devicesByBrandDict[brandNames[section]]?.count ?? 0
+        }else if section == 0 {
             return devices.count
-        } else {
-            return 0
         }
+        return 0
+    }
+    
+    override func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
+        if showByBrand{
+            return brandNames[section]
+        }
+        return nil
     }
     
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "SavedDeviceCell", for: indexPath)
-        let phone = DeviceRealmController.instance.devices[indexPath.row]
-        cell.textLabel?.text = phone.name
+        var device:Device
+        if showByBrand {
+            device = devicesByBrandDict[brandNames[indexPath.section]]!.sort()[indexPath.row]
+        }else{
+            device = DeviceRealmController.instance.devices[indexPath.row]
+        }
+        cell.textLabel?.text = device.name
         return cell
     }
     
@@ -69,11 +97,27 @@ extension SavedDevicesListTableViewController{
     }
     
     override func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
-        if editingStyle == .delete {
+        guard editingStyle == .delete else{return}
+        if showByBrand{
+            // Delete the row from the data source
+            let deviceToBeRemoved = devicesByBrandDict[brandNames[indexPath.section]]!.sort()[indexPath.row]
+            //Keep track whether we also need to delete the section
+            if DeviceRealmController.instance.remove(favorite: deviceToBeRemoved){
+                loadData()
+                if tableView.numberOfSections != brandNames.count{
+                    let indexSet = IndexSet(arrayLiteral: indexPath.section)
+                    tableView.deleteSections(indexSet, with: .fade)
+                }else{//section amount is unchanged
+                    tableView.deleteRows(at: [indexPath], with: .fade)
+                }
+            }
+        }else{
             // Delete the row from the data source
             if DeviceRealmController.instance.removeByIndex(index: indexPath.row){
+                loadData()
                 tableView.deleteRows(at: [indexPath], with: .fade)
             }
         }
+        
     }
 }

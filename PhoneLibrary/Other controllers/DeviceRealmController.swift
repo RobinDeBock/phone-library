@@ -20,13 +20,6 @@ class DeviceRealmController{
     
     private var realmDevices: Results<Device>!
     
-    //Public readonly property to handle nil array of realmDevices
-    var devices:[Device]{
-        get{
-            return realmDevices != nil ? Array(realmDevices) : []
-        }
-    }
-    
     private var newlyAddedDevices:Int = 0{
         didSet{
             if newlyAddedDevices < 0{
@@ -62,6 +55,13 @@ class DeviceRealmController{
             try! realm.write {
                 realm.deleteAll()
             }
+        }
+    }
+    
+    //Public readonly property to handle nil array of realmDevices
+    var devices:[Device]{
+        get{
+            return realmDevices != nil ? Array(realmDevices) : []
         }
     }
     

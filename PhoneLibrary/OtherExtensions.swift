@@ -36,3 +36,31 @@ extension NSRegularExpression {
     }
 }
 
+extension Sequence where Iterator.Element == Device
+{
+    mutating func sort() -> [Device] {
+        return self.sorted(by: {$0.name < $1.name})
+    }
+    
+    func brandNames() -> [String] {
+        var names : [String] = []
+        self.forEach({names.append($0.brand)})
+        return Array(Set(names))
+    }
+    func devicesByBrand(_ brand:String) ->[Device]{
+        return self.filter({$0.brand == brand})
+    }
+    func devicesByBrandDict() -> [String:[Device]]{
+        var devicesByBrandDict:[String:[Device]] = [:]
+        self.forEach{device in
+            if var deviceArray = devicesByBrandDict[device.brand]{
+                deviceArray.append(device)
+                devicesByBrandDict[device.brand] = deviceArray
+            }else{//No array is present on key
+                devicesByBrandDict[device.brand] = [device]
+            }
+        }
+        return devicesByBrandDict
+    }
+}
+
