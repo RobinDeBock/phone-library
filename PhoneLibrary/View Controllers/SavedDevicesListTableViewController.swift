@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import DZNEmptyDataSet
 
 class SavedDevicesListTableViewController: UITableViewController {
 
@@ -18,7 +19,12 @@ class SavedDevicesListTableViewController: UITableViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        navigationItem.rightBarButtonItem = editButtonItem
+        
+        updateTableViewForDevicesAmount()
+        
+        //Empty tableview placeholder
+        self.tableView.emptyDataSetSource = self
+        self.tableView.emptyDataSetDelegate = self
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -29,6 +35,7 @@ class SavedDevicesListTableViewController: UITableViewController {
         //With the observer, the table is refreshed before the row can be deleted, so the index is incorrect
         //Could be fixed if we check each time the observer is called if this is the current screen
         loadData()
+        updateTableViewForDevicesAmount()
         tableView.reloadData()
     }
     
@@ -36,8 +43,15 @@ class SavedDevicesListTableViewController: UITableViewController {
         devices = DeviceRealmController.instance.devices.reversed()
         if showByBrand{
             brandNames = devices.brandNames().sorted()
-            print(brandNames)
             devicesByBrandDict = devices.devicesByBrandDict()
+        }
+    }
+    
+    private func updateTableViewForDevicesAmount(){
+        if devices.count <= 0 {
+            navigationItem.rightBarButtonItem = nil
+        }else{
+            navigationItem.rightBarButtonItem = editButtonItem
         }
     }
     
@@ -55,13 +69,11 @@ class SavedDevicesListTableViewController: UITableViewController {
 
 extension SavedDevicesListTableViewController{
     override func numberOfSections(in tableView: UITableView) -> Int {
-        print(brandNames)
-        return showByBrand ? brandNames.count : 1
+        return showByBrand ? brandNames.count : devices.count
     }
     
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         if showByBrand{
-            print(devicesByBrandDict[brandNames[section]]?.count ?? 0)
             return devicesByBrandDict[brandNames[section]]?.count ?? 0
         }else if section == 0 {
             return devices.count
@@ -110,6 +122,10 @@ extension SavedDevicesListTableViewController{
                 }else{//section amount is unchanged
                     tableView.deleteRows(at: [indexPath], with: .fade)
                 }
+                //Check if placeholder needs to be shown
+                if devices.count <= 0 {
+                    self.tableView.reloadEmptyDataSet()
+                }
             }
         }else{
             // Delete the row from the data source
@@ -118,6 +134,20 @@ extension SavedDevicesListTableViewController{
                 tableView.deleteRows(at: [indexPath], with: .fade)
             }
         }
-        
+        updateTableViewForDevicesAmount()
     }
+}
+
+//Empty dataset
+extension SavedDevicesListTableViewController: DZNEmptyDataSetSource, DZNEmptyDataSetDelegate{
+    func title(forEmptyDataSet scrollView: UIScrollView!) -> NSAttributedString! {
+        let attributes = [NSAttributedString.Key.font:UIFont.systemFont(ofSize: 30, weight: .heavy)]
+        return NSAttributedString(string: "No favorites", attributes:attributes)
+    }
+    
+    func description(forEmptyDataSet scrollView: UIScrollView!) -> NSAttributedString! {
+        let attributes = [NSAttributedString.Key.font:UIFont.systemFont(ofSize: 20)]
+        return NSAttributedString(string: "Find a device and save to favorites", attributes:attributes)
+    }
+    
 }
