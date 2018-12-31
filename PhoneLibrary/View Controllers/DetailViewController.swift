@@ -53,7 +53,7 @@ class DetailViewController: UIViewController{
         configureCollectionViewLayout()
         //Check if device is already in favorites
         let isFavoritised = DeviceRealmController.instance.isFavoritised(device: device)
-        updateAddToFavoritesButton(isFavorite: isFavoritised)
+        updateAddToFavoritesButton(isFavorite: isFavoritised, animation: false)
     }
     
     override func viewDidLayoutSubviews() {
@@ -156,17 +156,19 @@ class DetailViewController: UIViewController{
     }
     
     //Update icon color to alert user if he can add to favorites
-    private func updateAddToFavoritesButton(isFavorite:Bool){
-        if isFavorite{
-            UIView.animate(withDuration: 0.3) {
-                let view = self.addToFavoritesBarButtonItem.value(forKey: "view") as? UIView
-                view?.transform = CGAffineTransform(scaleX: 4.0, y: 4.0)
-                view?.transform = CGAffineTransform(scaleX: 1.0, y: 1.0)
-            }
-            addToFavoritesBarButtonItem.image = nil
-            addToFavoritesBarButtonItem.title = "⭐️"
-            addToFavoritesBarButtonItem.setTitleTextAttributes([ NSAttributedString.Key.font: UIFont.systemFont(ofSize: 25)], for: UIControl.State.normal)
-        }else{
+    private func updateAddToFavoritesButton(isFavorite:Bool, animation:Bool = true){
+        switch isFavorite{
+        case true:
+            let view = self.addToFavoritesBarButtonItem.value(forKey: "view") as? UIView
+            if animation{
+                UIView.animate(withDuration: 0.3) {
+                    view?.transform = CGAffineTransform(scaleX: 4.0, y: 4.0)
+                    view?.transform = CGAffineTransform(scaleX: 1.0, y: 1.0)
+                }}
+                addToFavoritesBarButtonItem.image = nil
+                addToFavoritesBarButtonItem.title = "⭐️"
+                addToFavoritesBarButtonItem.setTitleTextAttributes([ NSAttributedString.Key.font: UIFont.systemFont(ofSize: 25)], for: UIControl.State.normal)
+        case false:
             addToFavoritesBarButtonItem.image = UIImage(named: "addToFavorites_icon")
             addToFavoritesBarButtonItem.tintColor = .lightGray
             addToFavoritesBarButtonItem.title = nil
