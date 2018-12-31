@@ -9,8 +9,11 @@
 import UIKit
 import DZNEmptyDataSet
 
-class SavedDevicesListTableViewController: UITableViewController {
-
+class SavedDevicesListTableViewController:UIViewController {
+    @IBOutlet weak var segmentedControl: UISegmentedControl!
+    @IBOutlet weak var tableView: UITableView!
+    @IBOutlet weak var editBarButtonItem: UIBarButtonItem!
+    
     private var devices:[Device] = []
     private var brandNames:[String] = []
     private var devicesByBrandDict:[String:[Device]] = [:]
@@ -21,8 +24,13 @@ class SavedDevicesListTableViewController: UITableViewController {
         super.viewDidLoad()
         
         //Empty tableview placeholder
+        self.tableView.dataSource = self
+        self.tableView.delegate = self
         self.tableView.emptyDataSetSource = self
         self.tableView.emptyDataSetDelegate = self
+        
+        //Select the correct segmentedControl option
+        segmentedControl.selectedSegmentIndex = showByBrand ? 0 : 1
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -33,23 +41,33 @@ class SavedDevicesListTableViewController: UITableViewController {
         //With the observer, the table is refreshed before the row can be deleted, so the index is incorrect
         //Could be fixed if we check each time the observer is called if this is the current screen
         loadData()
-        updateTableViewForDevicesAmount()
+        tableView.reloadData()
+    }
+    
+    
+    @IBAction func editBarButtonItemTapped(_ sender: Any) {
+        let tableViewEditingMode = tableView.isEditing
+        tableView.setEditing(!tableViewEditingMode, animated: true)
+        print("wut")
+    }
+    
+    @IBAction func segmentedControlValueChanged(_ sender: Any) {
+        showByBrand = segmentedControl.selectedSegmentIndex == 0
         tableView.reloadData()
     }
     
     private func loadData(){
         devices = DeviceRealmController.instance.devices.reversed()
-        if showByBrand{
-            brandNames = devices.brandNames().sorted()
-            devicesByBrandDict = devices.devicesByBrandDict()
-        }
+        brandNames = devices.brandNames().sorted()
+        devicesByBrandDict = devices.devicesByBrandDict()
+        updateTableViewForDevicesAmount()
     }
     
     private func updateTableViewForDevicesAmount(){
         if devices.count <= 0 {
-            navigationItem.rightBarButtonItem = nil
+            editBarButtonItem.isEnabled = false
         }else{
-            navigationItem.rightBarButtonItem = editButtonItem
+            editBarButtonItem.isEnabled = true
         }
     }
     
@@ -65,12 +83,12 @@ class SavedDevicesListTableViewController: UITableViewController {
 
 }
 
-extension SavedDevicesListTableViewController{
-    override func numberOfSections(in tableView: UITableView) -> Int {
-        return showByBrand ? brandNames.count : devices.count
+extension SavedDevicesListTableViewController: UITableViewDataSource, UITableViewDelegate{
+    func numberOfSections(in tableView: UITableView) -> Int {
+        return showByBrand ? brandNames.count : 1
     }
     
-    override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         if showByBrand{
             return devicesByBrandDict[brandNames[section]]?.count ?? 0
         }else if section == 0 {
@@ -79,37 +97,38 @@ extension SavedDevicesListTableViewController{
         return 0
     }
     
-    override func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
+    func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
         if showByBrand{
             return brandNames[section]
         }
         return nil
     }
     
-    override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "SavedDeviceCell", for: indexPath)
         var device:Device
         if showByBrand {
             let brandName = brandNames[indexPath.section]
             device = devicesByBrandDict[brandName]!.sort()[indexPath.row]
         }else{
-            device = DeviceRealmController.instance.devices[indexPath.row]
+            device = devices[indexPath.row]
         }
         cell.textLabel?.text = device.name
         return cell
     }
     
-    override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         performSegue(withIdentifier: "showDetail", sender: self)
     }
     
-    override func tableView(_ tableView: UITableView, editingStyleForRowAt indexPath: IndexPath) -> UITableViewCell.EditingStyle {
+    func tableView(_ tableView: UITableView, editingStyleForRowAt indexPath: IndexPath) -> UITableViewCell.EditingStyle {
         return UITableViewCell.EditingStyle.delete
     }
     
-    override func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
+    func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
         guard editingStyle == .delete else{return}
-        if showByBrand{
+        switch showByBrand{
+        case true:
             // Delete the row from the data source
             let deviceToBeRemoved = devicesByBrandDict[brandNames[indexPath.section]]!.sort()[indexPath.row]
             //Keep track whether we also need to delete the section
@@ -121,19 +140,18 @@ extension SavedDevicesListTableViewController{
                 }else{//section amount is unchanged
                     tableView.deleteRows(at: [indexPath], with: .fade)
                 }
-                //Check if placeholder needs to be shown
-                if devices.count <= 0 {
-                    self.tableView.reloadEmptyDataSet()
-                }
             }
-        }else{
+        case false:
             // Delete the row from the data source
             if DeviceRealmController.instance.removeByIndex(index: indexPath.row){
                 loadData()
                 tableView.deleteRows(at: [indexPath], with: .fade)
             }
         }
-        updateTableViewForDevicesAmount()
+        //Check if placeholder needs to be shown
+        if devices.count <= 0 {
+            self.tableView.reloadEmptyDataSet()
+        }
     }
 }
 

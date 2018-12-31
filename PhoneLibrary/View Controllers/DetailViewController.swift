@@ -195,7 +195,7 @@ extension DetailViewController: UICollectionViewDataSource{
 
 extension DetailViewController: UITableViewDataSource{
     func numberOfSections(in tableView: UITableView) -> Int {
-        //amount of additional spec categories + our own custom one
+        //amount of additional spec categories
         return additionalSpecs.count
     }
     
