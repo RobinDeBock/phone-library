@@ -20,8 +20,6 @@ class SavedDevicesListTableViewController: UITableViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        updateTableViewForDevicesAmount()
-        
         //Empty tableview placeholder
         self.tableView.emptyDataSetSource = self
         self.tableView.emptyDataSetDelegate = self
@@ -92,7 +90,8 @@ extension SavedDevicesListTableViewController{
         let cell = tableView.dequeueReusableCell(withIdentifier: "SavedDeviceCell", for: indexPath)
         var device:Device
         if showByBrand {
-            device = devicesByBrandDict[brandNames[indexPath.section]]!.sort()[indexPath.row]
+            let brandName = brandNames[indexPath.section]
+            device = devicesByBrandDict[brandName]!.sort()[indexPath.row]
         }else{
             device = DeviceRealmController.instance.devices[indexPath.row]
         }
