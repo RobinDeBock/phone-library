@@ -100,6 +100,11 @@ class DetailViewController: UIViewController{
             //portrait has only one row
             amountOfRows = 1
         }
+        //Check if height of the collection view does not exceed more than half of the screen
+        if itemWidth * CGFloat(amountOfRows) >= UIScreen.main.bounds.height/2{
+            //Limit to one row
+            amountOfRows = 1
+        }
         //Store value for when screen is first shown and update the constraint here
         collectionViewHeightValue = itemWidth * CGFloat(amountOfRows)
         collectionViewHeight.constant = collectionViewHeightValue
@@ -122,10 +127,10 @@ class DetailViewController: UIViewController{
         //Likewise for maxValue
         if itemWidth < minItemWidth {
             columnAmount = Int(floor(collectionView.frame.width / minItemWidth))
-            itemWidth = screenWidthPortrait / CGFloat(columnAmount)
+            itemWidth = collectionView.frame.width / CGFloat(columnAmount)
         }else if itemWidth > maxItemWidth{
             columnAmount = Int(ceil(collectionView.frame.width / maxItemWidth))
-            itemWidth = screenWidthPortrait / CGFloat(columnAmount)
+            itemWidth = collectionView.frame.width / CGFloat(columnAmount)
         }
         return itemWidth
     }

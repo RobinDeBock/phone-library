@@ -315,7 +315,7 @@
                         <viewLayoutGuide key="safeArea" id="evY-hR-uLR"/>
                     </view>
                     <navigationItem key="navigationItem" title="Favorites" id="NKI-pU-wgW">
-                        <barButtonItem key="rightBarButtonItem" systemItem="edit" id="hxA-cA-tWT">
+                        <barButtonItem key="rightBarButtonItem" title="Edit" id="hxA-cA-tWT">
                             <connections>
                                 <action selector="editBarButtonItemTapped:" destination="nX7-lz-CXu" id="GrM-vq-H5v"/>
                             </connections>
@@ -401,7 +401,7 @@
         <image name="addToFavorites_icon" width="25" height="25"/>
     </resources>
     <inferredMetricsTieBreakers>
-        <segue reference="m3k-Us-JTa"/>
+        <segue reference="cXb-cC-5Cw"/>
         <segue reference="0Te-Z0-dvC"/>
     </inferredMetricsTieBreakers>
 </document>

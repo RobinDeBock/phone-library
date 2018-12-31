@@ -46,9 +46,10 @@ class SavedDevicesListTableViewController:UIViewController {
     
     
     @IBAction func editBarButtonItemTapped(_ sender: Any) {
-        let tableViewEditingMode = tableView.isEditing
-        tableView.setEditing(!tableViewEditingMode, animated: true)
-        print("wut")
+        let tableViewEditingMode = !tableView.isEditing
+        tableView.setEditing(tableViewEditingMode, animated: true)
+        //Change text
+        editBarButtonItem.title = tableViewEditingMode ? "Done" : "Edit"
     }
     
     @IBAction func segmentedControlValueChanged(_ sender: Any) {
