@@ -77,7 +77,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="yf6-tS-0X5" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1073" y="296"/>
+            <point key="canvasLocation" x="1073" y="293"/>
         </scene>
         <!--Devices-->
         <scene sceneID="h7e-qg-K9I">
@@ -271,31 +271,64 @@
             <point key="canvasLocation" x="2997.5999999999999" y="295.50224887556226"/>
         </scene>
         <!--Favorites-->
-        <scene sceneID="xNP-7E-rFF">
+        <scene sceneID="HrJ-Wq-VpH">
             <objects>
-                <tableViewController id="7eP-nc-s45" customClass="SavedDevicesListTableViewController" customModule="PhoneLibrary" customModuleProvider="target" sceneMemberID="viewController">
-                    <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" id="OkH-eg-wLF">
+                <viewController id="nX7-lz-CXu" customClass="SavedDevicesListTableViewController" customModule="PhoneLibrary" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="K1V-TD-j0X">
                         <rect key="frame" x="0.0" y="0.0" width="320" height="480"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <segmentedControl opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="top" segmentControlStyle="plain" selectedSegmentIndex="0" translatesAutoresizingMaskIntoConstraints="NO" id="BfZ-SZ-Sce">
+                                <rect key="frame" x="72.5" y="121" width="175" height="29"/>
+                                <segments>
+                                    <segment title="By brand"/>
+                                    <segment title="Newest first"/>
+                                </segments>
+                                <connections>
+                                    <action selector="segmentedControlValueChanged:" destination="nX7-lz-CXu" eventType="valueChanged" id="iqa-Tf-HMl"/>
+                                </connections>
+                            </segmentedControl>
+                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="grouped" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="18" sectionFooterHeight="18" translatesAutoresizingMaskIntoConstraints="NO" id="7oc-hr-ek3">
+                                <rect key="frame" x="0.0" y="154" width="320" height="277"/>
+                                <color key="backgroundColor" cocoaTouchSystemColor="groupTableViewBackgroundColor"/>
+                                <prototypes>
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" accessoryType="disclosureIndicator" indentationWidth="10" reuseIdentifier="SavedDeviceCell" id="WOX-b2-CkA">
+                                        <rect key="frame" x="0.0" y="55.5" width="320" height="44"/>
+                                        <autoresizingMask key="autoresizingMask"/>
+                                        <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="WOX-b2-CkA" id="dPI-eE-TUa">
+                                            <rect key="frame" x="0.0" y="0.0" width="287" height="43.5"/>
+                                            <autoresizingMask key="autoresizingMask"/>
+                                        </tableViewCellContentView>
+                                    </tableViewCell>
+                                </prototypes>
+                            </tableView>
+                        </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                        <prototypes>
-                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="SavedDeviceCell" id="Gk3-5I-dm9">
-                                <rect key="frame" x="0.0" y="28" width="320" height="44"/>
-                                <autoresizingMask key="autoresizingMask"/>
-                                <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="Gk3-5I-dm9" id="ddm-fG-Saf">
-                                    <rect key="frame" x="0.0" y="0.0" width="320" height="43.5"/>
-                                    <autoresizingMask key="autoresizingMask"/>
-                                </tableViewCellContentView>
-                            </tableViewCell>
-                        </prototypes>
-                        <connections>
-                            <outlet property="dataSource" destination="7eP-nc-s45" id="BRt-gX-94I"/>
-                            <outlet property="delegate" destination="7eP-nc-s45" id="tRc-sZ-wwU"/>
-                        </connections>
-                    </tableView>
-                    <navigationItem key="navigationItem" title="Favorites" id="zdP-3r-eTm"/>
-                </tableViewController>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="Q99-lf-K6f" userLabel="First Responder" sceneMemberID="firstResponder"/>
+                        <constraints>
+                            <constraint firstItem="BfZ-SZ-Sce" firstAttribute="centerX" secondItem="K1V-TD-j0X" secondAttribute="centerX" id="0HH-QY-z2W"/>
+                            <constraint firstItem="evY-hR-uLR" firstAttribute="trailing" secondItem="7oc-hr-ek3" secondAttribute="trailing" id="3Ex-8i-frm"/>
+                            <constraint firstItem="evY-hR-uLR" firstAttribute="bottom" secondItem="7oc-hr-ek3" secondAttribute="bottom" id="9j9-e1-qty"/>
+                            <constraint firstItem="BfZ-SZ-Sce" firstAttribute="top" secondItem="evY-hR-uLR" secondAttribute="top" constant="5" id="leP-G2-DKh"/>
+                            <constraint firstItem="7oc-hr-ek3" firstAttribute="top" secondItem="BfZ-SZ-Sce" secondAttribute="bottom" constant="5" id="lpx-qM-2R8"/>
+                            <constraint firstItem="7oc-hr-ek3" firstAttribute="leading" secondItem="evY-hR-uLR" secondAttribute="leading" id="oZ2-Ky-AyJ"/>
+                        </constraints>
+                        <viewLayoutGuide key="safeArea" id="evY-hR-uLR"/>
+                    </view>
+                    <navigationItem key="navigationItem" title="Favorites" id="NKI-pU-wgW">
+                        <barButtonItem key="rightBarButtonItem" systemItem="edit" id="hxA-cA-tWT">
+                            <connections>
+                                <action selector="editBarButtonItemTapped:" destination="nX7-lz-CXu" id="GrM-vq-H5v"/>
+                            </connections>
+                        </barButtonItem>
+                    </navigationItem>
+                    <connections>
+                        <outlet property="editBarButtonItem" destination="hxA-cA-tWT" id="urD-wR-6jd"/>
+                        <outlet property="segmentedControl" destination="BfZ-SZ-Sce" id="dS4-bV-VzM"/>
+                        <outlet property="tableView" destination="7oc-hr-ek3" id="PSR-mK-zSC"/>
+                        <segue destination="BzC-Ua-MZD" kind="show" identifier="showDetail" id="cXb-cC-5Cw"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="tm0-7G-crR" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="1073" y="-370"/>
         </scene>
@@ -337,7 +370,7 @@
                         <autoresizingMask key="autoresizingMask"/>
                     </toolbar>
                     <connections>
-                        <segue destination="7eP-nc-s45" kind="relationship" relationship="rootViewController" id="7Jf-yj-e14"/>
+                        <segue destination="nX7-lz-CXu" kind="relationship" relationship="rootViewController" id="OXe-GJ-j6F"/>
                     </connections>
                 </navigationController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="tyQ-6N-Nf4" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -368,6 +401,7 @@
         <image name="addToFavorites_icon" width="25" height="25"/>
     </resources>
     <inferredMetricsTieBreakers>
+        <segue reference="m3k-Us-JTa"/>
         <segue reference="0Te-Z0-dvC"/>
     </inferredMetricsTieBreakers>
 </document>

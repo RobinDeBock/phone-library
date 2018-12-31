@@ -20,31 +20,25 @@ class DeviceRealmController{
     
     private var realmDevices: Results<Device>!
     
-    //Public readonly property to handle nil array of realmDevices
-    var devices:[Device]{
-        get{
-            return realmDevices != nil ? Array(realmDevices) : []
-        }
-    }
-    
-    private var newlyAddedDevices:Int = 0{
-        didSet{
-            if newlyAddedDevices < 0{
-                newlyAddedDevices = 0
-            }
-            NotificationCenter.default.post(name: DeviceRealmController.newlyAddedDevicesAmountUpdatedNotification, object: nil)
-        }
-    }
+    //Store string because the full device objects are stored anyways
+    private var newlyAddedDevices:[String] = []
     
     func resetNewDevicesCounter(){
-        newlyAddedDevices = 0
+        newlyAddedDevices = []
         NotificationCenter.default.post(name: DeviceRealmController.newlyAddedDevicesAmountUpdatedNotification, object: nil)
     }
     
     //public getter
     var newlyAddedDevicesAmount:Int{
         get{
-            return newlyAddedDevices
+            return newlyAddedDevices.count
+        }
+    }
+    
+    //Public readonly property to handle nil array of realmDevices
+    var devices:[Device]{
+        get{
+            return realmDevices != nil ? Array(realmDevices) : []
         }
     }
     
@@ -62,6 +56,22 @@ class DeviceRealmController{
             try! realm.write {
                 realm.deleteAll()
             }
+        }
+    }
+    
+    private func tryToAddToNewlyAddedDevices(_ device:Device){
+        //Check if not already present (must be by name because objects differ)
+        if newlyAddedDevices.first(where:{$0 == device.name}) == nil{
+            newlyAddedDevices.append(device.name)
+            NotificationCenter.default.post(name: DeviceRealmController.newlyAddedDevicesAmountUpdatedNotification, object: nil)
+        }
+    }
+    
+    private func tryToRemoveFromNewlyAddedDevices(_ device:Device){
+        //Check if present
+        if let index = newlyAddedDevices.firstIndex(where: {$0 == device.name}){
+            newlyAddedDevices.remove(at: index)
+            NotificationCenter.default.post(name: DeviceRealmController.newlyAddedDevicesAmountUpdatedNotification, object: nil)
         }
     }
     
@@ -89,7 +99,7 @@ class DeviceRealmController{
             }
             print("Saved to Realm: " + device.description)
             //Increment amount of new devices
-            newlyAddedDevices += 1
+            tryToAddToNewlyAddedDevices(device)
             //Notify observers
             NotificationCenter.default.post(name: DeviceRealmController.devicesUpdatedNotification, object: nil)
             NotificationCenter.default.post(name: DeviceRealmController.newlyAddedDevicesAmountUpdatedNotification, object: nil)
@@ -120,7 +130,7 @@ class DeviceRealmController{
                 realm.delete(realmDevice)
             }
             //Lower amount of new devices
-            newlyAddedDevices -= 1
+            tryToRemoveFromNewlyAddedDevices(device)
             //Notify observers
             NotificationCenter.default.post(name: DeviceRealmController.devicesUpdatedNotification, object: nil)
             NotificationCenter.default.post(name: DeviceRealmController.newlyAddedDevicesAmountUpdatedNotification, object: nil)

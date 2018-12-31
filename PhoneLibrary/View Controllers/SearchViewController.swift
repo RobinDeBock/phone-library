@@ -56,15 +56,18 @@ class SearchViewController: UIViewController {
     private func updateSearchButtonStates(){
         let searchValue = (searchValueTextField.text ?? "").trimmingCharacters(in: .whitespacesAndNewlines)
         let isValidInput:Bool = !searchValue.isEmpty && searchValue.count < 20
-        if isValidInput {
-            searchByBrandButton.backgroundColor = .blue
-            searchByNameButton.backgroundColor = .blue
-        }else{
-            searchByBrandButton.backgroundColor = .lightGray
-            searchByNameButton.backgroundColor = .lightGray
+        //Fade into different button state visual
+        UIView.animate(withDuration: 0.3) {
+            if isValidInput {
+                self.searchByBrandButton.backgroundColor = .blue
+                self.searchByNameButton.backgroundColor = .blue
+            }else{
+                self.searchByBrandButton.backgroundColor = .lightGray
+                self.searchByNameButton.backgroundColor = .lightGray
+            }
         }
-        searchByBrandButton.isEnabled = isValidInput
-        searchByNameButton.isEnabled = isValidInput
+        self.searchByBrandButton.isEnabled = isValidInput
+        self.searchByNameButton.isEnabled = isValidInput
     }
     
     @IBAction func searchByBrandButtonClicked(_ sender: Any) {
