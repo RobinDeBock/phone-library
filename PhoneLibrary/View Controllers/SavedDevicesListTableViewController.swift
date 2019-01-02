@@ -10,6 +10,10 @@ import UIKit
 import DZNEmptyDataSet
 
 class SavedDevicesListTableViewController:UIViewController {
+    struct PropertyKeys {
+        static let showDetail = "showDetail"
+    }
+    
     @IBOutlet weak var segmentedControl: UISegmentedControl!
     @IBOutlet weak var tableView: UITableView!
     @IBOutlet weak var editBarButtonItem: UIBarButtonItem!
@@ -74,7 +78,7 @@ class SavedDevicesListTableViewController:UIViewController {
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         switch segue.identifier {
-        case "showDetail":
+        case PropertyKeys.showDetail:
             let detailViewController = segue.destination as! DetailViewController
             detailViewController.device = devices[tableView.indexPathForSelectedRow!.row]
         default:

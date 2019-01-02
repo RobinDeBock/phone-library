@@ -11,6 +11,10 @@ import DZNEmptyDataSet
 
 class DevicesListTableViewController:UITableViewController{
 
+    struct PropertyKeys {
+        static let showDetail = "showDetail"
+    }
+    
     var searchValue: String?
     var searchType:SearchType?
     
@@ -95,7 +99,7 @@ class DevicesListTableViewController:UITableViewController{
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         switch segue.identifier {
-        case "showDetail":
+        case PropertyKeys.showDetail:
             let detailViewController = segue.destination as! DetailViewController
             detailViewController.device = devices[tableView.indexPathForSelectedRow!.row]
         default:
