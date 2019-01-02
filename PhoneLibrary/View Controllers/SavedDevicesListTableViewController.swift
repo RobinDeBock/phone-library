@@ -41,6 +41,8 @@ class SavedDevicesListTableViewController:UIViewController {
         super.viewWillAppear(animated)
         //Reset the counter for new devices (so also the badge)
         DeviceRealmController.instance.resetNewDevicesCounter()
+        //Disable editing mode on tableView
+        updateTableViewEditingMode(enabled: false)
         //Can't be put on an observer, because if we delete rows ourselves, we want the animation to play
         //With the observer, the table is refreshed before the row can be deleted, so the index is incorrect
         //Could be fixed if we check each time the observer is called if this is the current screen
@@ -51,9 +53,13 @@ class SavedDevicesListTableViewController:UIViewController {
     
     @IBAction func editBarButtonItemTapped(_ sender: Any) {
         let tableViewEditingMode = !tableView.isEditing
-        tableView.setEditing(tableViewEditingMode, animated: true)
+        updateTableViewEditingMode(enabled: tableViewEditingMode)
+    }
+    
+    private func updateTableViewEditingMode(enabled:Bool){
+        tableView.setEditing(enabled, animated: true)
         //Change text
-        editBarButtonItem.title = tableViewEditingMode ? NSLocalizedString("Done", comment: "Edit bar button item") : NSLocalizedString("Edit", comment: "Edit bar button item")
+        editBarButtonItem.title = enabled ? NSLocalizedString("Done", comment: "Edit bar button item") : NSLocalizedString("Edit", comment: "Edit bar button item")
     }
     
     @IBAction func segmentedControlValueChanged(_ sender: Any) {
