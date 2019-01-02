@@ -11,8 +11,8 @@ import UIKit
 class SearchViewController: UIViewController {
     
     struct PropertyKeys {
-        static let searchByBrandSegue = "SearchByBrand"
-        static let searchByNameSegue = "SearchByName"
+        static let searchByBrandSegue = "searchByBrand"
+        static let searchByNameSegue = "searchByName"
     }
     
     @IBOutlet weak var searchValueTextField: UITextField!

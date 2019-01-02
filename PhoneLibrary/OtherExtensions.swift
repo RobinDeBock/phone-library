@@ -43,8 +43,7 @@ extension Sequence where Iterator.Element == Device
     }
     
     func brandNames() -> [String] {
-        var names : [String] = []
-        self.forEach({names.append($0.brand)})
+        let names = self.compactMap{$0.brand}
         return Array(Set(names))
     }
     func devicesByBrand(_ brand:String) ->[Device]{

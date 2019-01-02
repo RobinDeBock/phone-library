@@ -36,9 +36,15 @@ class DeviceRealmController{
     }
     
     //Public readonly property to handle nil array of realmDevices
+    //Return a copy of realm objects so every change to realm is done in this class with the correct objects
     var devices:[Device]{
         get{
-            return realmDevices != nil ? Array(realmDevices) : []
+            guard realmDevices != nil else{return []}
+            var copiedRealmDevices : [Device] = []
+            realmDevices.forEach{device in
+                copiedRealmDevices.append(device.copy() as! Device)
+            }
+            return copiedRealmDevices
         }
     }
     
@@ -102,7 +108,6 @@ class DeviceRealmController{
             tryToAddToNewlyAddedDevices(device)
             //Notify observers
             NotificationCenter.default.post(name: DeviceRealmController.devicesUpdatedNotification, object: nil)
-            NotificationCenter.default.post(name: DeviceRealmController.newlyAddedDevicesAmountUpdatedNotification, object: nil)
             return true
         }catch let error{
             print(error.localizedDescription)
@@ -133,7 +138,6 @@ class DeviceRealmController{
             tryToRemoveFromNewlyAddedDevices(device)
             //Notify observers
             NotificationCenter.default.post(name: DeviceRealmController.devicesUpdatedNotification, object: nil)
-            NotificationCenter.default.post(name: DeviceRealmController.newlyAddedDevicesAmountUpdatedNotification, object: nil)
             return true
         }catch let error{
             print(error.localizedDescription)
