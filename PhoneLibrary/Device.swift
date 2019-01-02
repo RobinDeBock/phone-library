@@ -185,12 +185,12 @@ extension Device{
     //Only not-empty values are added
     func mainSpecs() -> [MainDeviceSpec]{
         var result:[MainDeviceSpec] = []
-        if !cpu.isEmpty {result.append(MainDeviceSpec(identifier: .cpu, name: "CPU", value:cpu))}
-        if !screenResolution.isEmpty {result.append(MainDeviceSpec(identifier: .screenResolution, name: "Resolution", value:screenResolution))}
-        if !ram.isEmpty {result.append(MainDeviceSpec(identifier: .ram, name: "RAM", value: ram))}
-        if !batteryShort.isEmpty {result.append(MainDeviceSpec(identifier: .battery, name: "Battery", value: batteryShort))}
-        if !rearCamera.isEmpty {result.append(MainDeviceSpec(identifier: .rearCamera, name: "Rear camera", value: rearCamera))}
-        if !frontCamera.isEmpty {result.append(MainDeviceSpec(identifier: .frontCamera, name: "Front camera", value: frontCamera))}
+        if !cpu.isEmpty {result.append(MainDeviceSpec(identifier: .cpu, name: NSLocalizedString("CPU", comment: ""), value:cpu))}
+        if !screenResolution.isEmpty {result.append(MainDeviceSpec(identifier: .screenResolution, name: NSLocalizedString("Resolution", comment: ""), value:screenResolution))}
+        if !ram.isEmpty {result.append(MainDeviceSpec(identifier: .ram, name: NSLocalizedString("RAM", comment: ""), value: ram))}
+        if !batteryShort.isEmpty {result.append(MainDeviceSpec(identifier: .battery, name: NSLocalizedString("Battery", comment: ""), value: batteryShort))}
+        if !rearCamera.isEmpty {result.append(MainDeviceSpec(identifier: .rearCamera, name: NSLocalizedString("Rear camera", comment: ""), value: rearCamera))}
+        if !frontCamera.isEmpty {result.append(MainDeviceSpec(identifier: .frontCamera, name: NSLocalizedString("Front camera", comment: ""), value: frontCamera))}
         return result
     }
     
@@ -198,35 +198,35 @@ extension Device{
         var categories : [DeviceSpecCategory] = []
         //Release category
         var releaseCategory:[DeviceSpec] = []
-        if !announcedDate.isEmpty{releaseCategory.append(DeviceSpec(name: "Announced", value: announcedDate))}
-        if !releaseStatus.isEmpty{releaseCategory.append(DeviceSpec(name: "Status", value: releaseStatus))}
-        if !releaseCategory.isEmpty{categories.append(DeviceSpecCategory(name:"Release", DeviceSpecs:releaseCategory))}
+        if !announcedDate.isEmpty{releaseCategory.append(DeviceSpec(name: NSLocalizedString("Announced", comment: ""), value: announcedDate))}
+        if !releaseStatus.isEmpty{releaseCategory.append(DeviceSpec(name: NSLocalizedString("Status", comment: ""), value: releaseStatus))}
+        if !releaseCategory.isEmpty{categories.append(DeviceSpecCategory(name:NSLocalizedString("Release", comment: ""), DeviceSpecs:releaseCategory))}
         //Physical category
         var physicalCategory:[DeviceSpec] = []
-        if !screenSize.isEmpty{physicalCategory.append(DeviceSpec(name:"Screen size", value:screenSize))}
-        if !dimensions.isEmpty{physicalCategory.append(DeviceSpec(name:"Dimensions", value:dimensions))}
-        if !weight.isEmpty{physicalCategory.append(DeviceSpec(name:"Weight", value:weight))}
-        if !physicalCategory.isEmpty{categories.append(DeviceSpecCategory(name:"Physical", DeviceSpecs:physicalCategory))}
+        if !screenSize.isEmpty{physicalCategory.append(DeviceSpec(name:NSLocalizedString("Screen size", comment: ""), value:screenSize))}
+        if !dimensions.isEmpty{physicalCategory.append(DeviceSpec(name:NSLocalizedString("Dimensions", comment: ""), value:dimensions))}
+        if !weight.isEmpty{physicalCategory.append(DeviceSpec(name:NSLocalizedString("Weight", comment: ""), value:weight))}
+        if !physicalCategory.isEmpty{categories.append(DeviceSpecCategory(name:NSLocalizedString("Physical", comment: ""), DeviceSpecs:physicalCategory))}
         //Hardware category
         var hardwareCategory:[DeviceSpec] = []
-        if !gpu.isEmpty{hardwareCategory.append(DeviceSpec(name:"GPU", value:gpu))}
-        if !chipset.isEmpty{hardwareCategory.append(DeviceSpec(name:"Chipset", value:chipset))}
+        if !gpu.isEmpty{hardwareCategory.append(DeviceSpec(name:NSLocalizedString("GPU", comment: ""), value:gpu))}
+        if !chipset.isEmpty{hardwareCategory.append(DeviceSpec(name:NSLocalizedString("Chipset", comment: ""), value:chipset))}
         switch headphoneJack{
         case "true":
-            hardwareCategory.append(DeviceSpec(name:"Headphone jack", value:"Yes"))
+            hardwareCategory.append(DeviceSpec(name:NSLocalizedString("Headphone jack", comment: ""), value:NSLocalizedString("Yes", comment: "")))
         case "false":
-            hardwareCategory.append(DeviceSpec(name:"Headphone jack", value:"No"))
+            hardwareCategory.append(DeviceSpec(name:NSLocalizedString("Headphone jack", comment: ""), value:NSLocalizedString("No", comment: "")))
         default:
             break;
         }
-        if !usb.isEmpty{hardwareCategory.append(DeviceSpec(name:"USB", value:usb))}
-        if !simType.isEmpty{hardwareCategory.append(DeviceSpec(name:"Sim type", value:simType))}
-        if !cardSlot.isEmpty{hardwareCategory.append(DeviceSpec(name:"Card slot", value:cardSlot))}
-        if !hardwareCategory.isEmpty{categories.append(DeviceSpecCategory(name:"Hardware", DeviceSpecs:hardwareCategory))}
+        if !usb.isEmpty{hardwareCategory.append(DeviceSpec(name:NSLocalizedString("USB", comment: ""), value:usb))}
+        if !simType.isEmpty{hardwareCategory.append(DeviceSpec(name: NSLocalizedString("Sim type", comment: ""), value:simType))}
+        if !cardSlot.isEmpty{hardwareCategory.append(DeviceSpec(name:NSLocalizedString("Card slot", comment: ""), value:cardSlot))}
+        if !hardwareCategory.isEmpty{categories.append(DeviceSpecCategory(name:NSLocalizedString("Hardware", comment: ""), DeviceSpecs:hardwareCategory))}
         //Software category
         var softwareCategory:[DeviceSpec] = []
-        if !os.isEmpty{softwareCategory.append(DeviceSpec(name:"Operating system", value:os))}
-        if !hardwareCategory.isEmpty{categories.append(DeviceSpecCategory(name:"Software", DeviceSpecs:softwareCategory))}
+        if !os.isEmpty{softwareCategory.append(DeviceSpec(name:NSLocalizedString("Operating system", comment: ""), value:os))}
+        if !hardwareCategory.isEmpty{categories.append(DeviceSpecCategory(name:NSLocalizedString("Software", comment: ""), DeviceSpecs:softwareCategory))}
         
         return categories
     }

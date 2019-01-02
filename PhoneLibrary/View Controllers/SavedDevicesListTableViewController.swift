@@ -53,7 +53,7 @@ class SavedDevicesListTableViewController:UIViewController {
         let tableViewEditingMode = !tableView.isEditing
         tableView.setEditing(tableViewEditingMode, animated: true)
         //Change text
-        editBarButtonItem.title = tableViewEditingMode ? "Done" : "Edit"
+        editBarButtonItem.title = tableViewEditingMode ? NSLocalizedString("Done", comment: "Edit bar button item") : NSLocalizedString("Edit", comment: "Edit bar button item")
     }
     
     @IBAction func segmentedControlValueChanged(_ sender: Any) {
@@ -164,12 +164,12 @@ extension SavedDevicesListTableViewController: UITableViewDataSource, UITableVie
 extension SavedDevicesListTableViewController: DZNEmptyDataSetSource, DZNEmptyDataSetDelegate{
     func title(forEmptyDataSet scrollView: UIScrollView!) -> NSAttributedString! {
         let attributes = [NSAttributedString.Key.font:UIFont.systemFont(ofSize: 30, weight: .heavy)]
-        return NSAttributedString(string: "No favorites", attributes:attributes)
+        return NSAttributedString(string: NSLocalizedString("No favorites", comment: "Empty dataset placeholder title"), attributes:attributes)
     }
     
     func description(forEmptyDataSet scrollView: UIScrollView!) -> NSAttributedString! {
         let attributes = [NSAttributedString.Key.font:UIFont.systemFont(ofSize: 20)]
-        return NSAttributedString(string: "Find a device and save to favorites", attributes:attributes)
+        return NSAttributedString(string: NSLocalizedString("Find a device and save to favorites", comment: "Empty dataset placeholder description"), attributes:attributes)
     }
     
 }
