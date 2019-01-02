@@ -1,0 +1,57 @@
+/* Class = "UILabel"; text = "Detail"; ObjectID = "0WT-3R-prk"; */
+"0WT-3R-prk.text" = "Detail";
+
+/* Class = "UIButton"; normalTitle = "Search by brand"; ObjectID = "5Qx-3s-4nS"; */
+"5Qx-3s-4nS.normalTitle" = "Zoek op merk";
+
+/* Class = "UIButton"; normalTitle = "Search by name"; ObjectID = "9xF-92-qUF"; */
+"9xF-92-qUF.normalTitle" = "Zoek op naam";
+
+/* Class = "UINavigationItem"; title = "Device name"; ObjectID = "aiF-JS-lH2"; */
+"aiF-JS-lH2.title" = "Toestelnaam";
+
+/* Class = "UISegmentedControl"; BfZ-SZ-Sce.segmentTitles[0] = "By brand"; ObjectID = "BfZ-SZ-Sce"; */
+"BfZ-SZ-Sce.segmentTitles[0]" = "Per merk";
+
+/* Class = "UISegmentedControl"; BfZ-SZ-Sce.segmentTitles[1] = "Newest first"; ObjectID = "BfZ-SZ-Sce"; */
+"BfZ-SZ-Sce.segmentTitles[1]" = "Nieuwste eerst";
+
+/* Class = "UINavigationItem"; title = "Search for a device"; ObjectID = "dkL-oo-1BA"; */
+"dkL-oo-1BA.title" = "Zoek apparaat";
+
+/* Class = "UIBarButtonItem"; title = "⭐️"; ObjectID = "Hm3-d9-KyU"; */
+"Hm3-d9-KyU.title" = "⭐️";
+
+/* Class = "UIBarButtonItem"; title = "Edit"; ObjectID = "hxA-cA-tWT"; */
+"hxA-cA-tWT.title" = "Wijzig";
+
+/* Class = "UILabel"; text = "Value"; ObjectID = "nDD-Sf-KfH"; */
+"nDD-Sf-KfH.text" = "Waarde";
+
+/* Class = "UINavigationItem"; title = "Favorites"; ObjectID = "NKI-pU-wgW"; */
+"NKI-pU-wgW.title" = "Favorieten";
+
+/* Class = "UILabel"; text = "Subtitle"; ObjectID = "NRO-dj-Fzs"; */
+"NRO-dj-Fzs.text" = "Ondertiteling";
+
+/* Class = "UILabel"; text = "Title"; ObjectID = "r8d-rR-iGP"; */
+"r8d-rR-iGP.text" = "Titel";
+
+/* Class = "UILabel"; text = "Title"; ObjectID = "rub-Gy-NgW"; */
+"rub-Gy-NgW.text" = "Titel";
+
+/* Class = "UITextField"; placeholder = "Brand name or device name"; ObjectID = "VHf-II-xFz"; */
+"VHf-II-xFz.placeholder" = "Merknaam of apparaatnaam";
+
+/* Class = "UINavigationController"; title = "Favorites"; ObjectID = "WcZ-Fz-CTh"; */
+"WcZ-Fz-CTh.title" = "Favorieten";
+
+/* Class = "UIBarButtonItem"; title = "Search"; ObjectID = "xpQ-ZS-dem"; */
+"xpQ-ZS-dem.title" = "Zoeken";
+
+/* Class = "UINavigationItem"; title = "Devices"; ObjectID = "Z1e-sl-iVf"; */
+"Z1e-sl-iVf.title" = "Apparaten";
+
+/* Class = "UILabel"; text = "Title"; ObjectID = "zk0-Vk-Vnc"; */
+"zk0-Vk-Vnc.text" = "Titel";
+

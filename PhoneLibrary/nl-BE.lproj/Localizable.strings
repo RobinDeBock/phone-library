@@ -1,0 +1,111 @@
+/* Error alert message */
+"An error occured when fetching the devices, please try again." = "Er is een fout opgetreden bij het ophalen van de apparaten. Probeer het opnieuw.";
+
+/* Error alert message */
+"An error occured when trying to add the device to favorites. Please try again" = "Er is een fout opgetreden bij het toevoegen van het apparaat aan favorieten.  Probeer het opnieuw";
+
+/* Error alert message */
+"An error occured when trying to remove the device from favorites. Please try again" = "Er is een fout opgetreden bij het verwijderen van het apparaat uit favorieten.  Probeer het opnieuw";
+
+/* No comment provided by engineer. */
+"Announced" = "Bekend gemaakt";
+
+/* No comment provided by engineer. */
+"Battery" = "Batterij";
+
+/* No comment provided by engineer. */
+"Card slot" = "Geheugen kaart slot";
+
+/* No comment provided by engineer. */
+"Chipset" = "Chipset";
+
+/* No comment provided by engineer. */
+"CPU" = "CPU";
+
+/* No comment provided by engineer. */
+"Dimensions" = "Afmetingen";
+
+/* Hide alert */
+"Dismiss" = "Verberg";
+
+/* Edit bar button item */
+"Done" = "Gereed";
+
+/* Edit bar button item */
+"Edit" = "Wijzig";
+
+/* Empty dataset placeholder description */
+"Find a device and save to favorites" = "Zoek een apparaat en sla op naar favorieten";
+
+/* No comment provided by engineer. */
+"Front camera" = "Camera voor";
+
+/* No comment provided by engineer. */
+"GPU" = "GPU";
+
+/* No comment provided by engineer. */
+"Hardware" = "Hardware";
+
+/* No comment provided by engineer. */
+"Headphone jack" = "Koptelefoon aansluiting";
+
+/* Alert message */
+"Make sure your device is connected to the internet." = "Zorg ervoor dat uw apparaat verbinding heeft met internet.";
+
+/* No comment provided by engineer. */
+"No" = "Nee";
+
+/* Empty dataset placeholder title */
+"No favorites" = "Geen favorieten";
+
+/* Alert title */
+"No internet connection" = "Geen internet verbinding";
+
+/* Empty dataset placeholder title */
+"Nothing found" = "Niets gevonden";
+
+/* No comment provided by engineer. */
+"Operating system" = "Besturingssysteem";
+
+/* No comment provided by engineer. */
+"Physical" = "Fysiek";
+
+/* No comment provided by engineer. */
+"RAM" = "RAM";
+
+/* No comment provided by engineer. */
+"Rear camera" = "Camera achter";
+
+/* No comment provided by engineer. */
+"Release" = "Uitgebracht";
+
+/* No comment provided by engineer. */
+"Resolution" = "Resolutie";
+
+/* No comment provided by engineer. */
+"Screen size" = "Scherm afmetingen";
+
+/* No comment provided by engineer. */
+"Sim type" = "Type sim";
+
+/* No comment provided by engineer. */
+"Software" = "Software";
+
+/* Error alert title */
+"Something went wrong" = "Er is iets misgelopen";
+
+/* No comment provided by engineer. */
+"Status" = "Status";
+
+/* Empty dataset placeholder description */
+"Try another device or brand name" = "Probeer een andere apparaat of merknaam";
+
+/* No comment provided by engineer. */
+"USB" = "USB";
+
+/* No comment provided by engineer. */
+"Weight" = "Gewicht";
+
+/* No comment provided by engineer. */
+"Yes" = "Ja";
+
