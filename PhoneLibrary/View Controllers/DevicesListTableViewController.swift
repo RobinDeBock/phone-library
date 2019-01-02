@@ -68,7 +68,7 @@ class DevicesListTableViewController:UITableViewController{
         guard let fetchedDevices = fetchedPhones else{
             //if list is nil, an error occured
             //Show alert
-            let alertController = UIAlertController(title: "Something went wrong", message: "An error occured when fetching the devices, please try again.", preferredStyle: UIAlertController.Style.alert)
+            let alertController = UIAlertController(title: NSLocalizedString("Something went wrong", comment: "Error alert title"), message: NSLocalizedString("An error occured when fetching the devices, please try again.", comment: "Error alert message"), preferredStyle: UIAlertController.Style.alert)
             alertController.addAction(UIAlertAction(title: "Go Back", style: UIAlertAction.Style.default,handler: {action in
                 //Go back to SearchViewController
                 self.navigationController?.popViewController(animated: true)
@@ -141,12 +141,12 @@ extension DevicesListTableViewController{
 extension DevicesListTableViewController: DZNEmptyDataSetSource, DZNEmptyDataSetDelegate{
     func title(forEmptyDataSet scrollView: UIScrollView!) -> NSAttributedString! {
         let attributes = [NSAttributedString.Key.font:UIFont.systemFont(ofSize: 30, weight: .heavy)]
-        return NSAttributedString(string: "Nothing found", attributes:attributes)
+        return NSAttributedString(string: NSLocalizedString("Nothing found", comment: "Empty dataset placeholder title"), attributes:attributes)
     }
     
     func description(forEmptyDataSet scrollView: UIScrollView!) -> NSAttributedString! {
         let attributes = [NSAttributedString.Key.font:UIFont.systemFont(ofSize: 20)]
-        return NSAttributedString(string: "Try another device or brand name", attributes:attributes)
+        return NSAttributedString(string: NSLocalizedString("Try another device or brand name", comment: "Empty dataset placeholder description"), attributes:attributes)
     }
     
     func emptyDataSetShouldDisplay(_ scrollView: UIScrollView!) -> Bool {

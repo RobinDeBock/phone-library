@@ -143,8 +143,8 @@ class DetailViewController: UIViewController{
                 updateAddToFavoritesButton(isFavorite: false)
             }else{
                 //Error
-                let alertController = UIAlertController(title: "Something went wrong", message: "An error occured when trying to remove the device from favorites. Please try again", preferredStyle: UIAlertController.Style.alert)
-                alertController.addAction(UIAlertAction(title: "Dismiss", style: UIAlertAction.Style.default,handler: nil))
+                let alertController = UIAlertController(title: NSLocalizedString("Something went wrong", comment: "Error alert title"), message: NSLocalizedString("An error occured when trying to remove the device from favorites. Please try again", comment: "Error alert message"), preferredStyle: UIAlertController.Style.alert)
+                alertController.addAction(UIAlertAction(title: NSLocalizedString("Dismiss", comment: "Hide alert"), style: UIAlertAction.Style.default,handler: nil))
                 self.present(alertController, animated: true, completion: nil)
             }
         case false:
@@ -153,8 +153,8 @@ class DetailViewController: UIViewController{
                 updateAddToFavoritesButton(isFavorite: true)
             }else{
                 //Error
-                let alertController = UIAlertController(title: "Something went wrong", message: "An error occured when trying to remove the device from favorites. Please try again", preferredStyle: UIAlertController.Style.alert)
-                alertController.addAction(UIAlertAction(title: "Dismiss", style: UIAlertAction.Style.default,handler: nil))
+                let alertController = UIAlertController(title: NSLocalizedString("Something went wrong", comment: "Error alert title"), message: NSLocalizedString("An error occured when trying to add the device to favorites. Please try again", comment: "Error alert message"), preferredStyle: UIAlertController.Style.alert)
+                alertController.addAction(UIAlertAction(title: NSLocalizedString("Dismiss", comment: "Hide alert"), style: UIAlertAction.Style.default,handler: nil))
                 self.present(alertController, animated: true, completion: nil)
             }
         }

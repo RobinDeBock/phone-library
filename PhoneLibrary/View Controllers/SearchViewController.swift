@@ -84,8 +84,8 @@ class SearchViewController: UIViewController {
             performSegue(withIdentifier: segue, sender: self)
         }else{
             //No internet connection, show alert
-            let alertController = UIAlertController(title: "No internet connection", message: "Make sure your device is connected to the internet.", preferredStyle: UIAlertController.Style.alert)
-            alertController.addAction(UIAlertAction(title: "Dismiss", style: UIAlertAction.Style.default,handler: nil))
+            let alertController = UIAlertController(title: NSLocalizedString("No internet connection", comment: "Alert title"), message: NSLocalizedString("Make sure your device is connected to the internet.", comment: "Alert message"), preferredStyle: UIAlertController.Style.alert)
+            alertController.addAction(UIAlertAction(title: NSLocalizedString("Dismiss", comment: "Hide alert"), style: UIAlertAction.Style.default,handler: nil))
             self.present(alertController, animated: true, completion: nil)
         }
     }
