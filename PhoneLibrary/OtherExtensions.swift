@@ -36,19 +36,23 @@ extension NSRegularExpression {
     }
 }
 
+//Extension functions on Device array
 extension Sequence where Iterator.Element == Device
 {
+    //Sort by name
     mutating func sort() -> [Device] {
         return self.sorted(by: {$0.name < $1.name})
     }
-    
+    //Get all brand names
     func brandNames() -> [String] {
         let names = self.compactMap{$0.brand}
         return Array(Set(names))
     }
+    //Get all devices for a brand
     func devicesByBrand(_ brand:String) ->[Device]{
         return self.filter({$0.brand == brand})
     }
+    //Get a dictionary, key: brand name, value: device array
     func devicesByBrandDict() -> [String:[Device]]{
         var devicesByBrandDict:[String:[Device]] = [:]
         self.forEach{device in
@@ -60,6 +64,10 @@ extension Sequence where Iterator.Element == Device
             }
         }
         return devicesByBrandDict
+    }
+    //Get deep copy of whole array
+    func deepCopy() -> [Device]{
+        return self.map{$0.copy()} as! [Device]
     }
 }
 

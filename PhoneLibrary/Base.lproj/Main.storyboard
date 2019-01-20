@@ -280,6 +280,7 @@
                         <subviews>
                             <segmentedControl opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="top" segmentControlStyle="plain" selectedSegmentIndex="0" translatesAutoresizingMaskIntoConstraints="NO" id="BfZ-SZ-Sce">
                                 <rect key="frame" x="100" y="121" width="175" height="29"/>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <segments>
                                     <segment title="By brand"/>
                                     <segment title="Newest first"/>
@@ -303,7 +304,7 @@
                                 </prototypes>
                             </tableView>
                         </subviews>
-                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        <color key="backgroundColor" cocoaTouchSystemColor="groupTableViewBackgroundColor"/>
                         <constraints>
                             <constraint firstItem="BfZ-SZ-Sce" firstAttribute="centerX" secondItem="K1V-TD-j0X" secondAttribute="centerX" id="0HH-QY-z2W"/>
                             <constraint firstItem="evY-hR-uLR" firstAttribute="trailing" secondItem="7oc-hr-ek3" secondAttribute="trailing" id="3Ex-8i-frm"/>
@@ -401,7 +402,7 @@
         <image name="addToFavorites_icon" width="25" height="25"/>
     </resources>
     <inferredMetricsTieBreakers>
-        <segue reference="m3k-Us-JTa"/>
-        <segue reference="wF6-Jh-KY3"/>
+        <segue reference="cXb-cC-5Cw"/>
+        <segue reference="0Te-Z0-dvC"/>
     </inferredMetricsTieBreakers>
 </document>
