@@ -21,6 +21,7 @@ class SavedDevicesListTableViewController:UIViewController {
     private var devices:[Device] = []
     private var brandNames:[String] = []
     private var devicesByBrandDict:[String:[Device]] = [:]
+    private var newDevices:[Device] = []
     
     private var showByBrand = true
     
@@ -63,22 +64,41 @@ class SavedDevicesListTableViewController:UIViewController {
     }
     
     @IBAction func segmentedControlValueChanged(_ sender: Any) {
+        //update selected value
         showByBrand = segmentedControl.selectedSegmentIndex == 0
+        //fetch data accordingly
+        loadData()
         tableView.reloadData()
     }
     
     private func loadData(){
-        devices = DeviceRealmController.instance.devices.reversed()
-        brandNames = devices.brandNames().sorted()
-        devicesByBrandDict = devices.devicesByBrandDict()
+        devices = []
+        newDevices = []
+        devices = DeviceRealmController.instance.devices
+        switch showByBrand {
+        case true:
+            brandNames = devices.brandNames().sorted()
+            devicesByBrandDict = devices.devicesByBrandDict()
+            updateTableViewForDevicesAmount()
+        case false:
+            //new devices array
+            newDevices = DeviceRealmController.instance.newlyAddedDevices
+            //all devices, ordered by newest first, without new devices
+            devices = devices.reversed()
+            //filter out the new devices
+            devices = devices.filter{device in
+                !newDevices.contains{$0.name == device.name}
+            }
+        }
         updateTableViewForDevicesAmount()
     }
     
     private func updateTableViewForDevicesAmount(){
-        if devices.count <= 0 {
-            editBarButtonItem.isEnabled = false
-        }else{
+        //Enable edit button when devices are present
+        if newDevices.count > 0 || devices.count > 0 {
             editBarButtonItem.isEnabled = true
+        }else{
+            editBarButtonItem.isEnabled = false
         }
     }
     
@@ -95,34 +115,66 @@ class SavedDevicesListTableViewController:UIViewController {
 }
 
 extension SavedDevicesListTableViewController: UITableViewDataSource, UITableViewDelegate{
+    
     func numberOfSections(in tableView: UITableView) -> Int {
-        return showByBrand ? brandNames.count : 1
+        switch showByBrand {
+        case true:
+            return brandNames.count
+        case false:
+            //Return number of sections based on new device amount and/or device amount
+            if newDevices.count > 0 && devices.count > 0 {
+                return 2
+            }else if newDevices.count > 0 || devices.count > 0{
+                return 1
+            }else{
+                return 0
+            }
+        }
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        if showByBrand{
-            return devicesByBrandDict[brandNames[section]]?.count ?? 0
-        }else if section == 0 {
-            return devices.count
+        switch showByBrand {
+        case true:
+             return devicesByBrandDict[brandNames[section]]?.count ?? 0
+        case false:
+            if newDevices.count > 0 && section == 0 {
+                //There is a section for new devices
+                return newDevices.count
+            }else{
+                return devices.count
+            }
         }
-        return 0
     }
     
     func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
-        if showByBrand{
-            return brandNames[section]
+        switch showByBrand {
+        case true:
+                 return brandNames[section]
+        case false:
+            if newDevices.count > 0 && section == 0 {
+                //New devices
+                return "New devices"
+            }
+            //All devices
+            return nil
         }
-        return nil
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "SavedDeviceCell", for: indexPath)
         var device:Device
-        if showByBrand {
+        switch showByBrand {
+        case true:
             let brandName = brandNames[indexPath.section]
             device = devicesByBrandDict[brandName]!.sort()[indexPath.row]
-        }else{
-            device = devices[indexPath.row]
+        case false:
+            if newDevices.count > 0 && indexPath.section == 0 {
+                //New devices
+                device = newDevices[indexPath.row]
+            }else{
+                //All devices
+                device = devices[indexPath.row]
+            }
         }
         cell.textLabel?.text = device.name
         return cell
@@ -140,27 +192,49 @@ extension SavedDevicesListTableViewController: UITableViewDataSource, UITableVie
         guard editingStyle == .delete else{return}
         switch showByBrand{
         case true:
-            // Delete the row from the data source
             let deviceToBeRemoved = devicesByBrandDict[brandNames[indexPath.section]]!.sort()[indexPath.row]
             //Keep track whether we also need to delete the section
             if DeviceRealmController.instance.remove(favorite: deviceToBeRemoved){
+                //update local variables
                 loadData()
+                
                 if tableView.numberOfSections != brandNames.count{
                     let indexSet = IndexSet(arrayLiteral: indexPath.section)
+                    //Delete the whole section
                     tableView.deleteSections(indexSet, with: .fade)
                 }else{//section amount is unchanged
+                    // Delete the row from the data source
                     tableView.deleteRows(at: [indexPath], with: .fade)
                 }
             }
         case false:
+            var deviceToBeRemoved:Device
+            if indexPath.section == 0 && newDevices.count > 0{
+                //Remove a device from new devices section
+                deviceToBeRemoved = newDevices[indexPath.row]
+            }else{
+                //There are new devices, but it's the second section
+                //There are no new devices
+                deviceToBeRemoved = devices[indexPath.row]
+            }
             // Delete the row from the data source
-            if DeviceRealmController.instance.removeByIndex(index: indexPath.row){
+            if DeviceRealmController.instance.remove(favorite: deviceToBeRemoved){
+                //update local variables
                 loadData()
-                tableView.deleteRows(at: [indexPath], with: .fade)
+                //Check if amount of section is changed
+                if tableView.numberOfSections == 2 && (newDevices.count == 0 || devices.count == 0) ||
+                    tableView.numberOfSections == 1 && (newDevices.count == 0 && devices.count == 0){
+                    let indexSet = IndexSet(arrayLiteral: indexPath.section)
+                    //Delete the whole section
+                    tableView.deleteSections(indexSet, with: .fade)
+                }else{//section amount is unchanged
+                    // Delete the row from the data source
+                    tableView.deleteRows(at: [indexPath], with: .fade)
+                }
             }
         }
         //Check if placeholder needs to be shown
-        if devices.count <= 0 {
+        if newDevices.count <= 0 && devices.count <= 0 {
             self.tableView.reloadEmptyDataSet()
         }
     }

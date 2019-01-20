@@ -362,7 +362,6 @@
                     <tabBarItem key="tabBarItem" systemItem="favorites" id="2dK-Uw-8K3"/>
                     <toolbarItems/>
                     <navigationBar key="navigationBar" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" largeTitles="YES" id="9dp-mW-TNH">
-                        <rect key="frame" x="0.0" y="20" width="375" height="96"/>
                         <autoresizingMask key="autoresizingMask"/>
                     </navigationBar>
                     <nil name="viewControllers"/>
@@ -384,7 +383,6 @@
                     <tabBarItem key="tabBarItem" systemItem="search" id="gVK-pL-apN"/>
                     <toolbarItems/>
                     <navigationBar key="navigationBar" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" largeTitles="YES" id="XSb-ah-hlG">
-                        <rect key="frame" x="0.0" y="20" width="375" height="96"/>
                         <autoresizingMask key="autoresizingMask"/>
                     </navigationBar>
                     <nil name="viewControllers"/>
@@ -401,7 +399,7 @@
         <image name="addToFavorites_icon" width="25" height="25"/>
     </resources>
     <inferredMetricsTieBreakers>
-        <segue reference="m3k-Us-JTa"/>
-        <segue reference="wF6-Jh-KY3"/>
+        <segue reference="cXb-cC-5Cw"/>
+        <segue reference="0Te-Z0-dvC"/>
     </inferredMetricsTieBreakers>
 </document>
