@@ -60,22 +60,75 @@ class DevicesListTableViewController:UITableViewController{
         
         switch searchType {
         case SearchType.SearchByBrand:
-                DeviceNetworkController.instance.fetchDevicesByBrand(searchValue){fetchedDevices in
-                   self.handleFetchedDevices(fetchedDevices)
+                DeviceNetworkController.instance.fetchDevicesByBrand(searchValue){(fetchedDevices, error) in
+                   self.handleFetchedDevices(fetchedDevices, error: error)
             }
         case SearchType.SearchByName:
-            DeviceNetworkController.instance.fetchDevicesByName(searchValue){fetchedDevices in
-                    self.handleFetchedDevices(fetchedDevices)
+            DeviceNetworkController.instance.fetchDevicesByName(searchValue){(fetchedDevices, error) in
+                    self.handleFetchedDevices(fetchedDevices, error: error)
                 }
             }
         }
     
-    private func handleFetchedDevices(_ fetchedDevices:[Device]?){
+    private func handleFetchedDevices(_ fetchedDevices:[Device]?, error:DeviceNetworkController.NetworkError?){
+        //Hide activity indicator
+        DispatchQueue.main.async {
+            UIApplication.shared.isNetworkActivityIndicatorVisible = false
+        //If error is present, we check what type it is and handle accordingly
+        if let error = error{
+            switch error{
+            case .EmptyApiKey:
+                let alertController = UIAlertController(title: NSLocalizedString("Missing API token", comment: "Error alert title"), message: NSLocalizedString("There is no token present, necessary for using the API. \n Please get a viable token at fonoapi.freshpixl.com.", comment: "Error alert message"), preferredStyle: UIAlertController.Style.alert)
+                alertController.addAction(UIAlertAction(title: NSLocalizedString("Go Back", comment:""), style: UIAlertAction.Style.default,handler: {action in
+                    //Go back to SearchViewController
+                    self.navigationController?.popViewController(animated: true)
+                }))
+                alertController.addAction(UIAlertAction(title: NSLocalizedString("Open settings", comment:""), style: UIAlertAction.Style.default,handler: {action in
+                    //Open the app settings
+                    //SOURCE: https://stackoverflow.com/questions/46421646/how-to-open-your-app-in-settings-ios-11
+                    //*-*-*-*-*-*-*-*-
+                    if let url = URL(string:UIApplication.openSettingsURLString) {
+                        if UIApplication.shared.canOpenURL(url) {
+                            UIApplication.shared.open(url, options: [:], completionHandler: nil)
+                        }
+                    }
+                    //*-*-*-*-*-*-*-*-
+                    //Go back to SearchViewController
+                    self.navigationController?.popViewController(animated: true)
+                }))
+                self.present(alertController, animated: true, completion: nil)
+                return
+            case .InvalidApiKey:
+                let alertController = UIAlertController(title: NSLocalizedString("Invalid API token", comment: "Error alert title"), message: NSLocalizedString("The API token is invalid, necessary for using the API. \n Please get a viable token at fonoapi.freshpixl.com.", comment: "Error alert message"), preferredStyle: UIAlertController.Style.alert)
+                alertController.addAction(UIAlertAction(title: NSLocalizedString("Go Back", comment:""), style: UIAlertAction.Style.default,handler: {action in
+                    //Go back to SearchViewController
+                    self.navigationController?.popViewController(animated: true)
+                }))
+                alertController.addAction(UIAlertAction(title: NSLocalizedString("Open settings", comment:""), style: UIAlertAction.Style.default,handler: {action in
+                    //Open the app settings
+                    //SOURCE: https://stackoverflow.com/questions/46421646/how-to-open-your-app-in-settings-ios-11
+                    //*-*-*-*-*-*-*-*-
+                    if let url = URL(string:UIApplication.openSettingsURLString) {
+                        if UIApplication.shared.canOpenURL(url) {
+                            UIApplication.shared.open(url, options: [:], completionHandler: nil)
+                        }
+                    }
+                    //*-*-*-*-*-*-*-*-
+                    //Go back to SearchViewController
+                    self.navigationController?.popViewController(animated: true)
+                }))
+                self.present(alertController, animated: true, completion: nil)
+                return
+            }
+            }
+        }
+        
+                DispatchQueue.main.async {
         guard let fetchedDevices = fetchedDevices else{
             //if list is nil, an error occured
             //Show alert
             let alertController = UIAlertController(title: NSLocalizedString("Something went wrong", comment: "Error alert title"), message: NSLocalizedString("An error occured when fetching the devices, please try again.", comment: "Error alert message"), preferredStyle: UIAlertController.Style.alert)
-            alertController.addAction(UIAlertAction(title: "Go Back", style: UIAlertAction.Style.default,handler: {action in
+            alertController.addAction(UIAlertAction(title: NSLocalizedString("Go Back", comment:""), style: UIAlertAction.Style.default,handler: {action in
                 //Go back to SearchViewController
                 self.navigationController?.popViewController(animated: true)
             }))
@@ -83,7 +136,6 @@ class DevicesListTableViewController:UITableViewController{
             return
         }
         
-        DispatchQueue.main.async {
             //Assign devices
             self.devices = fetchedDevices
         
@@ -93,9 +145,6 @@ class DevicesListTableViewController:UITableViewController{
     }
     
     private func updateUI(with fetchedDevices:[Device]?){
-        //Hide activity indicator
-        UIApplication.shared.isNetworkActivityIndicatorVisible = false
-        
             //If device list is empty, default placeholder will be shown
             if !self.devices.isEmpty{
                 //Hide the empty tableview placeholder

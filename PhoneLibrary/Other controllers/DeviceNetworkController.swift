@@ -13,7 +13,11 @@ class DeviceNetworkController {
     static let instance:DeviceNetworkController = DeviceNetworkController()
     
     private let baseURL = URL(string: "https://fonoapi.freshpixl.com/v1/")!
-    private let token = "8028a51667e8abba2f44e01bb07e76461737bf568473249e"
+    
+    enum NetworkError : Error {
+        case InvalidApiKey
+        case EmptyApiKey
+    }
     
     //Check if internet connection is available
     var isConnected:Bool {
@@ -21,11 +25,11 @@ class DeviceNetworkController {
     }
     
     //Execute the URLSession datatask with the complete URL
-    private func executeUrlSessionDataTask(with url:URL, completion: @escaping ([Device]?) -> Void){
+    private func executeUrlSessionDataTask(with url:URL, completion: @escaping ([Device]?, NetworkError?) -> Void){
         if !isConnected{
             //No internet connection
             print("ERROR: no internet connection")
-            completion(nil)
+            completion(nil, nil)
             return
         }
 
@@ -33,14 +37,14 @@ class DeviceNetworkController {
             //Check for error
             guard error == nil else{
                 print(error!.localizedDescription)
-                completion(nil)
+                completion(nil, nil)
                 return
             }
             
             let jsonDecoder = JSONDecoder()
     
             if let data = data, let devices = try? jsonDecoder.decode([Device].self, from: data){
-                completion(devices)
+                completion(devices, nil)
                 return
             }
                 
@@ -51,31 +55,43 @@ class DeviceNetworkController {
             if let parsedData = try? JSONSerialization.jsonObject(with: data!, options: .allowFragments), let dataArray = parsedData as? [[Any]]{
                 if dataArray.count == 1, dataArray[0].isEmpty{
                     //return an empty list
-                    completion([])
+                    completion([], nil)
                     return
                 }
             }
             
             if let data = data, let errorMessage = try? jsonDecoder.decode(ErrorResult.self, from: data){
                 if errorMessage.message.contains("No Matching Results Found"){
-                    completion([])
+                    completion([], nil)
+                    return
+                }
+                if errorMessage.message.contains("Invalid or Blocked Token"){
+                    completion(nil, NetworkError.InvalidApiKey)
                     return
                 }
                 //A different error message was sent
                 print("ERROR: \(errorMessage.message)")
-                completion(nil)
+                completion(nil, nil)
                 return
             }
             
             //Result sets were not empty, something went wrong in decoding
             print("ERROR: Data was not correctly serialized")
-            completion(nil)
+            completion(nil, nil)
             return
         }
         task.resume()
     }
     
-    func fetchDevicesByBrand(_ brand:String, completion: @escaping([Device]?) -> Void) {
+    func fetchDevicesByBrand(_ brand:String, completion: @escaping([Device]?, NetworkError?) -> Void) {
+        let token = AppSettingsController.instance.networkApiKey
+        
+        //Check API token
+        guard !token.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty else{
+            //No api token specified
+            completion(nil, NetworkError.EmptyApiKey)
+            return
+        }
         //Adding path to base URL
         let url = baseURL.appendingPathComponent("getlatest")
         
@@ -87,18 +103,27 @@ class DeviceNetworkController {
         
         //Adding the queries to the URL
         guard let completeUrl = url.withQueries(query) else {
-            completion(nil)
+            completion(nil, nil)
             print("ERROR: Unable to build URL with supplied queries.")
             return
         }
         
         //Callback function to fetch phones with the complete URL
-        executeUrlSessionDataTask(with: completeUrl){(devices) in
-            completion(devices)
+        executeUrlSessionDataTask(with: completeUrl){(devices, error) in
+            completion(devices, error)
         }
 }
     
-    func fetchDevicesByName(_ name:String, completion: @escaping([Device]?) -> Void) {
+    func fetchDevicesByName(_ name:String, completion: @escaping([Device]?, NetworkError?) -> Void) {
+        let token = AppSettingsController.instance.networkApiKey
+        
+        //Check API token
+        guard !token.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty else{
+            //No api token specified
+            completion(nil, NetworkError.EmptyApiKey)
+            return
+        }
+        
         //Adding path to base URL
         let url = baseURL.appendingPathComponent("getdevice")
 
@@ -110,14 +135,14 @@ class DeviceNetworkController {
         
         //Adding the queries to the URL
         guard let completeUrl = url.withQueries(query) else {
-            completion(nil)
+            completion(nil, nil)
             print("ERROR: Unable to build URL with supplied queries.")
             return
         }
         
         //Callback function to fetch phones with the complete URL
-        executeUrlSessionDataTask(with: completeUrl){(devices) in
-            completion(devices)
+        executeUrlSessionDataTask(with: completeUrl){(devices, error) in
+            completion(devices, error)
         }
     }
     

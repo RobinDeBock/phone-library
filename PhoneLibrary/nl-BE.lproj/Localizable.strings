@@ -41,6 +41,9 @@
 "Front camera" = "Camera voor";
 
 /* No comment provided by engineer. */
+"Go Back" = "Ga terug";
+
+/* No comment provided by engineer. */
 "GPU" = "GPU";
 
 /* No comment provided by engineer. */
@@ -49,8 +52,14 @@
 /* No comment provided by engineer. */
 "Headphone jack" = "Koptelefoon aansluiting";
 
+/* Error alert title */
+"Invalid API token" = "Ongeldige token";
+
 /* Alert message */
 "Make sure your device is connected to the internet." = "Zorg ervoor dat uw apparaat verbinding heeft met internet.";
+
+/* Error alert title */
+"Missing API token" = "API token ontbreekt";
 
 /* New devices section header */
 "Newly added" = "Juist toegevoegd";
@@ -66,6 +75,9 @@
 
 /* Empty dataset placeholder title */
 "Nothing found" = "Niets gevonden";
+
+/* No comment provided by engineer. */
+"Open settings" = "Open instellingen";
 
 /* No comment provided by engineer. */
 "Operating system" = "Besturingssysteem";
@@ -99,6 +111,14 @@
 
 /* No comment provided by engineer. */
 "Status" = "Status";
+
+/* Error alert message */
+"The API token is invalid, necessary for using the API. 
+ Please get a viable token at fonoapi.freshpixl.com." = "De token is ongeldig, nodig om de API te gebruiken. Gelieve er een krijgen via fonoapi.freshpixl.com.";
+
+/* Error alert message */
+"There is no token present, necessary for using the API. 
+ Please get a viable token at fonoapi.freshpixl.com." = "Er is geen token aanwezig, nodig om de API te gebruiken. Gelieve er een krijgen via fonoapi.freshpixl.com.";
 
 /* Empty dataset placeholder description */
 "Try another device or brand name" = "Probeer een andere apparaat of merknaam";

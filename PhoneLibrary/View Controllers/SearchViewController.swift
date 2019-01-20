@@ -36,7 +36,7 @@ class SearchViewController: UIViewController {
         //*-*-*-*-*-*-*-
         //Looks for single or multiple taps.
         let tap: UITapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(SearchViewController.dismissKeyboard))
-        //Uncomment the line below if you want the tap not not interfere and cancel other interactions.
+        //Uncomment the line below if you want the tap not to interfere and cancel other interactions.
         //tap.cancelsTouchesInView = false
         view.addGestureRecognizer(tap)
     }
