@@ -14,6 +14,11 @@ class DeviceNetworkController {
     
     private let baseURL = URL(string: "https://fonoapi.freshpixl.com/v1/")!
     
+    private struct PropertyKeys {
+        static let DevicesByBrandPathComponent = "getlatest"
+        static let DevicesByNamePathComponent = "getdevice"
+    }
+    
     enum NetworkError : Error {
         case InvalidApiKey
         case EmptyApiKey
@@ -93,7 +98,7 @@ class DeviceNetworkController {
             return
         }
         //Adding path to base URL
-        let url = baseURL.appendingPathComponent("getlatest")
+        let url = baseURL.appendingPathComponent(PropertyKeys.DevicesByBrandPathComponent)
         
         //Define the query
         let query: [String: String] = [
@@ -125,7 +130,7 @@ class DeviceNetworkController {
         }
         
         //Adding path to base URL
-        let url = baseURL.appendingPathComponent("getdevice")
+        let url = baseURL.appendingPathComponent(PropertyKeys.DevicesByNamePathComponent)
 
         //Define the query
         let query: [String: String] = [
