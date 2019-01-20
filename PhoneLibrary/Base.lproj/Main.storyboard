@@ -402,7 +402,7 @@
         <image name="addToFavorites_icon" width="25" height="25"/>
     </resources>
     <inferredMetricsTieBreakers>
-        <segue reference="cXb-cC-5Cw"/>
+        <segue reference="m3k-Us-JTa"/>
         <segue reference="0Te-Z0-dvC"/>
     </inferredMetricsTieBreakers>
 </document>

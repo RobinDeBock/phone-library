@@ -90,7 +90,7 @@ class DeviceNetworkController {
         //Adding the queries to the URL
         guard let completeUrl = url.withQueries(query) else {
             completion(nil)
-            print("Unable to build URL with supplied queries.")
+            print("ERROR: Unable to build URL with supplied queries.")
             return
         }
         
@@ -113,7 +113,7 @@ class DeviceNetworkController {
         //Adding the queries to the URL
         guard let completeUrl = url.withQueries(query) else {
             completion(nil)
-            print("Unable to build URL with supplied queries.")
+            print("ERROR: Unable to build URL with supplied queries.")
             return
         }
         

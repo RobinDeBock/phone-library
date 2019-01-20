@@ -36,9 +36,14 @@ class DevicesListTableViewController:UITableViewController{
         self.tableView.emptyDataSetSource = self
         self.tableView.emptyDataSetDelegate = self
         
-        loadDevices()
         //Add observer for the devices list
         NotificationCenter.default.addObserver(self, selector: #selector(reload), name: DeviceRealmController.devicesUpdatedNotification, object: nil)
+    }
+    
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+        //Heavy task
+        loadDevices()
     }
     
     //Using a seperate function to reload the tableview
@@ -49,24 +54,58 @@ class DevicesListTableViewController:UITableViewController{
     //Fetch the phones depending on the search type
     private func loadDevices(){
         guard let searchValue = searchValue, let searchType = searchType else {return}
+        
+        //Show activity indicator
         UIApplication.shared.isNetworkActivityIndicatorVisible = true
+        
         switch searchType {
         case SearchType.SearchByBrand:
-                DeviceNetworkController.instance.fetchDevicesByBrand(searchValue){fetchedPhones in
-                    self.updateUI(with: fetchedPhones)
+                DeviceNetworkController.instance.fetchDevicesByBrand(searchValue){fetchedDevices in
+                   self.handleFetchedDevices(fetchedDevices)
             }
         case SearchType.SearchByName:
-            DeviceNetworkController.instance.fetchDevicesByName(searchValue){fetchedPhones in
-                  self.updateUI(with: fetchedPhones)
+            DeviceNetworkController.instance.fetchDevicesByName(searchValue){fetchedDevices in
+                    self.handleFetchedDevices(fetchedDevices)
                 }
             }
         }
     
-    private func updateUI(with fetchedPhones:[Device]?){
-    DispatchQueue.main.async {
-        UIApplication.shared.isNetworkActivityIndicatorVisible = false
-        guard let fetchedDevices = fetchedPhones else{
+    //Load all the devices
+    private func loadAdditionalDevices(){
+        guard let searchValue = searchValue, let searchType = searchType else {return}
+
+        //Show activity indicator
+        UIApplication.shared.isNetworkActivityIndicatorVisible = true
+        //ActivityIndictor on bottom of tableview
+        let activityIndicator = UIActivityIndicatorView(style: .gray)
+        activityIndicator.startAnimating()
+        self.tableView.tableFooterView = activityIndicator
+        
+        switch searchType {
+        case SearchType.SearchByBrand:
+            DeviceNetworkController.instance.fetchDevicesByBrand(searchValue){fetchedDevices in
+                self.handleFetchedDevices(fetchedDevices, isAdditionalDeviceLoad: true)
+            }
+        case SearchType.SearchByName:
+            DeviceNetworkController.instance.fetchDevicesByName(searchValue){fetchedDevices in
+                self.handleFetchedDevices(fetchedDevices, isAdditionalDeviceLoad: true)
+            }
+        }
+    }
+    
+    private func handleFetchedDevices(_ fetchedDevices:[Device]?, isAdditionalDeviceLoad:Bool = false){
+        guard let fetchedDevices = fetchedDevices else{
             //if list is nil, an error occured
+            
+            //If it's an additinal device load, we just hide the loading indicators
+            if isAdditionalDeviceLoad{
+                DispatchQueue.main.async {
+                UIApplication.shared.isNetworkActivityIndicatorVisible = false
+                self.tableView.tableFooterView?.isHidden = true
+                }
+                return
+            }
+            
             //Show alert
             let alertController = UIAlertController(title: NSLocalizedString("Something went wrong", comment: "Error alert title"), message: NSLocalizedString("An error occured when fetching the devices, please try again.", comment: "Error alert message"), preferredStyle: UIAlertController.Style.alert)
             alertController.addAction(UIAlertAction(title: "Go Back", style: UIAlertAction.Style.default,handler: {action in
@@ -77,8 +116,24 @@ class DevicesListTableViewController:UITableViewController{
             return
         }
         
+        DispatchQueue.main.async {
             //Assign devices
             self.devices = fetchedDevices
+        
+            //Update the UI
+            self.updateUI(with: fetchedDevices)
+            
+            //Load additional devices if if not yet loaded and array is not empty
+            if !(isAdditionalDeviceLoad || self.devices.isEmpty){
+                self.loadAdditionalDevices()
+            }
+        }
+    }
+    
+    private func updateUI(with fetchedDevices:[Device]?){
+        //Hide activity indicator
+        UIApplication.shared.isNetworkActivityIndicatorVisible = false
+         self.tableView.tableFooterView?.isHidden = true
         
             //If device list is empty, default placeholder will be shown
             if !self.devices.isEmpty{
@@ -94,7 +149,6 @@ class DevicesListTableViewController:UITableViewController{
                 //Make the placeholder check if it should be shown (it should)
                 self.tableView.reloadEmptyDataSet()
             }
-        }
     }
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
