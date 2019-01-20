@@ -153,7 +153,7 @@ extension SavedDevicesListTableViewController: UITableViewDataSource, UITableVie
         case false:
             if newDevices.count > 0 && section == 0 {
                 //New devices
-                return "New devices"
+                return NSLocalizedString("Newly added", comment: "New devices section header")
             }
             //All devices
             return nil

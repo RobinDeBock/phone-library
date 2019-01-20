@@ -290,7 +290,7 @@
                                 </connections>
                             </segmentedControl>
                             <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="grouped" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="18" sectionFooterHeight="18" translatesAutoresizingMaskIntoConstraints="NO" id="7oc-hr-ek3">
-                                <rect key="frame" x="0.0" y="149" width="375" height="469"/>
+                                <rect key="frame" x="0.0" y="154" width="375" height="464"/>
                                 <color key="backgroundColor" cocoaTouchSystemColor="groupTableViewBackgroundColor"/>
                                 <prototypes>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" accessoryType="disclosureIndicator" indentationWidth="10" reuseIdentifier="SavedDeviceCell" id="WOX-b2-CkA">
@@ -310,7 +310,7 @@
                             <constraint firstItem="evY-hR-uLR" firstAttribute="trailing" secondItem="7oc-hr-ek3" secondAttribute="trailing" id="3Ex-8i-frm"/>
                             <constraint firstItem="evY-hR-uLR" firstAttribute="bottom" secondItem="7oc-hr-ek3" secondAttribute="bottom" id="9j9-e1-qty"/>
                             <constraint firstItem="BfZ-SZ-Sce" firstAttribute="top" secondItem="evY-hR-uLR" secondAttribute="top" constant="5" id="leP-G2-DKh"/>
-                            <constraint firstItem="7oc-hr-ek3" firstAttribute="top" secondItem="BfZ-SZ-Sce" secondAttribute="bottom" id="lpx-qM-2R8"/>
+                            <constraint firstItem="7oc-hr-ek3" firstAttribute="top" secondItem="BfZ-SZ-Sce" secondAttribute="bottom" constant="5" id="lpx-qM-2R8"/>
                             <constraint firstItem="7oc-hr-ek3" firstAttribute="leading" secondItem="evY-hR-uLR" secondAttribute="leading" id="oZ2-Ky-AyJ"/>
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="evY-hR-uLR"/>

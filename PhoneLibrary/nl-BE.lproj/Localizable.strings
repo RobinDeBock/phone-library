@@ -52,6 +52,9 @@
 /* Alert message */
 "Make sure your device is connected to the internet." = "Zorg ervoor dat uw apparaat verbinding heeft met internet.";
 
+/* New devices section header */
+"Newly added" = "Juist toegevoegd";
+
 /* No comment provided by engineer. */
 "No" = "Nee";
 
