@@ -80,14 +80,32 @@ class SearchViewController: UIViewController {
     }
     
     private func performSearch(withIdentifier segue:String){
-        if DeviceNetworkController.instance.isConnected{
-            performSegue(withIdentifier: segue, sender: self)
-        }else{
+        if !DeviceNetworkController.instance.isConnected{
             //No internet connection, show alert
             let alertController = UIAlertController(title: NSLocalizedString("No internet connection", comment: "Alert title"), message: NSLocalizedString("Make sure your device is connected to the internet.", comment: "Alert message"), preferredStyle: UIAlertController.Style.alert)
             alertController.addAction(UIAlertAction(title: NSLocalizedString("Dismiss", comment: "Hide alert"), style: UIAlertAction.Style.default,handler: nil))
             self.present(alertController, animated: true, completion: nil)
+            return
         }
+        if AppSettingsController.instance.networkApiKey.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty{
+            //Api key is empty, show alert
+            let alertController = UIAlertController(title: NSLocalizedString("Missing API token", comment: "Error alert title"), message: NSLocalizedString("There is no token present, necessary for using the API. \n Please get a viable token at fonoapi.freshpixl.com.", comment: "Error alert message"), preferredStyle: UIAlertController.Style.alert)
+            alertController.addAction(UIAlertAction(title: NSLocalizedString("Open settings", comment:""), style: UIAlertAction.Style.default,handler: {action in
+                //Open the app settings
+                //SOURCE: https://stackoverflow.com/questions/46421646/how-to-open-your-app-in-settings-ios-11
+                //*-*-*-*-*-*-*-*-
+                if let url = URL(string:UIApplication.openSettingsURLString) {
+                    if UIApplication.shared.canOpenURL(url) {
+                        UIApplication.shared.open(url, options: [:], completionHandler: nil)
+                    }
+                }
+                //*-*-*-*-*-*-*-*-
+            }))
+            alertController.addAction(UIAlertAction(title: NSLocalizedString("Dismiss", comment: "Hide alert"), style: UIAlertAction.Style.default,handler: nil))
+            self.present(alertController, animated: true, completion: nil)
+            return
+        }
+        performSegue(withIdentifier: segue, sender: self)
     }
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
