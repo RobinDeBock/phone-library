@@ -92,7 +92,7 @@ class SearchViewController: UIViewController {
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         guard let devicesListTableViewController = segue.destination as? DevicesListTableViewController else{return}
-                    devicesListTableViewController.searchValue = searchValueTextField.text!
+                    devicesListTableViewController.searchValue = searchValueTextField.text!.trimmingCharacters(in: .whitespacesAndNewlines)
         if segue.identifier == PropertyKeys.searchByBrandSegue{
             devicesListTableViewController.searchType = DevicesListTableViewController.SearchType.SearchByBrand
         }else if segue.identifier == PropertyKeys.searchByNameSegue{
