@@ -14,7 +14,6 @@ class DeviceNetworkController {
     
     private let baseURL = URL(string: "https://fonoapi.freshpixl.com/v1/")!
     private let token = "8028a51667e8abba2f44e01bb07e76461737bf568473249e"
-    private let limit = 20
     
     //Check if internet connection is available
     var isConnected:Bool {
@@ -83,14 +82,13 @@ class DeviceNetworkController {
         //Define the query
         let query: [String: String] = [
             "token": token,
-            "brand": brand,
-            "limit": String(limit)
+            "brand": brand
         ]
         
         //Adding the queries to the URL
         guard let completeUrl = url.withQueries(query) else {
             completion(nil)
-            print("Unable to build URL with supplied queries.")
+            print("ERROR: Unable to build URL with supplied queries.")
             return
         }
         
@@ -113,7 +111,7 @@ class DeviceNetworkController {
         //Adding the queries to the URL
         guard let completeUrl = url.withQueries(query) else {
             completion(nil)
-            print("Unable to build URL with supplied queries.")
+            print("ERROR: Unable to build URL with supplied queries.")
             return
         }
         

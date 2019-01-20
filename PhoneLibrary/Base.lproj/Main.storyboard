@@ -19,10 +19,10 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" distribution="fillProportionally" alignment="center" spacing="7" translatesAutoresizingMaskIntoConstraints="NO" id="p67-Id-r29">
-                                <rect key="frame" x="56.5" y="278.5" width="262" height="110"/>
+                                <rect key="frame" x="56.5" y="262" width="262" height="143"/>
                                 <subviews>
                                     <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Brand name or device name" minimumFontSize="17" clearButtonMode="always" translatesAutoresizingMaskIntoConstraints="NO" id="VHf-II-xFz">
-                                        <rect key="frame" x="0.0" y="0.0" width="262" height="30"/>
+                                        <rect key="frame" x="0.0" y="0.0" width="262" height="39"/>
                                         <constraints>
                                             <constraint firstAttribute="width" relation="greaterThanOrEqual" priority="750" constant="200" id="fYn-lh-UVV"/>
                                         </constraints>
@@ -34,7 +34,10 @@
                                         </connections>
                                     </textField>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="5Qx-3s-4nS">
-                                        <rect key="frame" x="0.0" y="37" width="262" height="33"/>
+                                        <rect key="frame" x="0.0" y="46" width="262" height="45"/>
+                                        <constraints>
+                                            <constraint firstAttribute="height" constant="45" id="8Ys-pb-gQx"/>
+                                        </constraints>
                                         <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                         <state key="normal" title="Search by brand"/>
                                         <connections>
@@ -42,7 +45,7 @@
                                         </connections>
                                     </button>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="9xF-92-qUF">
-                                        <rect key="frame" x="0.0" y="77" width="262" height="33"/>
+                                        <rect key="frame" x="0.0" y="98" width="262" height="45"/>
                                         <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                         <state key="normal" title="Search by name"/>
                                         <connections>
@@ -52,6 +55,7 @@
                                 </subviews>
                                 <constraints>
                                     <constraint firstItem="9xF-92-qUF" firstAttribute="width" secondItem="VHf-II-xFz" secondAttribute="width" id="DL0-3R-1rd"/>
+                                    <constraint firstItem="9xF-92-qUF" firstAttribute="height" secondItem="5Qx-3s-4nS" secondAttribute="height" id="Ib2-ui-bc0"/>
                                     <constraint firstItem="5Qx-3s-4nS" firstAttribute="width" secondItem="VHf-II-xFz" secondAttribute="width" id="Vai-Ws-JtJ"/>
                                 </constraints>
                             </stackView>
