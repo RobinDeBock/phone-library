@@ -17,7 +17,7 @@ class AppSettingsController{
     
     var networkApiKey:String{
         get{
-           return UserDefaults.standard.object(forKey: SettingsBundleKeys.API_KEY) as! String
+           return UserDefaults.standard.object(forKey: SettingsBundleKeys.API_KEY) as? String ?? ""
         }
     }
     
