@@ -43,7 +43,7 @@ class DeviceNetworkController {
             //Overide variables for dummy data
             var error = error
             var data=data
-            if true{
+            if AppSettingsController.instance.dummyDataEnabled{
                 error=nil
                 data = Device.sampleJsonData().data(using: .utf8)
             }
