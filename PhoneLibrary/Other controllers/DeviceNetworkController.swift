@@ -31,6 +31,7 @@ class DeviceNetworkController {
     
     //Execute the URLSession datatask with the complete URL
     private func executeUrlSessionDataTask(with url:URL, completion: @escaping ([Device]?, NetworkError?) -> Void){
+        //Check for internet connection (not if we use dummy data)
         if !isConnected{
             //No internet connection
             print("ERROR: no internet connection")
@@ -39,6 +40,13 @@ class DeviceNetworkController {
         }
 
         let task = URLSession.shared.dataTask(with: url) { (data, response, error) in
+            //Overide variables for dummy data
+            var error = error
+            var data=data
+            if true{
+                error=nil
+                data = Device.sampleJsonData().data(using: .utf8)
+            }
             //Check for error
             guard error == nil else{
                 print(error!.localizedDescription)
