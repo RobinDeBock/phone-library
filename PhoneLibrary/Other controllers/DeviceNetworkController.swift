@@ -55,8 +55,8 @@ class DeviceNetworkController {
             }
             
             let jsonDecoder = JSONDecoder()
-    
-            if let data = data, let devices = try? jsonDecoder.decode([Device].self, from: data){
+            if let data = data{
+                    let devices = try! jsonDecoder.decode([Device].self, from: data)
                 completion(devices, nil)
                 return
             }
